@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plagiarism</title>
+    <link rel="stylesheet" href="front.css">
+</head>
+<body>
+    <h1>
+        Cross Language Plagiarism Detector v1
+    </h1>
+    <form>
+        <textarea placeholder="Input text here:" required minlength="1" name="text"></textarea>
+        <br><br>
+        <input type="submit" name="submit" id="submitbutton">
+    </form>
+    <div class="animation"></div>
+    <script>
+        document.getElementById('submitbutton').addEventListener('click', function() {
+            var animationDiv = document.querySelector('.animation');
+            animationDiv.style.display = 'block'; // Show the animation
+            animationDiv.classList.add('active');
+        });
+    </script>
+</body>
+</html>
