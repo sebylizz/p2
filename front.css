@@ -1,0 +1,29 @@
+h1{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-shadow: horizontal-offset vertical-offset blur color;
+    color: rgba(188, 63, 63, 0.6);
+    text-shadow: 2px 4px 4px rgba(0,0,0,0.2), 0px -5px 10px rgba(255,255,255,0.15);
+}
+body {
+    text-align: center;
+}
+textarea {
+    height: 433px;
+    width: 521px;
+}
+.animation {
+    display: none; /* Initially hide the animation */
+    border: 10px solid #f3f3f3;
+    border-top: 10px solid #1878d2;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    margin:auto;
+}
+.animation.active {
+    animation: spin 2s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
