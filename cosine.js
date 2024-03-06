@@ -57,3 +57,5 @@ cossim('articles/testarticle.txt', (doc1) => {
         console.log(dot/(e1*e2));
     });
 });
+
+module.exports = cossim;
