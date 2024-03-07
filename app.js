@@ -1,10 +1,10 @@
 const translate = require('./translate.js');
+const cossim = require('./cosine.js');
 
-async function main(){
-    const tekst = await translate("Hej med dig din grimme dreng");
-    let arr = tdidf(tekst);
-    compare(arr, db);
-    return(result(compare))
+async function main(input){
+    const translated = await translate(input);
+    const arr = cossim(translated);
+    console.log(translated);
 }
 
-main();
+main("Hej med dig");

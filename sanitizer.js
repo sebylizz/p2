@@ -1,7 +1,7 @@
 
 const fs = require('fs');
 
-async function sanitize() {
+async function sanitize(input) {
 try {
     const response = await fetch("https://www.washingtonpost.com/technology/interactive/2024/ai-video-sora-openai-flaws/", {
     "headers": {

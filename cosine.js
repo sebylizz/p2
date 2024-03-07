@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-async function cossim(article, callback){
+async function proc(article, callback){
     await fs.readFile(article, (err, input) => {
         if (err) throw err;
         let title = input.toString().split("\n")[0];
@@ -28,8 +28,8 @@ async function cossim(article, callback){
     })
 }
 
-cossim('articles/testarticle.txt', (doc1) => {
-    cossim('articles/testarticle2.txt', (doc2) => {
+async function cossim (input) {proc(input, (doc1) => {
+    proc('articles/testarticle2.txt', (doc2) => {
         let bigger = (doc1.length > doc2.length) ? doc1 : doc2;
         let smaller = (doc1.length <= doc2.length) ? doc1 : doc2;
         for (let i = 0; i < bigger.length; i++) {
@@ -57,5 +57,5 @@ cossim('articles/testarticle.txt', (doc1) => {
         console.log(dot/(e1*e2));
     });
 });
-
+}
 module.exports = cossim;
