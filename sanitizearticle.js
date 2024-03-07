@@ -16,7 +16,7 @@ async function sanitize(article) {
                 "sec-fetch-user": "?1",
                 "upgrade-insecure-requests": "1",
                 "cookie": "gnt_eid=(null); gnt_i=46449142335353058286*1835*DK~81; OptanonAlertBoxClosed=2024-03-07T10:35:43.960Z; eupubconsent-v2=CP7GZZgP7GZZgAcABBENAqE8AP_gAEPgACiQg1QGAAFAAVAAyABwAEAAKgAZAA0AB0AEmAJgAmgBbADCAJQAhACNQF5gMZAm9BOAE5IJzAnVBOwE84J6gn0EGoQaoCwACgAKgAcABAADIAGgAOAAmABbAIQARYBecE3gTfAnDBOUE5gJ0gTrgnaCdwE8AJ5gT7CDUAAA.f_wACHwAAAAA; OptanonConsent=isGpcEnabled=0&datestamp=Thu+Mar+07+2024+11%3A43%3A29+GMT%2B0100+(Centraleurop%C3%A6isk+normaltid)&version=202401.2.0&browserGpcFlag=0&isIABGlobal=false&hosts=&consentId=43d69a36-f01c-47d4-a319-fb7af3c8273c&interactionCount=1&landingPath=NotLandingPage&groups=1%3A1%2C3%3A1%2C2%3A1%2C4%3A1%2C5%3A1%2CBG250%3A1%2CV2STACK42%3A1&genVendors=V12%3A1%2CV8%3A1%2CV10%3A1%2CV9%3A1%2CV7%3A1%2CV1%3A1%2C&geolocation=DK%3B81&AwaitingReconsent=false",
-                "Referer": "https://eu.usatoday.com/story/news/politics/2024/03/06/biden-cease-fire-gaza-state-of-the-union/72840302007/",
+                "Referer": "https://eu.usatoday.com/",
                 "Referrer-Policy": "strict-origin-when-cross-origin"
             },
             "body": null,
