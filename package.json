@@ -1,6 +1,5 @@
 {
   "dependencies": {
     "deepl-node": "^1.11.1",
-    "natural": "^6.10.5"
   }
 }
