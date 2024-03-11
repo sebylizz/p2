@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "deepl-node": "^1.11.1"
+    "deepl-node": "^1.11.1",
+    "express": "^4.17.1",
+    "cors": "^2.8.5"
   }
 }
