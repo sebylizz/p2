@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy Buster</title>
+    <link rel="stylesheet" href="front.css">
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Copy Buster</h1>
+        <textarea placeholder="enter your text here..." ></textarea>
+        <button>check plagiarism</button>
+        <div class="animation"></div>
+        <div id="similarityResult" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        const textarea = document.querySelector('textarea');
+        const button = document.querySelector('button');
+        const resultDisplay = document.getElementById('similarityResult');
+        var animationDiv = document.querySelector('.animation');
+    
+        textarea.addEventListener('input', function() {
+            if (this.value) {
+                this.style.fontStyle = 'normal';
+                this.style.color = 'black';
+            } else {
+                this.style.fontStyle = 'italic';
+                this.style.color = '#9e9c9a';
+            }
+        });
+    
+        button.addEventListener('click', function() {
+            animationDiv.style.display = 'block';
+            animationDiv.classList.add('active');
+
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    text: textarea.value
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                setTimeout(() => { // Timer to see the animation play
+            resultDisplay.innerHTML = `<strong>Jaccard Similarity:</strong> ${data.similarity}`;
+            animationDiv.style.display = 'none';
+            animationDiv.classList.remove('active');
+                }, 3000);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                resultDisplay.textContent = 'Error calculating similarity. Please try again.';
+                animationDiv.style.display = 'none';
+                animationDiv.classList.remove('active');
+            });
+        });
+    </script>
+    
+    
+    
+</body>
+</html>
