@@ -3,7 +3,7 @@ const path = require('path');
 const PORT = 3000;
 const app = express();
 const translater = require('./src/translate.js');               // opretter en konstant variabel som requirer translate.js
-// const cosinus = require('./src/cosinus.js');                 // opretter en konstant variabel som requirer cosinus.js
+const cosinus = require('./src/cosinus.js');                    // opretter en konstant variabel som requirer cosinus.js
 // const jaccard = require('./src/jaccard.js');                 // opretter en konstant variabel som requirer jaccard.js
 // her kan nemt tilføjes flere når modulerne/algoritmerne er lavet
 
