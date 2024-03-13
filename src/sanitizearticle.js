@@ -47,6 +47,7 @@ function getTitle(html){
 function getParagraphs(html) {
     let content = html.match(/(?<=<p>).+?(?=<\/p>)/g);
     content = content.map(e => e = e.replace(/<[^>]+>/g, ''));
+    content = content.map(e => e = e.replace(/[\u00A0]/g, ' ').trim());
     let result = "";
     content.forEach(e => result += e+" ");
     if(content === null){
