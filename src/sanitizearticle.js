@@ -1,4 +1,6 @@
-const fs = require('fs');
+const sql = require('sqlite3');
+
+const db = new sql.Database("./articles.db");
 
 async function sanitize(article) {
     try {
@@ -29,7 +31,7 @@ async function sanitize(article) {
 
         const content = getParagraphs(rawHtml);
 
-        const result = title+content;
+        const result = {"title": title, "content": content};
 
         return result;
     } catch (error) {
@@ -38,28 +40,31 @@ async function sanitize(article) {
 }
 
 function getTitle(html){
-    let title = html.match(/(?<=<title>=?).+?(?=<\/title>)/g);
+    let title = html.match(/(?<=<title>=?).+?(?=<\/title>)/g)[0];
     return title;
 }
 
 function getParagraphs(html) {
     let content = html.match(/(?<=<p>).+?(?=<\/p>)/g);
     content = content.map(e => e = e.replace(/<[^>]+>/g, ''));
+    content = content.map(e => e = e.replace(/[\u00A0]/g, ' ').trim());
     let result = "";
-    content.forEach(e => result += "\n"+e);
+    content.forEach(e => result += e+" ");
     if(content === null){
         return "Couldn't retrieve article";
     }
-    return result;
+    return result.trim();
 }
 
 if(process.argv.length == 3){
     sanitize(process.argv[2]).then((result) => {
-        fs.writeFile("./out.txt", result, function(err) {
-            if(err){
-                return console.log(err);
+        db.run("INSERT INTO articles (title, content) VALUES (?, ?)", [result.title, result.content], async (err) => {
+            if (err) {
+                console.error(err);
+                response.status(500).send("Internal Server Error");
+                return;
             }
-            console.log("saved in out.txt");
+            console.log("Saved to db");
         });
     });
 }
