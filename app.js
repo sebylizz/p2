@@ -8,6 +8,9 @@ const cosinus = require('./src/cosine');                                        
 // const jaccard = require('./src/jaccard');                                      // opretter en konstant function som requirer jaccard
 // her kan nemt tilføjes flere når modulerne/algoritmerne er lavet
 
+var articles = [];
+db().then(e => articles = e);
+
 app.use(express.json());
 
 app.set("views", path.join(__dirname, '/views'));                                 // opretter en direkte path til views for at fange front.html
