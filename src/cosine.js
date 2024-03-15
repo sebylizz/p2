@@ -1,6 +1,7 @@
 //Funktionen tager to arrays som input, det første værende inputteksten og det andet værende et dokument fra databasen
 
 function proc(input){
+    if(!input){return []}
     let words = input.split(" ");
     let wordArr = [];
 
