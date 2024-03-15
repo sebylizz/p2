@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const PORT = 3000;
 const app = express();
+const loadarticles = require('./src/dbload');
 const translater = require('./src/translate');                                    // opretter en konstant function som requirer translate
 // const sanitizer = require('/src/saniterzerfraragnar');                         // opretter en konstant function som requirer saniterzerfraragnar
 const cosinus = require('./src/cosine');                                          // opretter en konstant function som requirer cosinus
@@ -9,7 +10,7 @@ const cosinus = require('./src/cosine');                                        
 // her kan nemt tilføjes flere når modulerne/algoritmerne er lavet
 
 var articles = [];
-db().then(e => articles = e);
+loadarticles().then(result => articles = result);
 
 app.use(express.json());
 
@@ -26,10 +27,10 @@ app.post('/', async(request, response) => {                                     
     let answers = {};                                                             // opretter et array
     let translated = await translater(request.body.text);                         // får translated text fra front fra translate.js og putter ind i object answers
     // answers.translated = sanitizer(translated);
-    answers.cosinus = cosinus([translated], ["Vores smukke database"]);           // får resultatsvar fra translated fra cosinus.js og putter ind i object answers
+    answers.cosinus = cosinus(translated, articles);                              // får resultatsvar fra translated fra cosinus.js og putter ind i object answers
     // answers.jaccard = jaccard(answers.translated);                             // får resultatsvar fra translated fra jaccard.js og putter ind i object answers
     // her kan nemt tilføjes flere når modulerne/algoritmerne er lavet
-    response.json(answers);                                                       // sender et respons i json format i et array som hedder answers
+    response.send(answers);                                                       // sender et respons i json format i et array som hedder answers
 })
  
 app.listen(PORT, function(err){

@@ -1,6 +1,7 @@
 const sql = require('sqlite3');
+const path = require('path');
 
-const db = new sql.Database('./articles.db');
+const db = new sql.Database(path.join(__dirname + '/articles.db'));
 
 function load(){
     return new Promise((resolve, reject) => {
