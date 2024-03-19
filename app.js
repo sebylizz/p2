@@ -6,6 +6,8 @@ const loadarticles = require('./src/dbload');
 const translater = require('./src/translate');                                    // opretter en konstant function som requirer translate
 // const sanitizer = require('/src/saniterzerfraragnar');                         // opretter en konstant function som requirer saniterzerfraragnar
 const cosinus = require('./src/cosine');                                          // opretter en konstant function som requirer cosinus
+const synonyme = require('./src/synonyme');
+// const rabinkarp = require('./src/rabinkarp');                                  // opretter en konstant function som requirer rabinkarp
 // const jaccard = require('./src/jaccard');                                      // opretter en konstant function som requirer jaccard
 // her kan nemt tilføjes flere når modulerne/algoritmerne er lavet
 
@@ -27,7 +29,13 @@ app.post('/', async(request, response) => {                                     
     let answers = {};                                                             // opretter et array
     let translated = await translater(request.body.text);                         // får translated text fra front fra translate.js og putter ind i object answers
     // answers.translated = sanitizer(translated);
-    answers.cosinus = cosinus(translated, articles);                              // får resultatsvar fra translated fra cosinus.js og putter ind i object answers
+    let temporarycosinus = cosinus(translated, articles)[1];                      // får resultatsvar fra translated fra cosinus.js og putter ind i object answers
+    let temporary0 = cosinus(translated, articles)[0];
+    console.log(temporary0, translated);
+    let temporarysynonyme = synonyme(translated, articles[temporarycosinus].content);
+    console.log(cosinus(temporarysynonyme, [articles[temporarycosinus]])[0], temporarysynonyme);
+
+    // answers.rabinkarp = rabinkarp(translated, articles);
     // answers.jaccard = jaccard(answers.translated);                             // får resultatsvar fra translated fra jaccard.js og putter ind i object answers
     // her kan nemt tilføjes flere når modulerne/algoritmerne er lavet
     response.send(answers);                                                       // sender et respons i json format i et array som hedder answers

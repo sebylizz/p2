@@ -24,7 +24,7 @@ function proc(input){
 }
 
 function cossim (input, articles){
-    let idx = 0, max = 0;
+    let idx = 0, max = 0, winner = 0;
     while(idx < articles.length){
         let doc1 = proc(input);
         let doc2 = proc(articles[idx].content);
@@ -51,11 +51,14 @@ function cossim (input, articles){
         e2 = Math.sqrt(e2);
     
         let temp = dot/(e1*e2);
-        max = (temp > max) ? temp : max;
+        if(temp > max){
+            max = temp;
+            winner = idx;
+        }
         idx++;
     }
     
-    return max;
+    return [max, winner];
 }
 
 module.exports = cossim;
