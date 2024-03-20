@@ -8,7 +8,7 @@ const translater = require('./src/translate');                                  
 const cosinus = require('./src/cosine');                                          // opretter en konstant function som requirer cosinus
 const synonyme = require('./src/synonyme');
 // const rabinkarp = require('./src/rabinkarp');                                  // opretter en konstant function som requirer rabinkarp
-// const jaccard = require('./src/jaccard');                                      // opretter en konstant function som requirer jaccard
+const jaccard = require('./src/jaccard');                                         // opretter en konstant function som requirer jaccard
 // her kan nemt tilføjes flere når modulerne/algoritmerne er lavet
 
 var articles = [];
@@ -36,7 +36,9 @@ app.post('/', async(request, response) => {                                     
     console.log(cosinus(temporarysynonyme, [articles[temporarycosinus]])[0], temporarysynonyme);
 
     // answers.rabinkarp = rabinkarp(translated, articles);
-    // answers.jaccard = jaccard(answers.translated);                             // får resultatsvar fra translated fra jaccard.js og putter ind i object answers
+    let jaccardResult = jaccard(translated, articles);
+    answers.jaccardSimilarity = jaccardResult[0];
+    answers.mostSimilarArticleIndex = jaccardResult[1];                            // får resultatsvar fra translated fra jaccard.js og putter ind i object answers
     // her kan nemt tilføjes flere når modulerne/algoritmerne er lavet
     response.send(answers);                                                       // sender et respons i json format i et array som hedder answers
 })
