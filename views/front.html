@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Copy Buster</title>
     <link rel="stylesheet" href="front.css">
-    
 </head>
 <body>
     <div class="container">
@@ -48,9 +47,12 @@
             .then(response => response.json())
             .then(data => {
                 setTimeout(() => { // Timer to see the animation play
-            resultDisplay.innerHTML = `<strong>Jaccard Similarity:</strong> ${data.similarity}`;
-            animationDiv.style.display = 'none';
-            animationDiv.classList.remove('active');
+                    resultDisplay.innerHTML = `<strong>Jaccard Similarity:</strong> ${data.jaccardSimilarity}%<br>` +
+                                              `<strong>Most Similar Article Index (Jaccard):</strong> ${data.mostSimilarArticleIndex}<br>` +
+                                              `<strong>Cosine Similarity:</strong> ${data.cosineSimilarity}%<br>` +
+                                              `<strong>Most Similar Article Index (Cosine):</strong> ${data.mostSimilarArticleIndexCosine}`;
+                    animationDiv.style.display = 'none';
+                    animationDiv.classList.remove('active');
                 }, 3000);
             })
             .catch((error) => {
@@ -61,8 +63,5 @@
             });
         });
     </script>
-    
-    
-    
 </body>
 </html>
