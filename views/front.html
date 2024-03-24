@@ -47,10 +47,10 @@
             .then(response => response.json())
             .then(data => {
                 setTimeout(() => { // Timer to see the animation play
-                    resultDisplay.innerHTML = `<strong>Jaccard Similarity:</strong> ${data.jaccardSimilarity}%<br>` +
-                                              `<strong>Most Similar Article Index (Jaccard):</strong> ${data.mostSimilarArticleIndex}<br>` +
-                                              `<strong>Cosine Similarity:</strong> ${data.cosineSimilarity}%<br>` +
-                                              `<strong>Most Similar Article Index (Cosine):</strong> ${data.mostSimilarArticleIndexCosine}`;
+                    resultDisplay.innerHTML = `<strong>Jaccard Similarity:</strong> ${data.jaccardSimilarity[0]}%<br>` +
+                                              `<strong>Most Similar Article Index (Jaccard):</strong> ${data.jaccardSimilarity[1]+1}<br>` +
+                                              `<strong>Cosine Similarity:</strong> ${data.cosineSimilarity[0]}%<br>` +
+                                              `<strong>Most Similar Article Index (Cosine):</strong> ${data.cosineSimilarity[1]+1}`;
                     animationDiv.style.display = 'none';
                     animationDiv.classList.remove('active');
                 }, 3000);
