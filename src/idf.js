@@ -1,21 +1,3 @@
-const arts = require('./dbload');
-const fs = require('fs');
-
-arts().then(e => {
-    let str = "";
-    const data = idftable(e);
-    data.sort((a, b) => a[1] - b[1]);
-    data.forEach(s => str += s+"\n");
-    fs.writeFile('test.txt', str, err => {
-        if(err){
-            console.log(err);
-        }
-        else{
-            console.log("succes");
-        }
-    })
-});
-
 function idftable(db){
     const total = db.length;
     let arr = {};
@@ -42,3 +24,5 @@ function idftable(db){
     }
     return results;
 }
+
+module.exports = idftable;

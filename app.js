@@ -9,10 +9,12 @@ const cosinus = require('./src/cosine');                                        
 const synonyme = require('./src/synonyme');
 // const rabinkarp = require('./src/rabinkarp');                                  // opretter en konstant function som requirer rabinkarp
 const jaccard = require('./src/jaccard');                                         // opretter en konstant function som requirer jaccard
+const idf = require('./src/idf')
 // her kan nemt tilføjes flere når modulerne/algoritmerne er lavet
 
-var articles = [];
-loadarticles().then(result => articles = result);
+let articles = [];
+let idftable = [];
+loadarticles().then(result => articles = result).then(() => idftable = idf(articles));
 
 app.use(express.json());
 
@@ -29,21 +31,24 @@ app.post('/', async(request, response) => {                                     
     let answers = {};                                                             // opretter et array
     let translated = await translater(request.body.text);                         // får translated text fra front fra translate.js og putter ind i object answers
     // answers.translated = sanitizer(translated);
-    let temporarycosinus = cosinus(translated, articles)[1];                      // får resultatsvar fra translated fra cosinus.js og putter ind i object answers
-    let temporary0 = cosinus(translated, articles)[0];
-    console.log(temporary0, translated);
-    let temporarysynonyme = synonyme(translated, articles[temporarycosinus].content);
-    console.log(cosinus(temporarysynonyme, [articles[temporarycosinus]])[0], temporarysynonyme);
+
+    let tempCosine = cosinus(translated, articles, idftable);                      // får resultatsvar fra translated fra cosinus.js og putter ind i object answers
+    let tempJaccard = jaccard(translated, articles);
+    console.log(`Cosine: ${tempCosine[0]} on article #${tempCosine[1]}\nJaccard: ${tempJaccard[0]} on article #${tempJaccard[1]}\n\nSynonyming\n`);
+
+    translated = synonyme(translated, articles[tempCosine[1]].content);
+    cosineResult = cosinus(translated, articles, idftable);
+    jaccardResult = jaccard(translated, articles);
+    console.log(`Cosine: ${cosineResult[0]} on article #${cosineResult[1]}\nJaccard: ${jaccardResult[0]} on article #${jaccardResult[1]}`);
 
     // answers.rabinkarp = rabinkarp(translated, articles);
-    let jaccardResult = jaccard(translated, articles);
-    answers.jaccardSimilarity = jaccardResult[0];
-    answers.mostSimilarArticleIndex = jaccardResult[1];                            // får resultatsvar fra translated fra jaccard.js og putter ind i object answers
+    answers.jaccardSimilarity = jaccardResult;
+    answers.cosineSimilarity = cosineResult;                            // får resultatsvar fra translated fra jaccard.js og putter ind i object answers
     // her kan nemt tilføjes flere når modulerne/algoritmerne er lavet
     response.send(answers);                                                       // sender et respons i json format i et array som hedder answers
 })
  
 app.listen(PORT, function(err){
     if (err) console.log("Error in server setup");
-    console.log("Server listening on http://localhost:" + PORT);
+    console.log("Server listening on http://localhost:" + PORT+"\n");
 })
