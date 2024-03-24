@@ -34,12 +34,12 @@ app.post('/', async(request, response) => {                                     
 
     let tempCosine = cosinus(translated, articles, idftable);                      // får resultatsvar fra translated fra cosinus.js og putter ind i object answers
     let tempJaccard = jaccard(translated, articles);
-    console.log(`Cosine: ${tempCosine[0]} on article #${tempCosine[1]}\nJaccard: ${tempJaccard[0]} on article #${tempJaccard[1]}\n\nSynonyming\n`);
+    console.log(`Input received!\n\nPreliminary Cosine similarity: ${tempCosine[0]}% on article #${tempCosine[1]}\n\nReplacing words with synonyms...\n`);
 
     translated = synonyme(translated, articles[tempCosine[1]].content);
     cosineResult = cosinus(translated, articles, idftable);
     jaccardResult = jaccard(translated, articles);
-    console.log(`Cosine: ${cosineResult[0]} on article #${cosineResult[1]}\nJaccard: ${jaccardResult[0]} on article #${jaccardResult[1]}`);
+    console.log(`Final result:\nCosine similarity: ${cosineResult[0]}% on article #${cosineResult[1]}\nJaccard similarity: ${jaccardResult[0]}% on article #${jaccardResult[1]}\n`);
 
     let mathingArticleContent = articles[cosineResult[1]].content; 
 
