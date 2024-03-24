@@ -24,7 +24,7 @@ app.set("view engine", "html");
 app.use(express.static(path.join(__dirname, 'public')));                          // gør det der er i public mappen available for alle (no secrets)
 
 app.get('/', (request, response) => {                                             // requester en get fra front siden
-    response.render('front');                                                     // render front.html vha en get
+    response.render('index');                                                     // render front.html vha en get
 })
 
 app.post('/', async(request, response) => {                                       // requester en post request fra front siden
@@ -41,7 +41,12 @@ app.post('/', async(request, response) => {                                     
     jaccardResult = jaccard(translated, articles);
     console.log(`Cosine: ${cosineResult[0]} on article #${cosineResult[1]}\nJaccard: ${jaccardResult[0]} on article #${jaccardResult[1]}`);
 
+    let mathingArticleContent = articles[cosineResult[1]].content; 
+
     // answers.rabinkarp = rabinkarp(translated, articles);
+    answers.article = mathingArticleContent;
+    answers.tempJaccard = tempJaccard;
+    answers.tempCosine = tempCosine;
     answers.jaccardSimilarity = jaccardResult;
     answers.cosineSimilarity = cosineResult;                            // får resultatsvar fra translated fra jaccard.js og putter ind i object answers
     // her kan nemt tilføjes flere når modulerne/algoritmerne er lavet

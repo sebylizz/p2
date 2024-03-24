@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy Buster</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="content-wrapper">
+        <div class="container">
+            <h1>Copy Buster</h1>
+            <textarea placeholder="enter your text here..." lang="da"></textarea>
+            <button>check plagiarism</button>
+            <div class="animation"></div>
+        </div>
+
+        <div class="right-side">
+            <table class="info-table">
+                <tr>
+                    <td id="prelimJaccard">Prelim Jaccard Similarity: <br> Most Similar Article Index: </td>
+                    <td id="prelimCosine">Prelim Cosine Similarity: <br> Most Similar Article Index: </td>
+                </tr>
+                <tr>
+                    <td id="finalJaccard">Final Jaccard Similarity: <br> Most Similar Article Index: </td>
+                    <td id="finalCosine">Final Cosine Similarity: <br> Most Similar Article Index: </td>
+                </tr>
+            </table>            
+            <div class="box large" id="articleContent"></div>
+        </div>
+    </div>
+    <script>
+        const textarea = document.querySelector('textarea');
+        const button = document.querySelector('button');
+        const animationDiv = document.querySelector('.animation');
+        const rightSide = document.querySelector('.right-side'); // Add this line
+    
+        textarea.addEventListener('input', function() {
+            if (this.value) {
+                this.style.fontStyle = 'normal';
+                this.style.color = 'black';
+            } else {
+                this.style.fontStyle = 'italic';
+                this.style.color = '#9e9c9a';
+            }
+        });
+    
+        button.addEventListener('click', function() {
+            animationDiv.style.display = 'block';
+            animationDiv.classList.add('active');
+    
+            rightSide.style.display = 'block';
+    
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    text: textarea.value
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                //temp results:
+                document.getElementById('prelimJaccard').innerHTML = `Prelim Jaccard Similarity: ${data.tempJaccard[0]}<br>Most Similar Article Index: ${data.tempJaccard[1]}`;
+                document.getElementById('prelimCosine').innerHTML = `Prelim Cosine Similarity: ${data.tempCosine[0]}%<br>Most Similar Article Index: ${data.tempCosine[1]+1}`;
+                //synonymed:
+                document.getElementById('finalJaccard').innerHTML = `Final Jaccard Similarity: ${data.jaccardSimilarity[0]}<br>Most Similar Article Index: ${data.jaccardSimilarity[1]}`;
+                document.getElementById('finalCosine').innerHTML = `Final Cosine Similarity: ${data.cosineSimilarity[0]}%<br>Most Similar Article Index: ${data.cosineSimilarity[1]+1}`;
+
+                document.getElementById('articleContent').innerHTML = data.article;
+
+                animationDiv.style.display = 'none';
+                animationDiv.classList.remove('active');
+            
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                resultDisplay.textContent = 'Error calculating similarity. Please try again.';
+                animationDiv.style.display = 'none';
+                animationDiv.classList.remove('active');
+            });
+        });
+    </script>
+    
+</body>
+</html>
