@@ -33,7 +33,7 @@ function jaccardSimilarity(input, articles) {
     if (mostSimilarArticleIndex === -1) { 
         return ["None found", "None found"];
     } else {
-        return [(maxSimilarity * 100).toFixed(2) + "%", mostSimilarArticleIndex + 1];
+        return [(maxSimilarity * 100).toFixed(2) + "%", mostSimilarArticleIndex];
     }
 }
 

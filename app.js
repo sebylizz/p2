@@ -45,8 +45,6 @@ app.post('/', async(request, response) => {                                     
 
     // answers.rabinkarp = rabinkarp(translated, articles);
     answers.article = mathingArticleContent;
-    answers.tempJaccard = tempJaccard;
-    answers.tempCosine = tempCosine;
     answers.jaccardSimilarity = jaccardResult;
     answers.cosineSimilarity = cosineResult;                            // får resultatsvar fra translated fra jaccard.js og putter ind i object answers
     // her kan nemt tilføjes flere når modulerne/algoritmerne er lavet
