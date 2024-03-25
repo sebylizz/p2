@@ -30,9 +30,11 @@ function jaccardSimilarity(input, articles) {
         }
     });
 
-    // Return the highest Jaccard similarity score and the index of the corresponding article
-    // Multiplying by 100 to convert to percentage, rounding to two decimal places for readability
-    return [(maxSimilarity * 100).toFixed(2), mostSimilarArticleIndex];
+    if (mostSimilarArticleIndex === -1) { 
+        return ["None found", "None found"];
+    } else {
+        return [(maxSimilarity * 100).toFixed(2) + "%", mostSimilarArticleIndex];
+    }
 }
 
 module.exports = jaccardSimilarity;
