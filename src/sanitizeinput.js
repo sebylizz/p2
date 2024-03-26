@@ -7,7 +7,10 @@ function sanitizeinput(input){
     sanitize = sanitize.replace(/\[[^\]]*\]/g, ''); // [hej]
     sanitize = sanitize.replace(/\([^)]*\)/g, ''); // (hej)
 
-    return sanitize;
+    let temp = sanitize.toLowerCase();
+    let wordArr = temp.split(/\W+/).filter(word => word !== '');
+
+    return wordArr;
 }
 
 module.exports = sanitizeinput;
