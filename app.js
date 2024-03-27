@@ -1,3 +1,5 @@
+//Husk at have en .env fil i root folder med "DEEPLAPI=xxxx"
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const PORT = 3000;
