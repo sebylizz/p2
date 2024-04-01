@@ -64,7 +64,7 @@ function synonyme(word1, word2){
     }
 
     if (tempord.length == 1){
-        for (let i = 0; i < tempord.length; i++){
+        for (let i = 0; i < tempord[0].length; i++){
             if (tempord[i].toLowerCase() === word2){
                 return true;
             }
