@@ -7,11 +7,13 @@ const app = express();
 const loadarticles = require('./src/dbload');
 const translater = require('./src/translate');                                    // opretter en konstant function som requirer translate
 // const sanitizer = require('/src/saniterzerfraragnar');                         // opretter en konstant function som requirer saniterzerfraragnar
-const cosinus = require('./src/cosine');                                          // opretter en konstant function som requirer cosinus
+const cosinus = require('./src/cosine').paragraphs;                                          // opretter en konstant function som requirer cosinus
+const cossen = require('./src/cosine').sentences;
 const synonyme = require('./src/synonyme');
 // const rabinkarp = require('./src/rabinkarp');                                  // opretter en konstant function som requirer rabinkarp
 const jaccard = require('./src/jaccard');                                         // opretter en konstant function som requirer jaccard
 const idf = require('./src/idf')
+const sentenize = require('./src/sentenize');
 // her kan nemt tilføjes flere når modulerne/algoritmerne er lavet
 
 let articles = [];
@@ -38,10 +40,12 @@ app.post('/', async(request, response) => {                                     
     let tempJaccard = jaccard(translated, articles);
     console.log(`Input received!\n\nPreliminary Cosine similarity: ${tempCosine[0]}% on article #${tempCosine[1]}\n\nReplacing words with synonyms...\n`);
 
-    translated = synonyme(translated, articles[tempCosine[1]].content);
-    cosineResult = cosinus(translated, articles, idftable);
-    jaccardResult = jaccard(translated, articles);
+    let newTranslated = synonyme(translated, articles[tempCosine[1]].content);
+    cosineResult = cosinus(newTranslated, articles, idftable);
+    jaccardResult = jaccard(newTranslated, articles);
     console.log(`Final result:\nCosine similarity: ${cosineResult[0]}% on article #${cosineResult[1]}\nJaccard similarity: ${jaccardResult[0]}% on article #${jaccardResult[1]}\n`);
+    sentences = cossen(sentenize(translated), sentenize(articles[cosineResult[1]].content), idftable);
+    console.log("Cosine similarity on sentences:\n",sentences);
 
     let mathingArticleContent = articles[cosineResult[1]].content; 
 

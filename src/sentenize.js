@@ -56,14 +56,16 @@ function sentenize(article){
         "Atty.",
         "Sr.",
         "Jr.",
-        "Sen."
+        "Sen.",
+        "R-S.C",
+        "R-Miss."
     ];
     for(x of abbreviations){
         article = article.replaceAll(x, x.replaceAll('.', ''));
     }
     const regex = new RegExp(`[.?!:]`, 'g');
     let arr = article.split(regex);
-    arr = arr.map(e => e.trim());
+    arr = arr.map(e => e.replace('"', '').trim());
     for(let i = arr.length; i >= 0; i--){
         if(arr[i] === ''){
             arr.splice(i, 1);
@@ -72,6 +74,9 @@ function sentenize(article){
     return arr;
 }
 
+module.exports = sentenize;
+
 //tests
-const db = require('./dbload');
+/*const db = require('./dbload');
 db().then(e => console.log(sentenize(e[3].content)));
+*/
