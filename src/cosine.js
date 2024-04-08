@@ -26,14 +26,14 @@ function proc(doc, idf){
             weight = idf.find(e => e[0] === wordArr[i][0])[1];
         }
         else{
-            weight = 0;
+            weight = 1;
         }
         wordArr[i][1] *= weight;
     }
     return (wordArr);
 }
 
-function cossim (input, articles, idf){
+function paragraphs (input, articles, idf){
     //update idf TODO
 
     let idx = 0, max = 0, winner = 0;
@@ -62,7 +62,6 @@ function cossim (input, articles, idf){
         e2 = Math.sqrt(e2);
     
         let temp = dot/(e1*e2);
-        //console.log(dot, e1, e2, temp)
         if(temp > max){
             max = temp;
             winner = idx;
@@ -72,4 +71,60 @@ function cossim (input, articles, idf){
     return [(max*100).toFixed(2), winner];
 }
 
-module.exports = cossim;
+function sentences (input, article, idf){
+
+    let results = [];
+    for(let i = 0; i < input.length; i++){
+        let max = 0, winner = 0;
+
+        for(let j = 0; j < article.length; j++){
+            let doc1 = proc(input[i], idf);
+            let doc2 = proc(article[j], idf);
+            let bigger = (doc1.length > doc2.length) ? doc1 : doc2;
+            let smaller = (doc1.length <= doc2.length) ? doc1 : doc2;
+            for (let i = 0; i < bigger.length; i++) {
+                bigger[i].push(0);
+                for(let j = 0; j < smaller.length; j++){
+                    if(smaller[j][0] === bigger[i][0]){
+                        bigger[i][2] = smaller[j][1];
+                        smaller.splice(j, 1);
+                        break;
+                    }
+                }
+            }
+            let dot = 0, e1 = 0, e2 = 0;
+            for(let i = 0; i < bigger.length; i++){
+                dot += bigger[i][1]*bigger[i][2];
+                e1 += bigger[i][1]*bigger[i][1];
+                e2 += bigger[i][2]*bigger[i][2];
+            }
+            e1 = Math.sqrt(e1);
+            e2 = Math.sqrt(e2);
+
+            let temp = dot/(e1*e2);
+            if(temp > max){
+                winner = j;
+                max = temp;
+            }
+        }
+        if(max > 0.7){
+            results.push([i, winner, (max*100).toFixed(2)]);
+        }
+
+    }
+    return results;
+}
+
+//tests
+/*
+const loadarticles = require('./dbload');
+const idf = require('./idf')
+let articles = [];
+let idftable = [];
+loadarticles().then(result => articles = result).then(() => idftable = idf(articles)).then(() => {
+    console.log(sentences(["This is a sentence", "You are a fat and a poor", "I hate everyone"], ["This is not a sentence", "You are gay and poor", "I hate you and everyone"], idftable));
+});
+
+*/
+
+module.exports = {paragraphs, sentences};
