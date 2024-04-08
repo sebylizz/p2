@@ -5,16 +5,13 @@ const path = require('path');
 const PORT = 3000;
 const app = express();
 const loadarticles = require('./src/dbload');
-const translater = require('./src/translate');                                    // opretter en konstant function som requirer translate
-// const sanitizer = require('/src/saniterzerfraragnar');                         // opretter en konstant function som requirer saniterzerfraragnar
-const cosinus = require('./src/cosine').paragraphs;                                          // opretter en konstant function som requirer cosinus
+const translater = require('./src/translate');
+const cosinus = require('./src/cosine').paragraphs;
 const cossen = require('./src/cosine').sentences;
 const synonyme = require('./src/synonyme');
-// const rabinkarp = require('./src/rabinkarp');                                  // opretter en konstant function som requirer rabinkarp
-const jaccard = require('./src/jaccard');                                         // opretter en konstant function som requirer jaccard
+const jaccard = require('./src/jaccard');
 const idf = require('./src/idf')
 const sentenize = require('./src/sentenize');
-// her kan nemt tilføjes flere når modulerne/algoritmerne er lavet
 
 let articles = [];
 let idftable = [];
@@ -22,21 +19,24 @@ loadarticles().then(result => articles = result).then(() => idftable = idf(artic
 
 app.use(express.json());
 
-app.set("views", path.join(__dirname, '/views'));                                 // opretter en direkte path til views for at fange front.html
+// konfigurerer express
+app.set("views", path.join(__dirname, '/views'));
 app.engine('html', require('ejs').renderFile);
 app.set("view engine", "html");
-app.use(express.static(path.join(__dirname, 'public')));                          // gør det der er i public mappen available for alle (no secrets)
+// gør det der er i public mappen available for alle (no secrets)
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (request, response) => {                                             // requester en get fra front siden
-    response.render('index');                                                     // render front.html vha en get
+// requester en get fra front siden
+app.get('/', (request, response) => {
+    // render front.html vha en get
+    response.render('index');
 })
 
-app.post('/', async(request, response) => {                                       // requester en post request fra front siden
-    let answers = {};                                                             // opretter et array
-    let translated = await translater(request.body.text);                         // får translated text fra front fra translate.js og putter ind i object answers
-    // answers.translated = sanitizer(translated);
-
-    let tempCosine = cosinus(translated, articles, idftable);                      // får resultatsvar fra translated fra cosinus.js og putter ind i object answers
+// requester en post request fra front siden
+app.post('/', async(request, response) => {
+    let answers = {};
+    let translated = await translater(request.body.text);
+    let tempCosine = cosinus(translated, articles, idftable);
     let tempJaccard = jaccard(translated, articles);
     console.log(`Input received!\n\nPreliminary Cosine similarity: ${tempCosine[0]}% on article #${tempCosine[1]}\n\nReplacing words with synonyms...\n`);
 
@@ -49,12 +49,11 @@ app.post('/', async(request, response) => {                                     
 
     let mathingArticleContent = articles[cosineResult[1]].content; 
 
-    // answers.rabinkarp = rabinkarp(translated, articles);
     answers.article = mathingArticleContent;
     answers.jaccardSimilarity = jaccardResult;
-    answers.cosineSimilarity = cosineResult;                            // får resultatsvar fra translated fra jaccard.js og putter ind i object answers
-    // her kan nemt tilføjes flere når modulerne/algoritmerne er lavet
-    response.send(answers);                                                       // sender et respons i json format i et array som hedder answers
+    answers.cosineSimilarity = cosineResult;
+
+    response.send(answers);
 })
  
 app.listen(PORT, function(err){
