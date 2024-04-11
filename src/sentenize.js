@@ -66,7 +66,7 @@ function sentenize(article){
     const regex = new RegExp(`[.?!:]`, 'g');
     let arr = article.split(regex);
     arr = arr.map(e => e.replace('"', '').trim());
-    for(let i = arr.length; i >= 0; i--){
+    for(let i = arr.length; i > 0; i--){ //i >= 0 eller i > 0? (Jeg har ændret det til i > 0)
         if(arr[i] === ''){
             arr.splice(i, 1);
         }
