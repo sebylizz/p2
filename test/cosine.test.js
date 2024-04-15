@@ -1,6 +1,6 @@
 const cosine = require('../src/cosine');
 
-describe("", () => {
+describe("Testing cosine file", () => {
     test("", () => {
         expect(cosine()).toBe();
     });
