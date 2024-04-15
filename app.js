@@ -9,7 +9,8 @@ const translater = require('./src/translate');
 const cosinus = require('./src/cosine').paragraphs;
 const cossen = require('./src/cosine').sentences;
 const synonyme = require('./src/synonyme');
-const jaccard = require('./src/jaccard');
+const jaccard = require('./src/jaccard').jaccardSimilarity;
+const jaccardsen = require('./src/jaccard').jaccardSentenceSimilarity;
 const idf = require('./src/idf')
 const sentenize = require('./src/sentenize');
 
@@ -42,15 +43,21 @@ app.post('/', async(request, response) => {
 
     let newTranslated = synonyme(translated, articles[tempCosine[1]].content);
     cosineResult = cosinus(newTranslated, articles, idftable);
-    jaccardResult = jaccard(newTranslated, articles);
-    console.log(`Final result:\nCosine similarity: ${cosineResult[0]}% on article #${cosineResult[1]}\nJaccard similarity: ${jaccardResult[0]}% on article #${jaccardResult[1]}\n`);
-    sentences = cossen(sentenize(translated), sentenize(articles[cosineResult[1]].content), idftable);
-    console.log("Cosine similarity on sentences:\n",sentences);
+    //jaccardResult = jaccard(newTranslated, articles);
+    console.log(`Final result:\nCosine similarity: ${cosineResult[0]}% on article #${cosineResult[1]}\nJaccard similarity: ${tempJaccard[0]}% on article #${tempJaccard[1]}\n`);
 
-    let mathingArticleContent = articles[cosineResult[1]].content; 
+    let inputTranslatedSentenized = sentenize(translated);
+
+    cosineSentences = cossen(inputTranslatedSentenized, sentenize(articles[cosineResult[1]].content), idftable);
+    console.log("Cosine similarity on sentences:\n", cosineSentences);
+
+    jaccardSentences = jaccardsen(inputTranslatedSentenized, sentenize(articles[tempJaccard[1]].content))
+    console.log("Jaccard similarity on sentences:\n", jaccardSentences);
+
+    let mathingArticleContent = articles[cosineResult[1]].content;
 
     answers.article = mathingArticleContent;
-    answers.jaccardSimilarity = jaccardResult;
+    answers.jaccardSimilarity = tempJaccard; //lad os lige køre tempJaccard indtil vi får kigget på, hvorfor synonyming medfører lavere score 
     answers.cosineSimilarity = cosineResult;
 
     response.send(answers);

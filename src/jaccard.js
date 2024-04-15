@@ -1,8 +1,7 @@
 function createShingles(text, size = 2) {
-    text = text.replace(/\W+/g, ' ').toLowerCase();
-    const words = text.split(' ');
+    const words = text.toLowerCase().match(/\w+('\w+)?/g);
     const shingles = new Set();
-    for (let i = 0; i <= words.length - size; i++) {
+    for (let i = 0; i < words.length - size + 1; i++) {
         shingles.add(words.slice(i, i + size).join(' '));
     }
     return shingles;
@@ -37,4 +36,33 @@ function jaccardSimilarity(input, articles) {
     }
 }
 
-module.exports = jaccardSimilarity;
+function jaccardSentenceSimilarity(inputSentences, articleSentences) {
+    const inputShingles = inputSentences.map(s => createShingles(s));
+    const articleShingles = articleSentences.map(s => createShingles(s));
+
+    let similarPairs = [];
+    let totalSimilarity = 0;
+    let countSimilar = 0;
+
+    inputShingles.forEach((set1, idx1) => {
+        articleShingles.forEach((set2, idx2) => {
+            const similarity = calculateJaccard(set1, set2);
+            if (similarity >= 0.5) {
+                let formattedSimilarity = (similarity * 100).toFixed(2) + '%';
+                similarPairs.push([
+                    inputSentences[idx1],
+                    articleSentences[idx2],
+                    formattedSimilarity
+                ]);
+                totalSimilarity += similarity;
+                countSimilar++;
+            }
+        });
+    });
+
+    const averageSimilarity = countSimilar > 0 ? (totalSimilarity / countSimilar * 100).toFixed(2) + '%' : "0%";
+    similarPairs.push(["Average Similarity", averageSimilarity]);
+    return similarPairs;
+}
+
+module.exports = {jaccardSimilarity, jaccardSentenceSimilarity};
