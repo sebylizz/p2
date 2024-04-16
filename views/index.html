@@ -30,6 +30,7 @@
         </div>
     </div>
     <script>
+
         const textarea = document.querySelector('textarea');
         const button = document.querySelector('button');
         const animationDiv = document.querySelector('.animation');
@@ -46,6 +47,16 @@
         });
     
         button.addEventListener('click', function() {
+            if (!textarea.value.trim()){
+                alert("The input can not be empty.")
+                return;
+            }
+
+            if (textarea.value.trim().length > 5000){
+                alert("Sorry, the input is too long.")
+                return;
+            }
+            
             animationDiv.style.display = 'block';
             animationDiv.classList.add('active');
     
