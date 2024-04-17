@@ -20,7 +20,7 @@ function idftable(db){
 
     let results = [];
     for(let w in arr){
-        results.push([w, Math.log2(total / arr[w])]);
+        results.push([w, parseFloat(Math.log2(total / arr[w]).toFixed(7))]);
     }
     return results;
 }
