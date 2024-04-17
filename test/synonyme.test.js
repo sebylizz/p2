@@ -1,12 +1,12 @@
 const synonyme = require('../src/synonyme');
 
 describe("testing synonyme file", () => {
-    test('Replace sweet with kind', () => {
-        expect(synonyme("Hi, you are sweet", "Hi, you are kind")).toBe("hi you are kind");
+    test('Replace stunning with pretty', () => {
+        expect(synonyme("Hi, you are stunning", "Hi, you are pretty")).toBe("hi you are pretty");
     });
 
     test('testing replace huge with big', () => {
-        expect(synonyme("This ball is huge", "This ball is big")).toBe("this ball is big");
+        expect(synonyme("This ball is large", "This ball is big")).toBe("this ball is big");
     });
 
     test('Should not switch big with small', () => {

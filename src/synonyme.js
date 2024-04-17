@@ -59,22 +59,10 @@ function wordreplacer(input, databasesentence){
 function synonyme(word1, word2){
 
     let tempord = synonymedict.search(word1);
-    if (tempord.length == 0){
-        return false;
-    }
-
-    if (tempord.length == 1){
-        for (let i = 0; i < tempord[0].length; i++){
-            if (tempord[i].toLowerCase() === word2){
+    for (let i = 0; i < tempord.length; i++){
+        for (let j = 0; j < tempord[i].raw.length; j++){
+            if (tempord[i].raw[j].toLowerCase() === word2){
                 return true;
-            }
-        }
-    } else if (tempord.length != 1){
-        for (let i = 0; i < tempord.length; i++){
-            for (let j = 0; j < tempord[i].raw.length; j++){
-                if (tempord[i].raw[j].toLowerCase() === word2){
-                    return true;
-                }
             }
         }
     }
