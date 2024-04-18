@@ -80,8 +80,11 @@ function sentences (input, article, idf){
         for(let j = 0; j < article.length; j++){
             let doc1 = proc(input[i], idf);
             let doc2 = proc(article[j], idf);
-            let bigger = (doc1.length > doc2.length) ? doc1 : doc2;
-            let smaller = (doc1.length <= doc2.length) ? doc1 : doc2;
+            let bigger = doc1, smaller = doc2;
+            if(doc2.length > doc1.length){
+                bigger = doc2;
+                smaller = doc1;
+            }
             for (let i = 0; i < bigger.length; i++) {
                 bigger[i].push(0);
                 for(let j = 0; j < smaller.length; j++){
@@ -92,6 +95,12 @@ function sentences (input, article, idf){
                     }
                 }
             }
+            for (let i = 0; i < smaller.length; i++){
+                if(!bigger.includes(smaller[i][0])){
+                    bigger.push([smaller[i][0], 0, smaller[i][1]]);
+                }
+            }
+
             let dot = 0, e1 = 0, e2 = 0;
             for(let i = 0; i < bigger.length; i++){
                 dot += bigger[i][1]*bigger[i][2];
@@ -107,24 +116,12 @@ function sentences (input, article, idf){
                 max = temp;
             }
         }
-        if(max > 0.7){
+        if(max > 0.5){
             results.push([i, winner, (max*100).toFixed(2)]);
         }
 
     }
     return results;
 }
-
-//tests
-/*
-const loadarticles = require('./dbload');
-const idf = require('./idf')
-let articles = [];
-let idftable = [];
-loadarticles().then(result => articles = result).then(() => idftable = idf(articles)).then(() => {
-    console.log(sentences(["This is a sentence", "You are a fat and a poor", "I hate everyone"], ["This is not a sentence", "You are gay and poor", "I hate you and everyone"], idftable));
-});
-
-*/
 
 module.exports = {paragraphs, sentences};
