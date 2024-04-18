@@ -124,9 +124,7 @@ function sentences (input, article, idf){
                 max = temp;
             }
         }
-        if(max > 0.5){
-            results.push([i, winner, (max*100).toFixed(2)]);
-        }
+        results.push([i, winner, (max*100).toFixed(2)]);
 
     }
     return results;

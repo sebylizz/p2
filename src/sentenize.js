@@ -75,8 +75,3 @@ function sentenize(article){
 }
 
 module.exports = sentenize;
-
-//tests
-/*const db = require('./dbload');
-db().then(e => console.log(sentenize(e[3].content)));
-*/
