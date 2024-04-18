@@ -69,4 +69,16 @@ function synonyme(word1, word2){
     return false;
 }
 
-module.exports = wordreplacer;
+function exportSyn(inp, art, deets){
+    let arr = [];
+    for(let i = 0; i < deets.length; i++){
+        if(deets[i][2] > 50){
+            arr.push(wordreplacer(inp[deets[i][0]], art[deets[i][1]]));
+        } else{
+            arr.push(inp[deets[i][0]]);
+        }
+    }
+    return arr;
+}
+
+module.exports = exportSyn;
