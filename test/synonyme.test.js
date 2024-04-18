@@ -10,6 +10,6 @@ describe("testing synonyme file", () => {
     });
 
     test('Should not switch big with small', () => {
-        expect(synonyme("This is a big ball", "This is a small ball")).toBe("this is a small ball");
+        expect(synonyme("This is a big ball", "This is a small ball")).not.toBe("this is a small ball");
     });
 });

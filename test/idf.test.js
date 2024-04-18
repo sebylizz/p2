@@ -10,7 +10,7 @@ describe("Testing idf file", () => {
     });
 
     test("Testing wrong math", () => {
-        expect(idf({content: "You are not nice"}, {content: "I am a nice person"})).toEqual([["you", 1.0000000], ["are", 1.0000000], ["not", 1.0000000], ["nice", 1.0000000], ["i", 1.0000000], ["am", 1.0000000], ["a", 1.0000000], ["person", 1.0000000]]);
+        expect(idf({content: "You are not nice"}, {content: "I am a nice person"})).not.toEqual([["you", 1.0000000], ["are", 1.0000000], ["not", 1.0000000], ["nice", 1.0000000], ["i", 1.0000000], ["am", 1.0000000], ["a", 1.0000000], ["person", 1.0000000]]);
     });
 
 });

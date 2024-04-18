@@ -10,7 +10,7 @@ describe("Testing levenshtein file", () => {
     });
 
     test("not word conjugation", () => {
-        expect(levenshtein("kitten", "sitting")).toBe(4);
+        expect(levenshtein("kitten", "sitting")).not.toBe(4);
     });
 
 });

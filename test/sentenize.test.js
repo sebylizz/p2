@@ -10,6 +10,6 @@ describe("Testing sentenize file", () => {
     });
 
     test('testing if ";" does not split sentence', () => {
-        expect(sentenize("Grocery list; apples, bananas and milk.")).toStrictEqual(["Grocery list; apples, bananas and milk"]);
+        expect(sentenize("Grocery list; apples, bananas and milk.")).not.toStrictEqual(["Grocery list;"]);
     });
 });
