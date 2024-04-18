@@ -34,14 +34,16 @@ function proc(doc, idf){
 }
 
 function paragraphs (input, articles, idf){
-    //update idf TODO
 
     let idx = 0, max = 0, winner = 0;
     while(idx < articles.length){
         const doc1 = proc(input, idf);
         let doc2 = proc(articles[idx].content, idf);
-        let bigger = (doc1.length > doc2.length) ? doc1 : doc2;
-        let smaller = (doc1.length <= doc2.length) ? doc1 : doc2;
+        let bigger = doc1, smaller = doc2;
+        if(doc2.length > doc1.length){
+            bigger = doc2;
+            smaller = doc1;
+        }
         for (let i = 0; i < bigger.length; i++) {
             bigger[i].push(0);
             for(let j = 0; j < smaller.length; j++){
@@ -52,6 +54,12 @@ function paragraphs (input, articles, idf){
                 }
             }
         }
+        for (let i = 0; i < smaller.length; i++){
+            if(!bigger.includes(smaller[i][0])){
+                bigger.push([smaller[i][0], 0, smaller[i][1]]);
+            }
+        }
+
         let dot = 0, e1 = 0, e2 = 0;
         for(let i = 0; i < bigger.length; i++){
             dot += bigger[i][1]*bigger[i][2];
