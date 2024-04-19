@@ -1,5 +1,5 @@
 function createShingles(text, size = 2) {
-    const words = text.toLowerCase().match(/\w+('\w+)?/g);
+    const words = text.toLowerCase().match(/\w+('\w+)?/g) || [];
     const shingles = new Set();
     for (let i = 0; i < words.length - size + 1; i++) {
         shingles.add(words.slice(i, i + size).join(' '));

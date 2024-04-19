@@ -39,10 +39,8 @@ app.post('/', async(request, response) => {
     let answers = {};
     let translated = await translater(inputsan(request.body.text));
     let cosineResult = cosinus(translated, articles, idftable);
-    let tempJaccard = jaccard(translated, articles);
+    let jaccardResult = jaccard(translated, articles);
     console.log(`Input received!\n\nPreliminary Cosine similarity: ${cosineResult[0]}% on article #${cosineResult[1]}\n\nRunning sentences...\n`);
-
-    //jaccardResult = jaccard(newTranslated, articles);
 
     let inputTranslatedSentenized = sentenize(translated);
     let sentArticle = sentenize(articles[cosineResult[1]].content);
@@ -56,14 +54,13 @@ app.post('/', async(request, response) => {
 
     console.log("Cosine similarity after syn:\n", finalResult);
 
-    //Det her breaker programmet lige nu:
-    //jaccardSentences = jaccardsen(inputTranslatedSentenized, sentenize(articles[tempJaccard[1]].content))
-    //console.log("Jaccard similarity on sentences:\n", jaccardSentences);
+    jaccardSentences = jaccardsen(inputTranslatedSentenized, sentenize(articles[jaccardResult[1]].content))
+    console.log("Jaccard similarity on sentences:\n", jaccardSentences);
 
     let matchingArticleContent = articles[cosineResult[1]].content;
 
     answers.article = matchingArticleContent;
-    answers.jaccardSimilarity = tempJaccard; //lad os lige køre tempJaccard indtil vi får kigget på, hvorfor synonyming medfører lavere score 
+    answers.jaccardSimilarity = jaccardResult; //lad os lige køre tempJaccard indtil vi får kigget på, hvorfor synonyming medfører lavere score 
     answers.cosineSimilarity = cosineResult;
 
     //Herunder midlertidigt final data passing
