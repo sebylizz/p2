@@ -32,7 +32,7 @@ function jaccardSimilarity(input, articles) {
     if (mostSimilarArticleIndex === -1) { 
         return ["None found", 0];
     } else {
-        return [(maxSimilarity * 100).toFixed(2) + "%", mostSimilarArticleIndex];
+        return [(maxSimilarity * 100).toFixed(2), mostSimilarArticleIndex];
     }
 }
 
@@ -48,7 +48,7 @@ function jaccardSentenceSimilarity(inputSentences, articleSentences) {
         articleShingles.forEach((set2, idx2) => {
             const similarity = calculateJaccard(set1, set2);
             if (similarity >= 0.5) {
-                let formattedSimilarity = (similarity * 100).toFixed(2) + '%';
+                let formattedSimilarity = (similarity * 100).toFixed(2);
                 similarPairs.push([
                     inputSentences[idx1],
                     articleSentences[idx2],
@@ -60,7 +60,7 @@ function jaccardSentenceSimilarity(inputSentences, articleSentences) {
         });
     });
 
-    const averageSimilarity = countSimilar > 0 ? (totalSimilarity / countSimilar * 100).toFixed(2) + '%' : "0%";
+    const averageSimilarity = countSimilar > 0 ? (totalSimilarity / countSimilar * 100).toFixed(2) : "0%";
     similarPairs.push(["Average Similarity", averageSimilarity]);
     return similarPairs;
 }
