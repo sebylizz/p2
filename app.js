@@ -51,8 +51,8 @@ app.post('/', async(request, response) => {
     let jaccardArticleFound = jaccardDocSimilarity[1];
 
     // Backend console logging for debugging purposes
-    console.log(`Input received!\n\nPreliminary Cosine similarity: ${cosineDocSimilarity[0]}% on article #${cosineArticleFound}\n
-                Preliminary Jaccard similarity: ${jaccardDocSimilarity[0]}% on article #${jaccardArticleFound}\n\nRunning sentences...\n`);
+    console.log(`Input received!\n\nPreliminary Cosine similarity: ${cosineDocSimilarity[0]}% on article #${cosineArticleFound}\n`, 
+                `\nPreliminary Jaccard similarity: ${jaccardDocSimilarity[0]}% on article #${jaccardArticleFound}\n`, "\nRunning sentences...");
 
     // Sentenize user input and found articles
     let inputTranslatedSentenized = sentenceConverter(inputTranslated);
@@ -64,8 +64,8 @@ app.post('/', async(request, response) => {
     let jaccardSentences = jaccardSentSimilarity(inputTranslatedSentenized, jaccardSentenizedArticle)
 
     // Backend console logging for debugging purposes
-    console.log("Cosine similarity on sentences:\n", cosineSentences,
-                "Jaccard similarity on sentences:\n", jaccardSentences);
+    console.log("\n\nCosine similarity on sentences:\n", cosineSentences,
+                "\n\nJaccard similarity on sentences:\n", jaccardSentences);
 
     // Synonyme replacer and sentence based similarity on final input
     let cosineFinalInput = synonymeConverter(inputTranslatedSentenized, cosineSentenizedArticle, cosineSentences);
@@ -75,8 +75,8 @@ app.post('/', async(request, response) => {
     let jaccardFinalResult = jaccardSentSimilarity(jaccardFinalInput, jaccardSentenizedArticle)
 
     // Backend console logging for debugging purposes
-    console.log("Cosine similarity after synonyms:\n", cosineFinalResult,
-                "Jaccard similarity after synonyms:\n", jaccardFinalResult);
+    console.log("\n\nCosine similarity after synonyms:\n", cosineFinalResult,
+                "\n\nJaccard similarity after synonyms:\n", jaccardFinalResult);
 
     let matchingArticleContent = articles[cosineArticleFound].content;
 
