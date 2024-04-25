@@ -16,6 +16,7 @@
         </div>
 
         <div class="right-side">
+            
             <table class="info-table">
                 <tr>
                     <td id="jaccardSimilarity">Jaccard Similarity: </td>
@@ -47,6 +48,9 @@
         });
     
         button.addEventListener('click', function() {
+            // clear the output area
+            document.getElementById('articleContent').innerHTML = '';
+
             if (textarea.value.trim().length < 1){
                 alert("The input can not be empty.")
                 return;
@@ -78,12 +82,40 @@
                 document.getElementById('jaccardIndex').innerHTML = `Most Similar Article Index: ${data.jaccardSimilarity[1]+1}`;
                 document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: ${data.cosineSimilarity[0]}%`;
                 document.getElementById('cosineIndex').innerHTML = `Most Similar Article Index: ${data.cosineSimilarity[1]+1}`;
-
-                document.getElementById('articleContent').innerHTML = data.article;
+            
+    
 
                 animationDiv.style.display = 'none';
                 animationDiv.classList.remove('active');
             
+                // farve til sætninger ud fra plagiatprocent, og hoverover så man kan se % og highlight af den modsat matchende sætning
+                // Add titles to sentences + add color from percentage
+                const output = document.getElementById('articleContent')
+                output.innerHTML += `<p>Hover over a sentence to see matching sentence in input and similarity percentage </p>`
+                for (let i = 0; i < data.Articles.length; i++) {
+                    output.innerHTML += `<h3>Article name: ${data.Articles[i].title}</h3>`
+                       for(let j = 0; j < data.Articles[i].sentences.length; j++) {
+                       if (data.Articles[i].sentences[j].percentage > 50.0){
+                            if (data.Articles[i].sentences[j].percentage > 90) {
+                                output.innerHTML += `<p class = "sentence90" title="${data.Articles[i].sentences[j].percentage}%">${data.Articles[i].sentences[j].content}</p>`
+                            }
+                            else if (data.Articles[i].sentences[j].percentage > 80){
+                                output.innerHTML += `<p class = "sentence80" title="${data.Articles[i].sentences[j].percentage}%">${data.Articles[i].sentences[j].content}</p>`
+                            }
+                            else if (data.Articles[i].sentences[j].percentage > 70){
+                                output.innerHTML += `<p class = "sentence70" title="${data.Articles[i].sentences[j].percentage}%">${data.Articles[i].sentences[j].content}</p>`
+                            }
+                            else if (data.Articles[i].sentences[j].percentage > 60){
+                                output.innerHTML += `<p class = "sentence60" title="${data.Articles[i].sentences[j].percentage}%">${data.Articles[i].sentences[j].content}</p>`
+                            }
+                            else if (data.Articles[i].sentences[j].percentage > 50){
+                                output.innerHTML += `<p class = "sentence50" title="${data.Articles[i].sentences[j].percentage}%">${data.Articles[i].sentences[j].content}</p>`
+                            }
+                        }
+                    }
+                }
+
+
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -92,6 +124,9 @@
                 animationDiv.classList.remove('active');
             });
         });
+
+        
+                
     </script>
     
 </body>

@@ -128,3 +128,19 @@ button {
         margin-top: 0px;
     }
 }
+
+.sentence50 {
+    background-color: hsl(60, 100%, 48%);
+}
+.sentence60 {
+    background-color: hsl(0, 81%, 75%);
+}
+.sentence70 {
+    background-color: hsl(0, 87%, 69%);
+}
+.sentence80{
+    background-color: hsl(0, 96%, 67%);
+}
+.sentence90{
+    background-color: hsl(0, 100%, 50%);
+}
