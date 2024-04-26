@@ -11,17 +11,14 @@
         <div class="container">
             <h1>Copy Buster</h1>
             <textarea placeholder="enter your text here..." lang="da"></textarea>
-            <button id ="runbutton">check plagiarism</button>
+            <button id="runbutton">check plagiarism</button>
             <div class="animation"></div>
             
         </div>
-        <button id="detailbutton">Details</button>
+        <!--<button id="detailbutton">Details</button>
         <div id="detailbox" class="detailtextarea"></div>
-        <button id="detailclosebutton">X&times;</button>
+        <button id="detailclosebutton">X&times;</button>-->
             
-        
-        
-
         <div class="right-side">
             
             <table class="info-table">
@@ -38,17 +35,13 @@
         </div>
     </div>
 
-    
-
-    
-
     <script>
 
         const textarea = document.querySelector('textarea');
-        const runbutton = document.querySelector('runbutton');
+        const runbutton = document.getElementById('runbutton');
         const animationDiv = document.querySelector('.animation');
         const rightSide = document.querySelector('.right-side'); // Add this line
-        const detailbutton = document.querySelector('detailbutton');
+        //const detailbutton = document.getElementById('detailbutton');
     
         textarea.addEventListener('input', function() {
             if (this.value) {
@@ -62,31 +55,29 @@
     
         runbutton.addEventListener('click', function() {
             // clear the output area
-            console.log("hello");
-            document.getElementById('articleContent').innerHTML = '';
+            document.getElementById('articleContent').innerHTML = "";
 
             if (textarea.value.trim().length < 1){
-                alert("The input can not be empty.")
+                alert("The input can not be empty.");
                 return;
             }
 
             if (textarea.value.trim().length > 5000){
-                alert("Sorry, the input is too long.")
+                alert("Sorry, the input is too long.");
                 return;
             }
-            detailbutton.addEventListener('click', function() {
-                // open detail sheet
-                console.log("hello");
-                document.getElementById("detailbox").style.display = "block";
-                document.getElementById("detailclosebutton").style.display = "block";
-
-            })
-            document.getElementById("detailclosebutton").addEventListener("click", function() {
+            /*document.getElementById("detailclosebutton").addEventListener("click", function() {
             document.getElementById("detailbox").style.display = "none";
             document.getElementById("detailclosebutton").style.display = "none";
 
             })
 
+                detailbutton.addEventListener('click', function() {
+                // open detail sheet
+                document.getElementById("detailbox").style.display = "block";
+                document.getElementById("detailclosebutton").style.display = "block";
+
+            })*/
 
             animationDiv.style.display = 'block';
             animationDiv.classList.add('active');
