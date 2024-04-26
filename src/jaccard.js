@@ -47,11 +47,11 @@ function jaccardSentenceSimilarity(inputSentences, articleSentences) {
     inputShingles.forEach((set1, idx1) => {
         articleShingles.forEach((set2, idx2) => {
             const similarity = calculateJaccard(set1, set2);
-            if (similarity >= 0.5) {
+            if (similarity >= 0.3) {
                 let formattedSimilarity = (similarity * 100).toFixed(2);
                 similarPairs.push([
-                    inputSentences[idx1],
-                    articleSentences[idx2],
+                    idx1,
+                    idx2,
                     formattedSimilarity
                 ]);
                 totalSimilarity += similarity;
@@ -60,8 +60,8 @@ function jaccardSentenceSimilarity(inputSentences, articleSentences) {
         });
     });
 
-    const averageSimilarity = countSimilar > 0 ? (totalSimilarity / countSimilar * 100).toFixed(2) : "0%";
-    similarPairs.push(["Average Similarity", averageSimilarity]);
+    //const averageSimilarity = countSimilar > 0 ? (totalSimilarity / countSimilar * 100).toFixed(2) : "0%";
+    //similarPairs.push(["Average Similarity", averageSimilarity]);
     return similarPairs;
 }
 

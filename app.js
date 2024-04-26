@@ -1,81 +1,103 @@
-//Husk at have en .env fil i root folder med "DEEPLAPI=xxxx"
+// App configuration
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const PORT = 3000;
 const app = express();
-const loadarticles = require('./src/dbload');
-const translater = require('./src/translate');
-const cosinus = require('./src/cosine').paragraphs;
-const cossen = require('./src/cosine').sentences;
-const synonyme = require('./src/synonyme');
-const jaccard = require('./src/jaccard').jaccardSimilarity;
-const jaccardsen = require('./src/jaccard').jaccardSentenceSimilarity;
-const idf = require('./src/idf')
-const sentenize = require('./src/sentenize');
-const inputsan = require('./src/sanitizeinput');
 
+// Module imports
+const cosineSimilarity = require('./src/cosine').paragraphs;
+const cosineSentSimilairty = require('./src/cosine').sentences;
+const idf = require('./src/idf');
+const inputSanitizer = require('./src/sanitizeinput');
+const jaccardSimilarity = require('./src/jaccard').jaccardSimilarity;
+const jaccardSentSimilarity = require('./src/jaccard').jaccardSentenceSimilarity;
+const loadArticles = require('./src/dbload');
+const sentenceConverter = require('./src/sentenize');
+const synonymeConverter = require('./src/synonyme');
+const translator = require('./src/translate');
+
+
+// Database loading and IDF table generation
 let articles = [];
-let idftable = [];
-loadarticles().then(result => articles = result).then(() => idftable = idf(articles));
+let idfTable = [];
+loadArticles().then(result => articles = result).then(() => idfTable = idf(articles));
 
+// Express configuration
 app.use(express.json());
-
-// konfigurerer express
 app.set("views", path.join(__dirname, '/views'));
 app.engine('html', require('ejs').renderFile);
 app.set("view engine", "html");
-// gør det der er i public mappen available for alle (no secrets)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// requester en get fra front siden
+// Frontend GET request
 app.get('/', (request, response) => {
     // render front.html vha en get
     response.render('index');
 })
 
-// requester en post request fra front siden
+// Frontend POST request
 app.post('/', async(request, response) => {
     let answers = {};
-    let translated = await translater(inputsan(request.body.text));
-    let cosineResult = cosinus(translated, articles, idftable);
-    let jaccardResult = jaccard(translated, articles);
-    console.log(`Input received!\n\nPreliminary Cosine similarity: ${cosineResult[0]}% on article #${cosineResult[1]}\n\nRunning sentences...\n`);
+    
+    let inputTranslated = await translator(inputSanitizer(request.body.text));
 
-    let inputTranslatedSentenized = sentenize(translated);
-    let sentArticle = sentenize(articles[cosineResult[1]].content);
+    // Document based similarity
+    let cosineDocSimilarity = cosineSimilarity(inputTranslated, articles, idfTable);
+    let jaccardDocSimilarity = jaccardSimilarity(inputTranslated, articles);
 
-    cosineSentences = cossen(inputTranslatedSentenized, sentArticle, idftable);
-    console.log("Cosine similarity on sentences:\n", cosineSentences);
+    // Results
+    let cosineArticleFound = cosineDocSimilarity[1];
+    let jaccardArticleFound = jaccardDocSimilarity[1];
 
-    let finalInput = synonyme(inputTranslatedSentenized, sentArticle, cosineSentences);
+    // Backend console logging for debugging purposes
+    console.log(`Input received!\n\nPreliminary Cosine similarity: ${cosineDocSimilarity[0]}% on article #${cosineArticleFound}\n`, 
+                `\nPreliminary Jaccard similarity: ${jaccardDocSimilarity[0]}% on article #${jaccardArticleFound}\n`, "\nRunning sentences...");
 
-    let finalResult = cossen(finalInput, sentArticle, idftable);
+    // Sentenize user input and found articles
+    let inputTranslatedSentenized = sentenceConverter(inputTranslated);
+    let cosineSentenizedArticle = sentenceConverter(articles[cosineArticleFound].content);
+    let jaccardSentenizedArticle = sentenceConverter(articles[jaccardArticleFound].content);
 
-    console.log("Cosine similarity after syn:\n", finalResult);
+    // Sentence based similarity
+    let cosineSentences = cosineSentSimilairty(inputTranslatedSentenized, cosineSentenizedArticle, idfTable);
+    let jaccardSentences = jaccardSentSimilarity(inputTranslatedSentenized, jaccardSentenizedArticle)
 
-    jaccardSentences = jaccardsen(inputTranslatedSentenized, sentenize(articles[jaccardResult[1]].content))
-    console.log("Jaccard similarity on sentences:\n", jaccardSentences);
+    // Backend console logging for debugging purposes
+    console.log("\n\nCosine similarity on sentences:\n", cosineSentences,
+                "\n\nJaccard similarity on sentences:\n", jaccardSentences);
 
-    let matchingArticleContent = articles[cosineResult[1]].content;
+    // Synonyme replacer and sentence based similarity on final input
+    let cosineFinalInput = synonymeConverter(inputTranslatedSentenized, cosineSentenizedArticle, cosineSentences);
+    let jaccardFinalInput = synonymeConverter(inputTranslatedSentenized, jaccardSentenizedArticle, jaccardSentences);
+
+    let cosineFinalResult = cosineSentSimilairty(cosineFinalInput, cosineSentenizedArticle, idfTable);
+    let jaccardFinalResult = jaccardSentSimilarity(jaccardFinalInput, jaccardSentenizedArticle)
+
+    // Backend console logging for debugging purposes
+    console.log("\n\nCosine similarity after synonyms:\n", cosineFinalResult,
+                "\n\nJaccard similarity after synonyms:\n", jaccardFinalResult);
+
+    let matchingArticleContent = articles[cosineArticleFound].content;
 
     answers.article = matchingArticleContent;
-    answers.jaccardSimilarity = jaccardResult; //lad os lige køre tempJaccard indtil vi får kigget på, hvorfor synonyming medfører lavere score 
-    answers.cosineSimilarity = cosineResult;
+    answers.jaccardSimilarity = jaccardDocSimilarity;
+    answers.cosineSimilarity = cosineDocSimilarity;
 
-    //Herunder midlertidigt final data passing
+    // Temp Final data passing
     let obj = {};
-    obj.title = articles[cosineResult[1]].title;
+    obj.title = articles[cosineArticleFound].title;
     obj.sentences = [];
-    for(let i = 0; i < finalResult.length; i++){
-        let temp = {inputIndex: finalResult[i][0],
-                    content: sentArticle[finalResult[i][1]],
-                    percentage: finalResult[i][2]};
+    for(let i = 0; i < cosineFinalResult.length; i++){
+        let temp = {inputIndex: cosineFinalResult[i][0],
+                    content: cosineSentenizedArticle[cosineFinalResult[i][1]],
+                    percentage: cosineFinalResult[i][2]};
         obj.sentences.push(temp);
     }
 
     answers.articles = [obj];
 
+    // Post response
     response.send(answers);
 })
  
