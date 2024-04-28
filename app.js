@@ -13,7 +13,8 @@ const inputSanitizer = require('./src/sanitizeinput');
 const jaccardSimilarity = require('./src/jaccard').jaccardSimilarity;
 const jaccardSentSimilarity = require('./src/jaccard').jaccardSentenceSimilarity;
 const loadArticles = require('./src/dbload');
-const sentenceConverter = require('./src/sentenize');
+const sentenceConverter = require('./src/sentenize').sentenize;
+const sentenceConverterLight = require('./src/sentenize').lightSentenize;
 const synonymeConverter = require('./src/synonyme');
 const translator = require('./src/translate');
 
@@ -84,7 +85,10 @@ app.post('/', async(request, response) => {
     answers.jaccardSimilarity = jaccardDocSimilarity;
     answers.cosineSimilarity = cosineDocSimilarity;
 
-    // Temp Final data passing
+    // WIP: Original artikel i sætningsform
+    answers.inputSentenized = sentenceConverterLight(request.body.text);
+
+    // Final data passing
     let obj = {};
     obj.title = articles[cosineArticleFound].title;
     obj.sentences = [];

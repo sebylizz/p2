@@ -24,13 +24,12 @@ h1 {
     margin-bottom: 70px;
 }
 
-textarea {
+.textarea {
     width: 910px;
     height: 500px;
     margin-bottom: 70px;
     font-size: 16px;
-    font-style: italic;
-    color: #9e9c9a;
+    color: black;
     border: 2px solid #000;
     border-radius: 30px;
     background-color: #e3e1dc;
@@ -38,6 +37,7 @@ textarea {
     resize: none;
     padding: 10px;
 }
+
 .detailtextarea {
     width: 90%;
     height: 90%;
@@ -70,9 +70,9 @@ textarea {
 }
 #detailbutton {
     position: fixed;
-        bottom: 20px; 
-        right: 20px; 
-        background-color: #d09b08;
+    bottom: 20px; 
+    right: 20px; 
+    background-color: #d09b08;
     color: #000000;
     font-style: italic;
     font-size: 18px;
@@ -85,6 +85,7 @@ textarea {
     text-align: center;
     display: block;
 }
+
 #detailclosebutton {
     position: absolute;
     top: 0;
@@ -135,8 +136,6 @@ textarea {
     overflow-y: auto;
     text-align: justify;
 }
-
-
 
 /* Animation */
 .animation {
