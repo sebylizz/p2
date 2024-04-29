@@ -4,11 +4,11 @@ const paragraphs = jaccard.jaccardSimilarity;
 
 describe("Testing jaccard file", () => {
     test("Similarity between 2 sentences", () => {
-        expect(sentences(["the car is black"], ["is the car black"])).toEqual([[0, 0, "20.00"]]);
+        expect(sentences(["i want to be a superstar"], ["a superstar i want to be"])).toEqual([[0, 0, "66.67"]]);
     });
 
     test("Testing jaccard article based", () => {
-        expect(paragraphs("jeg er ikke glad for sorte mennesker", [{content: "sorte mennesker er ikke glad for penis"}])).toEqual([ "50.00", 0 ]);
+        expect(paragraphs("i am not happy for blue cars", [{content: "blue cars is not happy for gravel"}])).toEqual([ "33.33", 0 ]);
     });
 
 });
