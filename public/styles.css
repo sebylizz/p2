@@ -79,9 +79,7 @@ h1 {
     display: block;
 }
 #detailbutton {
-    position: fixed;
-    bottom: 120px; 
-    right: 30px; 
+    
     background-color: #d09b08;
     color: #000000;
     font-style: italic;
@@ -93,7 +91,7 @@ h1 {
     height: 50px;
     line-height: 50px;
     text-align: center;
-    display: block;
+    display: none;
 }
 
 #detailclosebutton {

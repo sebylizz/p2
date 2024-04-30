@@ -82,7 +82,8 @@
         runbutton.addEventListener('click', function() {
             // clear the output area
             document.getElementById('articleContent').innerHTML = "";
-
+            // remove detailbutton if no match is found
+            document.getElementById('detailbutton').style.display = "none";
             if (textarea.textContent.trim().length < 1){
                 alert("The input can not be empty.");
                 return;
@@ -139,7 +140,7 @@
                 // Add titles to sentences + add color from percentage
                 const output = document.getElementById('articleContent')
                 output.innerHTML += `<p>Hover over a sentence to see matching sentence in input and similarity percentage </p>`
-                for (let i = 0; i < data.articles.length; i++) {
+                    for (let i = 0; i < data.articles.length; i++) {
                     output.innerHTML += `<h3>Article name: ${data.articles[i].title}</h3>`
                        for(let j = 0; j < data.articles[i].sentences.length; j++) {
                        if (data.articles[i].sentences[j].percentage > 50.0){
@@ -161,8 +162,16 @@
                         }
                     }
                 }
+                match = output.innerHTML.search(/class/gmi);
+                console.log(match)
+                if (match==-1) { // Ensure proper output for when no matching sentences
+                    output.innerHTML = '<h3>No Matches found</h3>'
+                    
+                }
+                else { //display detail button if match(es) found
+                    document.getElementById('detailbutton').style.display = "block";
+                }
                 
-
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -171,6 +180,8 @@
                 animationDiv.classList.remove('active');
             });
         });
+        
+                
 
         
                 
