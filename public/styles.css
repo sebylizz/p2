@@ -7,14 +7,14 @@ body, html {
 
 .content-wrapper {
     display: flex;
-    flex-wrap: wrap;
+    
     padding: 30px;
     gap: 20px;
 }
 
 .container {
-    flex: 1;
-    
+    display: flex 1;
+    flex-direction: row;
 }
 
 h1 {
@@ -44,6 +44,8 @@ h1 {
     margin-bottom: 70px;
     margin-right: 30px;
     display: none;
+    float: right;
+    
 }
 
 #detailbox {
@@ -92,6 +94,7 @@ h1 {
     line-height: 50px;
     text-align: center;
     display: none;
+    
 }
 
 #detailclosebutton {
@@ -150,6 +153,7 @@ h1 {
     width: 70px;
     height: 70px;
     margin: auto;
+    position: center;
 }
 
 .animation.active {
