@@ -1,6 +1,6 @@
 const cosine = require('../src/cosine');
 const sentence = cosine.sentences;
-const paragraphs = cosine. paragraphs;
+const paragraphs = cosine.paragraphs;
 
 describe("Testing cosine file", () => {
     test("sentence function test", () => {
