@@ -87,7 +87,7 @@ app.post('/', async(request, response) => {
     answers.cosineSimilarity = cosineDocSimilarity[0];
 
     // WIP: Original artikel i sætningsform
-    answers.inputSentenized = sentenceConverterLight(request.body.text);
+    answers.inputSentenized = sentenceConverterLight(inputSanitizer(request.body.text));
 
     // Final data passing
     let obj = {};

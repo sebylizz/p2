@@ -7,21 +7,22 @@ body, html {
 
 .content-wrapper {
     display: flex;
-    flex-wrap: wrap;
+    
     padding: 30px;
     gap: 20px;
 }
 
 .container {
-    flex: 1;
+    display: flex 1;
+    flex-direction: row;
 }
 
 h1 {
     color: #0c0c0c;
     -webkit-text-stroke: 1px white;
-    font-size: 60px;
+    font-size: 40px;
     margin-top: 20px;
-    margin-bottom: 70px;
+    margin-bottom: 50px;
 }
 
 .textarea {
@@ -37,20 +38,29 @@ h1 {
     resize: none;
     padding: 10px;
 }
+.right-side {
+    width: 850px;
+    margin-right: 30px;
+    display: none;
+    float: right;
+    
+}
 
-.detailtextarea {
+#detailbox {
+    position: fixed;
     width: 90%;
     height: 90%;
     margin-bottom: 70px;
-    font-size: 16px;
+    font-size: 30px;
     font-style: italic;
-    color: #9e9c9a;
+    color: black;
     border: 2px solid #000;
     border-radius: 30px;
     background-color: #e3e1dc;
     outline: none;
     resize: none;
     padding: 10px;
+    display: none;
     z-index: 2;
 }
 
@@ -69,9 +79,7 @@ h1 {
     display: block;
 }
 #detailbutton {
-    position: fixed;
-    bottom: 20px; 
-    right: 20px; 
+    
     background-color: #d09b08;
     color: #000000;
     font-style: italic;
@@ -83,28 +91,27 @@ h1 {
     height: 50px;
     line-height: 50px;
     text-align: center;
-    display: block;
+    display: none;
+    margin-right: 90%;
+    
+    
 }
 
 #detailclosebutton {
-    position: absolute;
-    top: 0;
-    right: 0;
+    position: fixed;
+    top: 4%;
+    right: 8%;
     font-size: 20px;
     margin: 5px;
     cursor: pointer;
-    background-color: transparent;
-    border: none;
+    background-color: #d09b08;
+    border: solid#000;
+    border-radius: 30px;
     display: none;
     z-index: 3;
 }
 
-.right-side {
-    width: 800px;
-    margin-top: 120px;
-    margin-right: 30px;
-    display: none;
-}
+
 
 .info-table {
     width: 100%;
@@ -124,9 +131,9 @@ h1 {
 }
 
 .box.large {
+
     width: 100%;
-    max-height: 400px;
-    height: auto;
+    height: 500px;
     font-size: 16px;
     background-color: #e3e1dc;
     border: 2px solid #000;
@@ -146,6 +153,7 @@ h1 {
     width: 70px;
     height: 70px;
     margin: auto;
+    position: center;
 }
 
 .animation.active {
@@ -157,21 +165,23 @@ h1 {
     100% { transform: rotate(360deg); }
 }
 
-/* Responsive Design */
+/* Responsive Design(Tror ikke dette gør noget) 
 @media screen and (max-width: 1700px) {
     .content-wrapper {
-        flex-direction: column;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
         align-items: center;
     }
     .container, textarea, .right-side {
-        width: calc(100% - 20px);
+        width: calc(50% - 10px);
     }
 
     .right-side{
-        margin-top: 0px;
+        margin-top: 0;
     }
 }
-
+*/
 .sentence50 {
     background-color: hsl(60, 100%, 48%);
 }
@@ -186,4 +196,9 @@ h1 {
 }
 .sentence90{
     background-color: hsl(0, 100%, 50%);
+}
+
+.mouseover {
+    background-color: #b6ac56;
+    
 }
