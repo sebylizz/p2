@@ -89,4 +89,12 @@ function sentenize(article){
     return arr;
 }
 
-module.exports = {sentenize, lightSentenize};
+function sentenizeArr(articles){
+    let resArr = [];
+    for(let i = 0; i < articles.length; i++){
+        resArr.push(sentenize(articles[i].content));
+    }
+    return resArr;
+}
+
+module.exports = { sentenize, lightSentenize, sentenizeArr };

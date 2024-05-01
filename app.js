@@ -15,6 +15,7 @@ const jaccardSentSimilarity = require('./src/jaccard').jaccardSentenceSimilarity
 const loadArticles = require('./src/dbload');
 const sentenceConverter = require('./src/sentenize').sentenize;
 const sentenceConverterLight = require('./src/sentenize').lightSentenize;
+const sentenceConverterArr = require('./src/sentenize').sentenizeArr;
 const synonymeConverter = require('./src/synonyme');
 const translator = require('./src/translate');
 
@@ -33,7 +34,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Frontend GET request
 app.get('/', (request, response) => {
-    // render front.html vha en get
     response.render('index');
 })
 
@@ -48,11 +48,11 @@ app.post('/', async(request, response) => {
     let jaccardDocSimilarity = jaccardSimilarity(inputTranslated, articles);
 
     // Results
-    let cosineArticleFound = cosineDocSimilarity[1];
+    let cosineArticleFound = cosineDocSimilarity[0][1];
     let jaccardArticleFound = jaccardDocSimilarity[1];
 
     // Backend console logging for debugging purposes
-    console.log(`Input received!\n\nPreliminary Cosine similarity: ${cosineDocSimilarity[0]}% on article #${cosineArticleFound}\n`, 
+    console.log(`Input received!\n\nPreliminary Cosine similarity: ${cosineDocSimilarity[0][0]}% on article #${cosineArticleFound}\n`, 
                 `\nPreliminary Jaccard similarity: ${jaccardDocSimilarity[0]}% on article #${jaccardArticleFound}\n`, "\nRunning sentences...");
 
     // Sentenize user input and found articles
@@ -61,7 +61,8 @@ app.post('/', async(request, response) => {
     let jaccardSentenizedArticle = sentenceConverter(articles[jaccardArticleFound].content);
 
     // Sentence based similarity
-    let cosineSentences = cosineSentSimilairty(inputTranslatedSentenized, cosineSentenizedArticle, idfTable);
+    const allArtsSentenized = sentenceConverterArr(articles);
+    let cosineSentences = cosineSentSimilairty(inputTranslatedSentenized, allArtsSentenized, cosineDocSimilarity, idfTable);
     let jaccardSentences = jaccardSentSimilarity(inputTranslatedSentenized, jaccardSentenizedArticle)
 
     // Backend console logging for debugging purposes
@@ -72,7 +73,7 @@ app.post('/', async(request, response) => {
     let cosineFinalInput = synonymeConverter(inputTranslatedSentenized, cosineSentenizedArticle, cosineSentences);
     let jaccardFinalInput = synonymeConverter(inputTranslatedSentenized, jaccardSentenizedArticle, jaccardSentences);
 
-    let cosineFinalResult = cosineSentSimilairty(cosineFinalInput, cosineSentenizedArticle, idfTable);
+    let cosineFinalResult = cosineSentSimilairty(cosineFinalInput, allArtsSentenized, cosineSentences, idfTable);
     let jaccardFinalResult = jaccardSentSimilarity(jaccardFinalInput, jaccardSentenizedArticle)
 
     // Backend console logging for debugging purposes
@@ -83,7 +84,7 @@ app.post('/', async(request, response) => {
 
     answers.article = matchingArticleContent;
     answers.jaccardSimilarity = jaccardDocSimilarity;
-    answers.cosineSimilarity = cosineDocSimilarity;
+    answers.cosineSimilarity = cosineDocSimilarity[0];
 
     // WIP: Original artikel i sætningsform
     answers.inputSentenized = sentenceConverterLight(request.body.text);

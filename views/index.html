@@ -106,8 +106,8 @@
             .then(response => response.json())
             .then(data => {
                 //results:
-                document.getElementById('jaccardSimilarity').innerHTML = `Final Jaccard Similarity: ${data.jaccardSimilarity[0]}`;
-                document.getElementById('jaccardIndex').innerHTML = `Most Similar Article Index: ${data.jaccardSimilarity[1]+1}`;
+                //document.getElementById('jaccardSimilarity').innerHTML = `Final Jaccard Similarity: ${data.jaccardSimilarity[0]}`;
+                //document.getElementById('jaccardIndex').innerHTML = `Most Similar Article Index: ${data.jaccardSimilarity[1]+1}`;
                 document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: ${data.cosineSimilarity[0]}%`;
                 document.getElementById('cosineIndex').innerHTML = `Most Similar Article Index: ${data.cosineSimilarity[1]+1}`;
             
