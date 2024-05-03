@@ -1,10 +1,11 @@
 const sql = require('sqlite3');
+const sanitizeInput = require('./sanitizeinput');
 
 const db = new sql.Database("./articles.db");
 
-async function sanitize(article) {
+async function scrape(articleUrl) {
     try {
-        const response = await fetch(article, {
+        const response = await fetch(articleUrl, {
             "headers": {
                 "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
                 "accept-language": "da-DK,da;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -26,12 +27,13 @@ async function sanitize(article) {
         });
 
         const rawHtml = await response.text();
-
         const title = getTitle(rawHtml);
-
         const content = getParagraphs(rawHtml);
-
-        const result = {"title": title, "content": content};
+        const result = {
+            "title": title, 
+            "content": content, 
+            "url": articleUrl
+        };
 
         return result;
     } catch (error) {
@@ -40,35 +42,32 @@ async function sanitize(article) {
 }
 
 function getTitle(html){
-    let title = html.match(/(?<=<title>=?).+?(?=<\/title>)/g)[0];
+    let title = html.match(/(?<=<title>).+?(?=<\/title>)/g)[0];
     return title;
 }
 
 function getParagraphs(html) {
-    let content = html.match(/(?<=<p>).+?(?=<\/p>)/g);
-    content = content.map(e => e = e.replace(/<[^>]+>/g, ''));
-    content = content.map(e => e = e.replace(/[\u00A0]/g, ' ').trim());
+    let content = html.match(/(?<=<p>).+?(?=<\/p>)/gs);
     let result = "";
-    content.forEach(e => result += e+" ");
-    if(content === null){
-        return "Couldn't retrieve article";
-    }
+    content.forEach(e => {
+        result += sanitizeInput(e) + " ";
+    });
     return result.trim();
 }
 
 if(process.argv.length == 3){
-    sanitize(process.argv[2]).then((result) => {
-        db.run("INSERT INTO articles (title, content) VALUES (?, ?)", [result.title, result.content], async (err) => {
+    scrape(process.argv[2]).then((result) => {
+        db.run("INSERT INTO articles (title, content, url) VALUES (?, ?, ?)", [result.title, result.content, result.url], (err) => {
             if (err) {
                 console.error(err);
+
                 response.status(500).send("Internal Server Error");
                 return;
             }
-            console.log("Saved to db");
+            console.log("Saved to db: ", result.url);
         });
     });
 }
 else{
     console.log("Usage: node sanitizearticle.js articlelink");
 }
-
