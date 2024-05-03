@@ -4,15 +4,11 @@ const paragraphs = jaccard.jaccardSimilarity;
 
 describe("Testing jaccard file", () => {
     test("Similarity between 2 sentences", () => {
-        expect(sentences(["Kamala Harris approval rating high among Democrats, but no elsewhere"], ["Kamala Harris approval rating high among Dems but not elsewhere"])).toBe("63.64%");
+        expect(sentences(["i want to be a superstar"], ["a superstar i want to be"])).toEqual([[0, 0, "66.67"]]);
     });
 
     test("Testing jaccard article based", () => {
-        expect(jaccard("Trump har mange valg repræsentanter bag sig")).toBe("0.29%");
-    });
-
-    test("Testing jaccard sentenze based", () => {
-        expect(jaccard("I don't think Biden has anything to say")).toBe(['Average Similarity', '0%']);
+        expect(paragraphs("i am not happy for blue cars", [{content: "blue cars is not happy for gravel"}])).toEqual([ "33.33", 0 ]);
     });
 
 });

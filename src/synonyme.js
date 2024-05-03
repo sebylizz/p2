@@ -82,4 +82,4 @@ function exportSyn(inp, art, deets){
     return arr;
 }
 
-module.exports = exportSyn;
+module.exports = {exportSyn, wordreplacer};
