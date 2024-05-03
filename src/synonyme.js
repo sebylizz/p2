@@ -73,7 +73,8 @@ function exportSyn(inp, art, deets){
     let arr = [];
     for(let i = 0; i < deets.length; i++){
         if(deets[i][2] > 50){
-            arr.push(wordreplacer(inp[deets[i][0]], art[deets[i][1]]));
+            let newsent = wordreplacer(inp[deets[i][0]], art[deets[i][3]][deets[i][1]]);
+            arr.push(newsent);
         } else{
             arr.push(inp[deets[i][0]]);
         }

@@ -52,7 +52,8 @@ function jaccardSentenceSimilarity(inputSentences, articleSentences) {
                 similarPairs.push([
                     idx1,
                     idx2,
-                    formattedSimilarity
+                    formattedSimilarity,
+                    0 //Det her skal være artiklens index
                 ]);
                 totalSimilarity += similarity;
                 countSimilar++;

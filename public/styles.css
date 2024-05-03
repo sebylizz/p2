@@ -5,32 +5,33 @@ body, html {
     background-color: #3d3d3d;
 }
 
+
 .content-wrapper {
     display: flex;
-    flex-wrap: wrap;
+    
     padding: 30px;
     gap: 20px;
 }
 
 .container {
-    flex: 1;
+    display: flex 1;
+    flex-direction: row;
 }
 
 h1 {
     color: #0c0c0c;
     -webkit-text-stroke: 1px white;
-    font-size: 60px;
+    font-size: 40px;
     margin-top: 20px;
-    margin-bottom: 70px;
+    margin-bottom: 50px;
 }
 
-textarea {
+.textarea {
     width: 910px;
     height: 500px;
     margin-bottom: 70px;
     font-size: 16px;
-    font-style: italic;
-    color: #9e9c9a;
+    color: black;
     border: 2px solid #000;
     border-radius: 30px;
     background-color: #e3e1dc;
@@ -38,8 +39,33 @@ textarea {
     resize: none;
     padding: 10px;
 }
+.right-side {
+    width: 850px;
+    margin-right: 30px;
+    display: none;
+    float: right;
+    
+}
 
-button {
+#detailbox {
+    position: fixed;
+    width: 90%;
+    height: 90%;
+    margin-bottom: 70px;
+    font-size: 30px;
+    font-style: italic;
+    color: black;
+    border: 2px solid #000;
+    border-radius: 30px;
+    background-color: #e3e1dc;
+    outline: none;
+    resize: none;
+    padding: 10px;
+    display: none;
+    z-index: 2;
+}
+
+#runbutton {
     background-color: #d09b08;
     color: #000000;
     font-style: italic;
@@ -53,13 +79,40 @@ button {
     text-align: center;
     display: block;
 }
-
-.right-side {
-    width: 800px;
-    margin-top: 120px;
-    margin-right: 30px;
+#detailbutton {
+    
+    background-color: #d09b08;
+    color: #000000;
+    font-style: italic;
+    font-size: 18px;
+    border: 2px solid #000;
+    border-radius: 30px;
+    cursor: pointer;
+    width: 240px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
     display: none;
+    float: right;
+    
+    
 }
+
+#detailclosebutton {
+    position: fixed;
+    top: 4%;
+    right: 8%;
+    font-size: 20px;
+    margin: 5px;
+    cursor: pointer;
+    background-color: #d09b08;
+    border: solid#000;
+    border-radius: 30px;
+    display: none;
+    z-index: 3;
+}
+
+
 
 .info-table {
     width: 100%;
@@ -79,9 +132,9 @@ button {
 }
 
 .box.large {
+
     width: 100%;
-    max-height: 400px;
-    height: auto;
+    height: 500px;
     font-size: 16px;
     background-color: #e3e1dc;
     border: 2px solid #000;
@@ -92,17 +145,20 @@ button {
     text-align: justify;
 }
 
-
-
 /* Animation */
 .animation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
     display: none;
     border: 10px solid #f3f3f3;
+    z-index: 9999;
     border-top: 10px solid rgba(15, 4, 4, 0.6);
     border-radius: 50%;
     width: 70px;
     height: 70px;
     margin: auto;
+    position: center;
 }
 
 .animation.active {
@@ -114,17 +170,23 @@ button {
     100% { transform: rotate(360deg); }
 }
 
-/* Responsive Design */
-@media screen and (max-width: 1700px) {
-    .content-wrapper {
-        flex-direction: column;
-        align-items: center;
-    }
-    .container, textarea, .right-side {
-        width: calc(100% - 20px);
-    }
+.sentence50 {
+    background-color: hsl(60, 100%, 48%);
+}
+.sentence60 {
+    background-color: hsl(0, 81%, 75%);
+}
+.sentence70 {
+    background-color: hsl(0, 87%, 69%);
+}
+.sentence80{
+    background-color: hsl(0, 96%, 67%);
+}
+.sentence90{
+    background-color: hsl(0, 100%, 50%);
+}
 
-    .right-side{
-        margin-top: 0px;
-    }
+.mouseover {
+    background-color: #b6ac56;
+    
 }
