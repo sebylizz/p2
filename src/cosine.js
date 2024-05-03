@@ -35,7 +35,7 @@ function proc(doc, idf){
 
 function paragraphs (input, articles, idf){
 
-    const threshold = 0.5;
+    const threshold = 0.1;
     let arts = [];
 
     let idx = 0, max = 0, winner = 0;
@@ -83,14 +83,16 @@ function paragraphs (input, articles, idf){
 }
 
 function sentences (input, articles, deets, idf){
+    console.log("Her:", input);
+    console.log("deets:", deets);
 
     let results = [];
 
     for(let d = 0; d < deets.length; d++){
-        for(let i = 0; i < input.length; i++){
+        for(let id = 0; id < input.length; id++){
             let max = 0, winner = 0;
             for(let j = 0; j < articles[deets[d][1]].length; j++){
-                let doc1 = proc(input[i], idf);
+                let doc1 = proc(input[id], idf);
                 let doc2 = proc(articles[deets[d][1]][j], idf);
                 let bigger = doc1, smaller = doc2;
                 if(doc2.length > doc1.length){
@@ -129,17 +131,22 @@ function sentences (input, articles, deets, idf){
                 }
             }
 
+            max = parseFloat((max*100).toFixed(2));
             let found = 0;
             for(let ii = 0; ii < results.length; ii++){
-                if(results[ii][0] == i && max > results[ii][2]){
+                if(results[ii][0] == id && max > results[ii][2]){
                     results[ii][1] = winner;
                     results[ii][2] = max;
+                    results[ii][3] = deets[d][1];
+                    found = 1;
+                    break;
+                } else if(results[ii][0] == id){
                     found = 1;
                     break;
                 }
             }
             if(found == 0){
-                results.push([i, winner, (max*100).toFixed(2)]);
+                results.push([id, winner, max, deets[d][1]]);
             }
         }
     }

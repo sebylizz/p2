@@ -14,7 +14,6 @@ const jaccardSimilarity = require('./src/jaccard').jaccardSimilarity;
 const jaccardSentSimilarity = require('./src/jaccard').jaccardSentenceSimilarity;
 const loadArticles = require('./src/dbload');
 const sentenceConverter = require('./src/sentenize').sentenize;
-const sentenceConverterLight = require('./src/sentenize').lightSentenize;
 const sentenceConverterArr = require('./src/sentenize').sentenizeArr;
 const synonymeConverter = require('./src/synonyme');
 const translator = require('./src/translate');
@@ -52,12 +51,11 @@ app.post('/', async(request, response) => {
     let jaccardArticleFound = jaccardDocSimilarity[1];
 
     // Backend console logging for debugging purposes
-    console.log(`Input received!\n\nPreliminary Cosine similarity: ${cosineDocSimilarity[0][0]}% on article #${cosineArticleFound}\n`, 
+    console.log(`Input received!\n\nPreliminary Cosine similarity: ${cosineDocSimilarity}`+
                 `\nPreliminary Jaccard similarity: ${jaccardDocSimilarity[0]}% on article #${jaccardArticleFound}\n`, "\nRunning sentences...");
 
     // Sentenize user input and found articles
     let inputTranslatedSentenized = sentenceConverter(inputTranslated);
-    let cosineSentenizedArticle = sentenceConverter(articles[cosineArticleFound].content);
     let jaccardSentenizedArticle = sentenceConverter(articles[jaccardArticleFound].content);
 
     // Sentence based similarity
@@ -70,11 +68,13 @@ app.post('/', async(request, response) => {
                 "\n\nJaccard similarity on sentences:\n", jaccardSentences);
 
     // Synonyme replacer and sentence based similarity on final input
-    let cosineFinalInput = synonymeConverter(inputTranslatedSentenized, cosineSentenizedArticle, cosineSentences);
-    let jaccardFinalInput = synonymeConverter(inputTranslatedSentenized, jaccardSentenizedArticle, jaccardSentences);
 
-    let cosineFinalResult = cosineSentSimilairty(cosineFinalInput, allArtsSentenized, cosineSentences, idfTable);
-    let jaccardFinalResult = jaccardSentSimilarity(jaccardFinalInput, jaccardSentenizedArticle)
+    let cosineFinalInput = synonymeConverter(inputTranslatedSentenized, allArtsSentenized, cosineSentences);
+    let jaccardFinalInput = synonymeConverter(inputTranslatedSentenized, allArtsSentenized, jaccardSentences);
+
+    console.log(cosineDocSimilarity);
+    let cosineFinalResult = cosineSentSimilairty(cosineFinalInput, allArtsSentenized, cosineDocSimilarity, idfTable);
+    let jaccardFinalResult = jaccardSentSimilarity(jaccardFinalInput, jaccardSentenizedArticle);
 
     // Backend console logging for debugging purposes
     console.log("\n\nCosine similarity after synonyms:\n", cosineFinalResult,
@@ -86,21 +86,30 @@ app.post('/', async(request, response) => {
     answers.jaccardSimilarity = jaccardDocSimilarity;
     answers.cosineSimilarity = cosineDocSimilarity[0];
 
-    // WIP: Original artikel i sætningsform
-    answers.inputSentenized = sentenceConverterLight(inputSanitizer(request.body.text));
+    // Original artikel i sætningsform
+    answers.inputSentenized = sentenceConverter(inputSanitizer(request.body.text));
 
     // Final data passing
-    let obj = {};
-    obj.title = articles[cosineArticleFound].title;
-    obj.sentences = [];
+
+    let a = [], cur = -1; curCheck = -1;
+    cosineFinalResult.sort((a, b) => b[3] > a[3]);
+    console.log(cosineFinalResult);
     for(let i = 0; i < cosineFinalResult.length; i++){
+        if(cosineFinalResult[i][3] != curCheck){
+            cur++;
+            curCheck = cosineFinalResult[i][3];
+            let obj = {};
+            obj.title = articles[cosineFinalResult[i][3]].title;
+            obj.sentences = [];
+            a.push(obj);
+        }
         let temp = {inputIndex: cosineFinalResult[i][0],
-                    content: cosineSentenizedArticle[cosineFinalResult[i][1]],
-                    percentage: cosineFinalResult[i][2]};
-        obj.sentences.push(temp);
+            content: allArtsSentenized[cosineFinalResult[i][3]][cosineFinalResult[i][1]],
+            percentage: cosineFinalResult[i][2]};
+        a[cur].sentences.push(temp);
     }
 
-    answers.articles = [obj];
+    answers.articles = a;
 
     // Post response
     response.send(answers);

@@ -60,15 +60,14 @@ const abbreviations = [
     "R-Miss."
 ];
 
-function lightSentenize(article){
+function sentenize(article){
     for(x of abbreviations){
         article = article.replaceAll(x, x.replaceAll('.', ''));
     }
     article = article.replaceAll(/(?<=\d)\.(?=\d)/gm, 'Ж');
     article = article.replaceAll(/(?<=[1-9]|[12][0-9]|3[01])\.(?= (?=januar|februar|marts)|april|maj|juni|juli|august|september|oktober|november|december|jan|feb|mar|apr|jun|jul|sep|okt|nov|dec)/gmi, 'Ж');
-    const regex = new RegExp(`(?<=[.?!:])`, 'g');
+    const regex = new RegExp(`[.?!:]`, 'g');
     let arr = article.split(regex);
-    // arr = arr.map(e => e.replace('"', '').trim());
     for(let i = arr.length - 1; i >= 0; i--){
         if(arr[i] === ''){
             arr.splice(i, 1);
@@ -80,21 +79,6 @@ function lightSentenize(article){
     return arr;
 }
 
-function sentenize(article){
-    for(x of abbreviations){
-        article = article.replaceAll(x, x.replaceAll('.', ''));
-    }
-    const regex = new RegExp(`[.?!:]`, 'g');
-    let arr = article.split(regex);
-    //arr = arr.map(e => e.replace('"', '').trim());
-    for(let i = arr.length - 1; i >= 0; i--){
-        if(arr[i] === ''){
-            arr.splice(i, 1);
-        }
-    }
-    return arr;
-}
-
 function sentenizeArr(articles){
     let resArr = [];
     for(let i = 0; i < articles.length; i++){
@@ -103,4 +87,4 @@ function sentenizeArr(articles){
     return resArr;
 }
 
-module.exports = { sentenize, lightSentenize, sentenizeArr };
+module.exports = { sentenize, sentenizeArr };
