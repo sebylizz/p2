@@ -15,7 +15,7 @@ const jaccardSentSimilarity = require('./src/jaccard').jaccardSentenceSimilarity
 const loadArticles = require('./src/dbload');
 const sentenceConverter = require('./src/sentenize').sentenize;
 const sentenceConverterArr = require('./src/sentenize').sentenizeArr;
-const synonymeConverter = require('./src/synonyme');
+const synonymeConverter = require('./src/synonyme').exportSyn;
 const translator = require('./src/translate');
 
 
