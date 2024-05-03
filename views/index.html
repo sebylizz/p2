@@ -10,12 +10,13 @@
     <div class="content-wrapper">
         <div class="container">
             <div id="inputContent" contentEditable="plaintext-only" class="textarea"></div>
-            <button id="runbutton">check plagiarism</button>
+            <button style = "justify-content: flex-end;"id=detailbutton>Details</button>
+            <button style = "justify-content: flex-end;"id="runbutton">check plagiarism</button>
             <div class="animation"></div>
-            <button id="detailbutton">Details</button>
+            
         </div>
 
-        <div></div>
+        
         
         <div id="detailbox" >
         <p>Details:</p>
@@ -32,10 +33,8 @@
         </div>
         <button id="detailclosebutton">&times;</button>
             
-        <div class="right-side container">
-            
-                       
-            <div class="box large container" id="articleContent"></div>
+        <div class="right-side container box large">       
+            <div id="articleContent"></div>
         </div>
     </div>
 
@@ -56,7 +55,7 @@
                 this.style.color = '#9e9c9a';
             }
         });*/
-
+        // adds backgroundcolor to input sentence to see which sentence in output matches.
         function mark(i){
             let markSentence = document.getElementById(`inpsent${i}`);
             markSentence.classList.add('mouseover');
@@ -66,14 +65,13 @@
             let markSentence = document.getElementById(`inpsent${i}`);
             markSentence.classList.remove('mouseover');
         }
-    
+        // open detailbox
         detailbutton.addEventListener('click', function() {
-                // open detail sheet
                 document.getElementById('detailbox').style.display = "block";
                 document.getElementById('detailclosebutton').style.display = "block";
 
             })
-
+        // close detailbox
         document.getElementById("detailclosebutton").addEventListener("click", function() {
             document.getElementById("detailbox").style.display = "none";
             document.getElementById("detailclosebutton").style.display = "none";
@@ -83,24 +81,20 @@
         runbutton.addEventListener('click', function() {
             // clear the output area
             document.getElementById('articleContent').innerHTML = "";
-            // remove detailbutton if no match is found
+            // remove detailbutton if no match is found and give error message
             document.getElementById('detailbutton').style.display = "none";
             if (textarea.textContent.trim().length < 1){
                 alert("The input can not be empty.");
                 return;
             }
-
+            // alert user input too long
             if (textarea.textContent.trim().length > 5000){
                 alert("Sorry, the input is too long.");
                 return;
             }
             
-
-
-
             animationDiv.style.display = 'block';
             animationDiv.classList.add('active');
-    
             rightSide.style.display = 'block';
     
             fetch('/', {
@@ -136,9 +130,8 @@
                 }
 
                 textarea.appendChild(newText);
-            
-                // farve til sætninger ud fra plagiatprocent, og hoverover så man kan se % og highlight af den modsat matchende sætning
-                // Add titles to sentences + add color from percentage
+                
+                // Add titles to sentences with similarity percent + add color matching percentage + add mark function
                 const output = document.getElementById('articleContent')
                 output.innerHTML += `<p>Hover over a sentence to see matching sentence in input and similarity percentage </p>`
                     for (let i = 0; i < data.articles.length; i++) {

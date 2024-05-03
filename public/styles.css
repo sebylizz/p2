@@ -5,6 +5,7 @@ body, html {
     background-color: #3d3d3d;
 }
 
+
 .content-wrapper {
     display: flex;
     
@@ -92,7 +93,7 @@ h1 {
     line-height: 50px;
     text-align: center;
     display: none;
-    margin-right: 90%;
+    float: right;
     
     
 }
@@ -146,8 +147,12 @@ h1 {
 
 /* Animation */
 .animation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
     display: none;
     border: 10px solid #f3f3f3;
+    z-index: 9999;
     border-top: 10px solid rgba(15, 4, 4, 0.6);
     border-radius: 50%;
     width: 70px;
@@ -165,23 +170,6 @@ h1 {
     100% { transform: rotate(360deg); }
 }
 
-/* Responsive Design(Tror ikke dette gør noget) 
-@media screen and (max-width: 1700px) {
-    .content-wrapper {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .container, textarea, .right-side {
-        width: calc(50% - 10px);
-    }
-
-    .right-side{
-        margin-top: 0;
-    }
-}
-*/
 .sentence50 {
     background-color: hsl(60, 100%, 48%);
 }
