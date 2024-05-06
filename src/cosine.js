@@ -35,7 +35,7 @@ function proc(doc, idf){
 
 function paragraphs (input, articles, idf){
 
-    const threshold = 0.1;
+    const threshold = 0.25;
     let arts = [];
 
     let idx = 0, max = 0, winner = 0;
@@ -83,6 +83,7 @@ function paragraphs (input, articles, idf){
 }
 
 function sentences (input, articles, deets, idf){
+
     let results = [];
 
     for(let d = 0; d < deets.length; d++){
