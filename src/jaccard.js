@@ -39,7 +39,7 @@ function jaccardSentenceSimilarity(inputSentences, articleSentencesArray) {
     let results = [];
 
     inputShingles.forEach((inputSet, inputIndex) => {
-        let maxSimilarity = 0;
+        let maxSimilarity = -1;
         let bestMatchIndex = -1;
         let bestMatchDocIndex = -1;
 
@@ -56,8 +56,8 @@ function jaccardSentenceSimilarity(inputSentences, articleSentencesArray) {
         });
 
         if (bestMatchIndex !== -1 && bestMatchDocIndex !== -1) {
-            let formattedSimilarity = (maxSimilarity * 100).toFixed(2);
-            results.push([inputIndex, bestMatchIndex, bestMatchDocIndex, formattedSimilarity]);
+            let formattedSimilarity = parseFloat((maxSimilarity * 100).toFixed(2));
+            results.push([inputIndex, bestMatchIndex, formattedSimilarity, bestMatchDocIndex]);
         }
     });
 

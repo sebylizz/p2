@@ -85,7 +85,6 @@ app.post('/', async(request, response) => {
 
     let a = [], cur = -1; curCheck = -1;
     cosineFinalResult.sort((a, b) => b[3] > a[3]);
-    console.log(cosineFinalResult);
     for(let i = 0; i < cosineFinalResult.length; i++){
         if(cosineFinalResult[i][3] != curCheck){
             cur++;
