@@ -70,7 +70,6 @@ function synonyme(word1, word2){
 }
 
 function exportSyn(inp, art, deets){
-    console.log(inp);
     let arr = [];
     for(let i = 0; i < deets.length; i++){
         if(deets[i][2] > 50){
@@ -81,7 +80,6 @@ function exportSyn(inp, art, deets){
         }
     }
 
-    console.log(arr);
     return arr;
 }
 

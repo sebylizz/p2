@@ -17,6 +17,8 @@ const sentenceConverter = require('./src/sentenize').sentenize;
 const sentenceConverterArr = require('./src/sentenize').sentenizeArr;
 const synonymeConverter = require('./src/synonyme').exportSyn;
 const translator = require('./src/translate');
+const arrayMerge = require('./src/arraymerge');
+const lightSentenize = require('./src/sentenize').lightSentenize;
 
 
 // Database loading and IDF table generation
@@ -38,6 +40,7 @@ app.get('/', (request, response) => {
 
 // Frontend POST request
 app.post('/', async(request, response) => {
+    let time1 = Date.now();
     let answers = {};
     
     let inputTranslated = await translator(inputSanitizer(request.body.text));
@@ -47,8 +50,8 @@ app.post('/', async(request, response) => {
     let jaccardDocSimilarity = jaccardSimilarity(inputTranslated, articles);
 
     // Backend console logging for debugging purposes
-    console.log(`Input received!\n\nPreliminary Cosine similarity: ${cosineDocSimilarity}`+
-                `\n Jaccard identified articles: ${jaccardDocSimilarity}\n`, "\nRunning sentences...");
+    console.log(`Input received!\n\nPreliminary Cosine similarity:\n`,cosineDocSimilarity,
+                `Jaccard identified articles:\n`, jaccardDocSimilarity,`Running sentences...`);
 
     // Sentenize user input
     let inputTranslatedSentenized = sentenceConverter(inputTranslated);
@@ -67,7 +70,6 @@ app.post('/', async(request, response) => {
     let cosineFinalInput = synonymeConverter(inputTranslatedSentenized, allArtsSentenized, cosineSentences);
     let jaccardFinalInput = synonymeConverter(inputTranslatedSentenized, allArtsSentenized, jaccardSentences);
 
-    console.log(cosineDocSimilarity);
     let cosineFinalResult = cosineSentSimilairty(cosineFinalInput, allArtsSentenized, cosineDocSimilarity, idfTable);
     let jaccardFinalResult = jaccardSentSimilarity(jaccardFinalInput, allArtsSentenized, jaccardDocSimilarity);
 
@@ -79,24 +81,26 @@ app.post('/', async(request, response) => {
     answers.cosineSimilarity = cosineDocSimilarity[0];
 
     // Original artikel i sætningsform
-    answers.inputSentenized = sentenceConverter(inputSanitizer(request.body.text));
+    answers.inputSentenized = lightSentenize(inputSanitizer(request.body.text));
 
     // Final data passing
 
+    const finalArr = arrayMerge(cosineFinalResult, jaccardFinalResult);
+
     let a = [], cur = -1; curCheck = -1;
-    cosineFinalResult.sort((a, b) => b[3] > a[3]);
-    for(let i = 0; i < cosineFinalResult.length; i++){
-        if(cosineFinalResult[i][3] != curCheck){
+    finalArr.sort((a, b) => b[3] > a[3]);
+    for(let i = 0; i < finalArr.length; i++){
+        if(finalArr[i][3] != curCheck){
             cur++;
-            curCheck = cosineFinalResult[i][3];
+            curCheck = finalArr[i][3];
             let obj = {};
-            obj.title = articles[cosineFinalResult[i][3]].title;
+            obj.title = articles[finalArr[i][3]].title;
             obj.sentences = [];
             a.push(obj);
         }
-        let temp = {inputIndex: cosineFinalResult[i][0],
-            content: allArtsSentenized[cosineFinalResult[i][3]][cosineFinalResult[i][1]],
-            percentage: cosineFinalResult[i][2]};
+        let temp = {inputIndex: finalArr[i][0],
+            content: allArtsSentenized[finalArr[i][3]][finalArr[i][1]],
+            percentage: finalArr[i][2]};
         a[cur].sentences.push(temp);
     }
 
@@ -104,6 +108,8 @@ app.post('/', async(request, response) => {
 
     // Post response
     response.send(answers);
+    let time2 = Date.now();
+    console.log("tid: "+(time2-time1));
 })
  
 app.listen(PORT, function(err){
