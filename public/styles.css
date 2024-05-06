@@ -39,7 +39,7 @@ h1 {
     resize: none;
     padding: 10px;
 }
-.right-side {
+.rightside {
     width: 850px;
     margin-right: 30px;
     display: none;
@@ -79,7 +79,7 @@ h1 {
     text-align: center;
     display: block;
 }
-#detailbutton {
+/*#detailbutton {
     
     background-color: #d09b08;
     color: #000000;
@@ -96,7 +96,7 @@ h1 {
     float: right;
     
     
-}
+}*/
 
 #detailclosebutton {
     position: fixed;
