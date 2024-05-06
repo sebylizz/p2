@@ -1,0 +1,1 @@
+If you want to batch add articles to the database delete this text and insert the article URLs seperated by a newline, and then run run_articles.bat
