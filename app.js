@@ -40,6 +40,7 @@ app.get('/', (request, response) => {
 
 // Frontend POST request
 app.post('/', async(request, response) => {
+    let time1 = Date.now();
     let answers = {};
     
     let inputTranslated = await translator(inputSanitizer(request.body.text));
@@ -69,7 +70,6 @@ app.post('/', async(request, response) => {
     let cosineFinalInput = synonymeConverter(inputTranslatedSentenized, allArtsSentenized, cosineSentences);
     let jaccardFinalInput = synonymeConverter(inputTranslatedSentenized, allArtsSentenized, jaccardSentences);
 
-    console.log(cosineDocSimilarity);
     let cosineFinalResult = cosineSentSimilairty(cosineFinalInput, allArtsSentenized, cosineDocSimilarity, idfTable);
     let jaccardFinalResult = jaccardSentSimilarity(jaccardFinalInput, allArtsSentenized, jaccardDocSimilarity);
 
@@ -86,8 +86,6 @@ app.post('/', async(request, response) => {
     // Final data passing
 
     const finalArr = arrayMerge(cosineFinalResult, jaccardFinalResult);
-
-    console.log("final arr:\n",finalArr);
 
     let a = [], cur = -1; curCheck = -1;
     finalArr.sort((a, b) => b[3] > a[3]);
@@ -110,6 +108,8 @@ app.post('/', async(request, response) => {
 
     // Post response
     response.send(answers);
+    let time2 = Date.now();
+    console.log("tid: "+(time2-time1));
 })
  
 app.listen(PORT, function(err){
