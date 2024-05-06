@@ -1,4 +1,3 @@
-// Function to create shingles with the size of 2
 function createShingles(text, size = 2) {
     const words = text.toLowerCase().match(/\w+('\w+)?/g) || [];
     const shingles = new Set();
@@ -17,50 +16,48 @@ function calculateJaccard(set1, set2) {
 
 // Calculates the Jaccard similarity on two string inputs
 function jaccardSimilarity(input, articles) {
-    let maxSimilarity = 0;
-    let mostSimilarArticleIndex = -1;
+    let threshold = 0.25;
 
     const inputShingles = createShingles(input);
+
+    let articleArray = [];
 
     articles.forEach((article, index) => {
         const articleShingles = createShingles(article.content);
         const similarity = calculateJaccard(inputShingles, articleShingles);
 
-        if (similarity > maxSimilarity) {
-            maxSimilarity = similarity;
-            mostSimilarArticleIndex = index;
+        if (similarity >= threshold) {
+            articleArray.push(index)
         }
     });
-
-    if (mostSimilarArticleIndex === -1) { 
-        return ["None found", 0];
-    } else {
-        return [(maxSimilarity * 100).toFixed(2), mostSimilarArticleIndex];
-    }
+    return articleArray;
 }
 
 // Calculates Jaccard similarity on two arrays of sentences
-function jaccardSentenceSimilarity(inputSentences, articleSentences) {
+function jaccardSentenceSimilarity(inputSentences, articleSentencesArray) {
     const inputShingles = inputSentences.map(s => createShingles(s));
-    const articleShingles = articleSentences.map(s => createShingles(s));
-
     let results = [];
 
-    inputShingles.forEach((set1, idx1) => {
+    inputShingles.forEach((inputSet, inputIndex) => {
         let maxSimilarity = 0;
         let bestMatchIndex = -1;
+        let bestMatchDocIndex = -1;
 
-        articleShingles.forEach((set2, idx2) => {
-            const similarity = calculateJaccard(set1, set2);
-            if (similarity > maxSimilarity) {
-                maxSimilarity = similarity;
-                bestMatchIndex = idx2;
-            }
+        articleSentencesArray.forEach((articleSentences, articleIndex) => {
+            const articleShingles = articleSentences.map(s => createShingles(s));
+            articleShingles.forEach((articleSet, sentenceIndex) => {
+                const similarity = calculateJaccard(inputSet, articleSet);
+                if (similarity > maxSimilarity) {
+                    maxSimilarity = similarity;
+                    bestMatchIndex = sentenceIndex;
+                    bestMatchDocIndex = articleIndex;
+                }
+            });
         });
 
-        if (bestMatchIndex !== -1) {
+        if (bestMatchIndex !== -1 && bestMatchDocIndex !== -1) {
             let formattedSimilarity = (maxSimilarity * 100).toFixed(2);
-            results.push([idx1, bestMatchIndex, formattedSimilarity]);
+            results.push([inputIndex, bestMatchIndex, bestMatchDocIndex, formattedSimilarity]);
         }
     });
 
