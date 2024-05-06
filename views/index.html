@@ -135,26 +135,34 @@
                 const output = document.getElementById('articleContent')
                 output.innerHTML += `<p>Hover over a sentence to see matching sentence in input and similarity percentage </p>`
                     for (let i = 0; i < data.articles.length; i++) {
-                    output.innerHTML += `<h3>Article name: ${data.articles[i].title}</h3>`
-                       for(let j = 0; j < data.articles[i].sentences.length; j++) {
-                       if (data.articles[i].sentences[j].percentage > 50.0){
-                            if (data.articles[i].sentences[j].percentage > 90) {
-                                output.innerHTML += `<p class = "sentence90" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
+                        let temp = 0;
+                        data.articles[i].sentences.forEach(element => {
+                            if (element.percentage > 50){
+                                temp = 1;
                             }
-                            else if (data.articles[i].sentences[j].percentage > 80){
-                                output.innerHTML += `<p class = "sentence80" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
-                            }
-                            else if (data.articles[i].sentences[j].percentage > 70){
-                                output.innerHTML += `<p class = "sentence70" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
-                            }
-                            else if (data.articles[i].sentences[j].percentage > 60){
-                                output.innerHTML += `<p class = "sentence60" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
-                            }
-                            else if (data.articles[i].sentences[j].percentage > 50){
-                                output.innerHTML += `<p class = "sentence50" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
+                        });
+                        if (temp == 1){
+                            output.innerHTML += `<h3>Article name: ${data.articles[i].title}</h3>`
+                        }
+                        for(let j = 0; j < data.articles[i].sentences.length; j++) {
+                        if (data.articles[i].sentences[j].percentage > 50.0){
+                                if (data.articles[i].sentences[j].percentage > 90) {
+                                    output.innerHTML += `<p class = "sentence90" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
+                                }
+                                else if (data.articles[i].sentences[j].percentage > 80){
+                                    output.innerHTML += `<p class = "sentence80" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
+                                }
+                                else if (data.articles[i].sentences[j].percentage > 70){
+                                    output.innerHTML += `<p class = "sentence70" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
+                                }
+                                else if (data.articles[i].sentences[j].percentage > 60){
+                                    output.innerHTML += `<p class = "sentence60" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
+                                }
+                                else if (data.articles[i].sentences[j].percentage > 50){
+                                    output.innerHTML += `<p class = "sentence50" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
+                                }
                             }
                         }
-                    }
                 }
                 match = output.innerHTML.search(/class/gmi);
                 console.log(match)
