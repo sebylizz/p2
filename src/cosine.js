@@ -83,9 +83,6 @@ function paragraphs (input, articles, idf){
 }
 
 function sentences (input, articles, deets, idf){
-    console.log("Her:", input);
-    console.log("deets:", deets);
-
     let results = [];
 
     for(let d = 0; d < deets.length; d++){

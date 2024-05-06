@@ -4,7 +4,7 @@ const synonymedict = require('word-thesaurus');
 function wordreplacer(input, databasesentence){
 
     // fjerner mellemrum og andre tegn + den laver alle ord til lowercase
-    input = input.replace(/[^\w ]/g, '').toLowerCase().split(" ");
+    input = input.replace(/[^"'\w ]/g, '').toLowerCase().split(" ");
     databasesentence = databasesentence.replace(/[^\w ]/g, '').toLowerCase().split(" ");
 
     // kopierer input over i et array
@@ -70,6 +70,7 @@ function synonyme(word1, word2){
 }
 
 function exportSyn(inp, art, deets){
+    console.log(inp);
     let arr = [];
     for(let i = 0; i < deets.length; i++){
         if(deets[i][2] > 50){
@@ -79,6 +80,8 @@ function exportSyn(inp, art, deets){
             arr.push(inp[deets[i][0]]);
         }
     }
+
+    console.log(arr);
     return arr;
 }
 

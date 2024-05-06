@@ -46,22 +46,17 @@ app.post('/', async(request, response) => {
     let cosineDocSimilarity = cosineSimilarity(inputTranslated, articles, idfTable);
     let jaccardDocSimilarity = jaccardSimilarity(inputTranslated, articles);
 
-    // Results
-    let cosineArticleFound = cosineDocSimilarity[0][1];
-    let jaccardArticleFound = jaccardDocSimilarity[1];
-
     // Backend console logging for debugging purposes
     console.log(`Input received!\n\nPreliminary Cosine similarity: ${cosineDocSimilarity}`+
-                `\nPreliminary Jaccard similarity: ${jaccardDocSimilarity[0]}% on article #${jaccardArticleFound}\n`, "\nRunning sentences...");
+                `\n Jaccard identified articles: ${jaccardDocSimilarity}\n`, "\nRunning sentences...");
 
-    // Sentenize user input and found articles
+    // Sentenize user input
     let inputTranslatedSentenized = sentenceConverter(inputTranslated);
-    let jaccardSentenizedArticle = sentenceConverter(articles[jaccardArticleFound].content);
 
     // Sentence based similarity
     const allArtsSentenized = sentenceConverterArr(articles);
     let cosineSentences = cosineSentSimilairty(inputTranslatedSentenized, allArtsSentenized, cosineDocSimilarity, idfTable);
-    let jaccardSentences = jaccardSentSimilarity(inputTranslatedSentenized, jaccardSentenizedArticle)
+    let jaccardSentences = jaccardSentSimilarity(inputTranslatedSentenized, allArtsSentenized, jaccardDocSimilarity)
 
     // Backend console logging for debugging purposes
     console.log("\n\nCosine similarity on sentences:\n", cosineSentences,
@@ -74,15 +69,12 @@ app.post('/', async(request, response) => {
 
     console.log(cosineDocSimilarity);
     let cosineFinalResult = cosineSentSimilairty(cosineFinalInput, allArtsSentenized, cosineDocSimilarity, idfTable);
-    let jaccardFinalResult = jaccardSentSimilarity(jaccardFinalInput, jaccardSentenizedArticle);
+    let jaccardFinalResult = jaccardSentSimilarity(jaccardFinalInput, allArtsSentenized, jaccardDocSimilarity);
 
     // Backend console logging for debugging purposes
     console.log("\n\nCosine similarity after synonyms:\n", cosineFinalResult,
                 "\n\nJaccard similarity after synonyms:\n", jaccardFinalResult);
 
-    let matchingArticleContent = articles[cosineArticleFound].content;
-
-    answers.article = matchingArticleContent;
     answers.jaccardSimilarity = jaccardDocSimilarity;
     answers.cosineSimilarity = cosineDocSimilarity[0];
 
@@ -93,7 +85,6 @@ app.post('/', async(request, response) => {
 
     let a = [], cur = -1; curCheck = -1;
     cosineFinalResult.sort((a, b) => b[3] > a[3]);
-    console.log(cosineFinalResult);
     for(let i = 0; i < cosineFinalResult.length; i++){
         if(cosineFinalResult[i][3] != curCheck){
             cur++;
