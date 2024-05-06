@@ -66,6 +66,7 @@ function sentenize(article){
     }
     article = article.replaceAll(/(?<=\d)\.(?=\d)/gm, 'Ж');
     article = article.replaceAll(/(?<=[1-9]|[12][0-9]|3[01])\.(?= (?=januar|februar|marts)|april|maj|juni|juli|august|september|oktober|november|december|jan|feb|mar|apr|jun|jul|sep|okt|nov|dec)/gmi, 'Ж');
+    article = article.replaceAll(/(?<=[A-Z])\.(?= )/mg, 'Ж');
     const regex = new RegExp(`[.?!:]`, 'g');
     let arr = article.split(regex);
     for(let i = arr.length - 1; i >= 0; i--){
