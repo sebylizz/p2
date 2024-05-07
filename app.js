@@ -87,8 +87,12 @@ app.post('/', async(request, response) => {
 
     const finalArr = arrayMerge(cosineFinalResult, jaccardFinalResult);
 
+    finalArr.sort((a, b) => a[3] - b[3]);
+
+    console.log("final:\n", finalArr);
+
     let a = [], cur = -1; curCheck = -1;
-    finalArr.sort((a, b) => b[3] > a[3]);
+
     for(let i = 0; i < finalArr.length; i++){
         if(finalArr[i][3] != curCheck){
             cur++;

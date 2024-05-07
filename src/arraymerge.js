@@ -19,8 +19,6 @@ function mergeArrays(cos, jac){
         }
     }
 
-    cos.sort((a, b) => a[0] - b[0]);
-
     return cos;
 }
 
