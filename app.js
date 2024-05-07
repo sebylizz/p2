@@ -77,9 +77,6 @@ app.post('/', async(request, response) => {
     console.log("\n\nCosine similarity after synonyms and levenshtein:\n", cosineFinalResult,
                 "\n\nJaccard similarity after synonyms and levenshtein:\n", jaccardFinalResult);
 
-    answers.jaccardSimilarity = jaccardDocSimilarity;
-    answers.cosineSimilarity = cosineDocSimilarity[0];
-
     // Original artikel i sætningsform
     answers.inputSentenized = lightSentenize(inputSanitizer(request.body.text));
 
@@ -87,8 +84,12 @@ app.post('/', async(request, response) => {
 
     const finalArr = arrayMerge(cosineFinalResult, jaccardFinalResult);
 
+    finalArr.sort((a, b) => a[3] - b[3]);
+
+    console.log("final:\n", finalArr);
+
     let a = [], cur = -1; curCheck = -1;
-    finalArr.sort((a, b) => b[3] > a[3]);
+
     for(let i = 0; i < finalArr.length; i++){
         if(finalArr[i][3] != curCheck){
             cur++;
@@ -97,6 +98,8 @@ app.post('/', async(request, response) => {
             obj.title = articles[finalArr[i][3]].title;
             obj.fullContent = articles[finalArr[i][3]].content;
             obj.sentences = [];
+            obj.cosine = cosineDocSimilarity[cosineDocSimilarity.findIndex(e => e[1] == finalArr[i][3])][0];
+            obj.link = articles[finalArr[i][3]].URL;
             a.push(obj);
         }
         let temp = {inputIndex: finalArr[i][0],
