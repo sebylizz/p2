@@ -39,12 +39,17 @@ h1 {
     resize: none;
     padding: 10px;
 }
+
+button {
+    pointer-events: all;
+}
+
 .rightside {
     width: 850px;
     margin-right: 30px;
     display: none;
     float: right;
-    
+    pointer-events: all;
 }
 
 #detailbox {
