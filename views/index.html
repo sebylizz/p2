@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!--Input box-->
+    
     <div class="content-wrapper">
+        <!--Input box + animation-->
         <div class="container">
             <div id="inputContent" contentEditable="plaintext-only" class="textarea"></div>
-            <!--<button style = "justify-content: flex-end;"id=detailbutton>Details</button> -->
-            <button style = "justify-content: flex-end;"id="runbutton">check plagiarism</button>
+            <button id="runbutton">check plagiarism</button>
             <div class="animation"></div>
             
         </div>
@@ -35,11 +35,11 @@
         </div> 
 
         <!-- output box-->
-        <div id="testhmm" class="rightside container box large">
+        <div id="testhmm" class="result-container">
             <div id="articleContent"></div>
         </div>
     
-
+    </div>
     <script src="script.js"></script>
     
 </body>

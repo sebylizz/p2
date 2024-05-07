@@ -1,7 +1,7 @@
 const textarea = document.getElementById('inputContent');
 const runbutton = document.getElementById('runbutton');
 const animationDiv = document.querySelector('.animation')
-const rightside = document.querySelector('.rightside');
+const resultcontainer = document.querySelector('.result-container');
 
 function mark(i){
     let markSentence = document.getElementById(`inpsent${i}`);
@@ -22,8 +22,6 @@ document.getElementById("detailclosebutton").addEventListener("click", function(
 runbutton.addEventListener('click', function() {
     // clear the output area
     document.getElementById('articleContent').innerHTML = "";
-    // remove detailbutton if no match is found and give error message
-    // document.getElementById('detailbutton').style.display = "none";
     if (textarea.textContent.trim().length < 1){
         alert("The input can not be empty.");
         return;
@@ -36,7 +34,7 @@ runbutton.addEventListener('click', function() {
     
     animationDiv.style.display = 'block';
     animationDiv.classList.add('active');
-    rightside.style.display = 'block';
+    resultcontainer.style.display = 'block';
 
     fetch('/', {
         method: 'POST',
@@ -84,12 +82,11 @@ runbutton.addEventListener('click', function() {
                         newbut.addEventListener("click", () => {
                             console.log("ccc");
                             //results:
-                            document.getElementById('jaccardSimilarity').innerHTML = `Final Jaccard Similarity: %`;
-                            document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: %`;
+                            document.getElementById('jaccardSimilarity').innerHTML = `Final Jaccard Similarity: mangler%`;
+                            document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: ${cur.cosine}%`;
                             document.getElementById('averageSimilarity').innerHTML = `Average Similarity: test`;
                             // skal være link i stedet for title
-                            document.getElementById('articlelink').innerHTML = `Link: ${cur.title}`;
-                            // er kun første sætning for nu
+                            document.getElementById('articlelink').innerHTML = `Link: ${cur.link}`;
                             document.getElementById('fullarticle').innerHTML = `Full Article: ${cur.fullContent}`;
                             // open detailbox
                             document.getElementById('detailbox').style.display = "block";
@@ -127,9 +124,6 @@ runbutton.addEventListener('click', function() {
         if (match==-1) { // Ensure proper output for when no matching sentences
             output.innerHTML = '<h3>No Matches found</h3>';
         }
-        /* else { //display detail button if match(es) found
-            document.getElementById('detailbutton').style.display = "block";
-        } */
         
     })
     .catch((error) => {
