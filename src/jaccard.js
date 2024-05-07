@@ -65,6 +65,4 @@ function jaccardSentenceSimilarity(inputSentences, articleSentencesArray, indexe
     return results;
 }
 
-
-
 module.exports = {jaccardSimilarity, jaccardSentenceSimilarity};
