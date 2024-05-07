@@ -86,7 +86,7 @@ runbutton.addEventListener('click', function() {
                             document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: ${cur.cosine}%`;
                             document.getElementById('averageSimilarity').innerHTML = `Average Similarity: test`;
                             // skal være link i stedet for title
-                            document.getElementById('articlelink').innerHTML = `Link: ${cur.link}`;
+                            document.getElementById('articlelink').innerHTML = `<a href="${cur.link}">Link to article</a>`;
                             document.getElementById('fullarticle').innerHTML = `Full Article: ${cur.fullContent}`;
                             // open detailbox
                             document.getElementById('detailbox').style.display = "block";
