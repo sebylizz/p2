@@ -16,7 +16,7 @@ function calculateJaccard(set1, set2) {
 
 // Calculates the Jaccard similarity on two string inputs
 function jaccardSimilarity(input, articles) {
-    let threshold = 0.25;
+    let threshold = 0.01;
 
     const inputShingles = createShingles(input);
 
@@ -34,7 +34,7 @@ function jaccardSimilarity(input, articles) {
 }
 
 // Calculates Jaccard similarity on two arrays of sentences
-function jaccardSentenceSimilarity(inputSentences, articleSentencesArray) {
+function jaccardSentenceSimilarity(inputSentences, articleSentencesArray, indexes) {
     const inputShingles = inputSentences.map(s => createShingles(s));
     let results = [];
 
@@ -43,7 +43,8 @@ function jaccardSentenceSimilarity(inputSentences, articleSentencesArray) {
         let bestMatchIndex = -1;
         let bestMatchDocIndex = -1;
 
-        articleSentencesArray.forEach((articleSentences, articleIndex) => {
+        indexes.forEach(articleIndex => {
+            const articleSentences = articleSentencesArray[articleIndex];
             const articleShingles = articleSentences.map(s => createShingles(s));
             articleShingles.forEach((articleSet, sentenceIndex) => {
                 const similarity = calculateJaccard(inputSet, articleSet);
@@ -63,5 +64,7 @@ function jaccardSentenceSimilarity(inputSentences, articleSentencesArray) {
 
     return results;
 }
+
+
 
 module.exports = {jaccardSimilarity, jaccardSentenceSimilarity};
