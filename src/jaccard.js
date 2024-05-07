@@ -16,7 +16,7 @@ function calculateJaccard(set1, set2) {
 
 // Calculates the Jaccard similarity on two string inputs
 function jaccardSimilarity(input, articles) {
-    let threshold = 0.03;
+    let threshold = 0.11;
 
     const inputShingles = createShingles(input);
 
