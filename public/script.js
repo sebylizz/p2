@@ -1,6 +1,7 @@
 
 
 
+        
         const textarea = document.getElementById('inputContent');
         const runbutton = document.getElementById('runbutton');
         const animationDiv = document.querySelector('.animation');
@@ -27,15 +28,16 @@
             let markSentence = document.getElementById(`inpsent${i}`);
             markSentence.classList.remove('mouseover');
         }
-        function articledetails(i) {
+        function articledetails(article) {
+            alert("idsagr")
             //results:
-            document.getElementById('jaccardSimilarity').innerHTML = `Final Jaccard Similarity: ${data.articles[i].jaccardSimilarity[0]}`;
-            document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: ${data.articles[i].cosineSimilarity[0]}%`;
+            document.getElementById('jaccardSimilarity').innerHTML = `Final Jaccard Similarity: ${article.jaccardSimilarity[0]}`;
+            document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: ${article.cosineSimilarity[0]}%`;
             document.getElementById('averageSimilarity').innerHTML = `Average Similarity: test`;
             // skal være link i stedet for title
-            document.getElementById('articlelink').innerHTML = `Link: ${data.articles[i].title}`;
+            document.getElementById('articlelink').innerHTML = `Link: ${article.title}`;
             // er kun første sætning for nu
-            document.getElementById('fullarticle').innerHTML = `Full Article: ${data.articles[i].fullContent}`;
+            document.getElementById('fullarticle').innerHTML = `Full Article: ${article.fullContent}`;
             // open detailbox
             document.getElementById('detailbox').style.display = "block";
             document.getElementById('detailclosebutton').style.display = "block";
@@ -77,8 +79,7 @@
             })
             .then(response => response.json())
             .then(data => {
-               
-            
+                
                 animationDiv.style.display = 'none';
                 animationDiv.classList.remove('active');
 
@@ -107,7 +108,7 @@
                             }
                         });
                         if (temp == 1){
-                            output.innerHTML += `<h3 onclick="articledetails(${i})">Article name: ${data.articles[i].title}</h3>`
+                            output.innerHTML += `<h3 onclick="articledetails(${data.articles[i]})">Article name: ${data.articles[i].title}</h3>`
                         }
                         for(let j = 0; j < data.articles[i].sentences.length; j++) {
                         if (data.articles[i].sentences[j].percentage > 50.0){
