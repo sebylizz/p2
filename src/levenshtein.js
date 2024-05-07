@@ -1,7 +1,4 @@
-
 function levenshtein(a, b) {
-
-    // matrix 
     const matrix = []
 
     for (let i = 0; i <= b.length; i++){
@@ -20,8 +17,13 @@ function levenshtein(a, b) {
 
              }
         }
+    } 
+    // udregner procentmæssig levenshtein distance
+    if (a.length > b.length){
+        return 1-(matrix[b.length][a.length]/a.length);
+    } else {
+        return 1-(matrix[b.length][a.length]/b.length);
     }
-    return matrix[b.length][a.length]
 }
 
 module.exports = levenshtein

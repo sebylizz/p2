@@ -74,8 +74,8 @@ app.post('/', async(request, response) => {
     let jaccardFinalResult = jaccardSentSimilarity(jaccardFinalInput, allArtsSentenized, jaccardDocSimilarity);
 
     // Backend console logging for debugging purposes
-    console.log("\n\nCosine similarity after synonyms:\n", cosineFinalResult,
-                "\n\nJaccard similarity after synonyms:\n", jaccardFinalResult);
+    console.log("\n\nCosine similarity after synonyms and levenshtein:\n", cosineFinalResult,
+                "\n\nJaccard similarity after synonyms and levenshtein:\n", jaccardFinalResult);
 
     answers.jaccardSimilarity = jaccardDocSimilarity;
     answers.cosineSimilarity = cosineDocSimilarity[0];
