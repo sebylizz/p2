@@ -104,6 +104,7 @@ runbutton.addEventListener('click', function() {
 
             for(let j = 0; j < data.articles[i].sentences.length; j++) {
                 if (data.articles[i].sentences[j].percentage > 50.0){
+                    document.getElementById(`inpsent${data.articles[i].sentences[j].inputIndex}`).classList.add("markedSent");
                     let newP = document.createElement("p");
                     newP.innerText = data.articles[i].sentences[j].content;
                     newP.title = data.articles[i].sentences[j].percentage+"%";
