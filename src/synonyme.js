@@ -43,12 +43,17 @@ function wordreplacer(input, databasesentence){
     
     // tjekker om de to ord i arrayesne er synonymer med hinanden og eller har en levenshtein distance % på over 40 og udskifter ordet som er et synonym med index pladsen i originalinput
     for (let i = 0; i < input.length; i++){
-        for (let j = 0; j < databasesentence.length; j++)
+        for (let j = 0; j < databasesentence.length; j++){
             if (synonyme(input[i], databasesentence[j])){
                 let word = input[i];
                 let idx = originalinput.indexOf(word);
                 originalinput[idx] = databasesentence[j];
+            } else if (levenshtein(input[i], databasesentence[j]) > 0.50){
+                let word = input[i];
+                let idx = originalinput.indexOf(word);
+                originalinput[idx] = databasesentence[j];
             }
+        }
     }
 
     // returner originalinput men i string form med mellemrum og ikke arrayform
@@ -57,15 +62,12 @@ function wordreplacer(input, databasesentence){
 }
 
 // funktion som tager 2 word som input og returner false hvis den ikke kan finde word 1 eller at det er tomt men returner true hvis den finder synonymer
-// hvis de ord ikke er synonymer med hinanden, tjekker de levenshtein distancen og udregner en procent som vi har harcapped på 40% - hvis den overstiger returner den true
 function synonyme(word1, word2){
 
     let tempord = synonymedict.search(word1);
     for (let i = 0; i < tempord.length; i++){
         for (let j = 0; j < tempord[i].raw.length; j++){
             if (tempord[i].raw[j].toLowerCase() === word2){
-                return true;
-            } else if (levenshtein(word1, word2) > 0.5){
                 return true;
             }
         }
