@@ -28,7 +28,7 @@ function mergeSentArrays(cos, jac){
         let found = 0;
         for(let j = 0; j < cos.length; j++){
             if(jac[i][0] == cos[j][0] && jac[i][1] == cos[j][1] && jac[i][3] == cos[j][3]){
-                cos[j][2] = ((cos[j][2]+jac[i][2])/2).toFixed(2);
+                cos[j][2] = parseFloat(((cos[j][2]+jac[i][2])/2).toFixed(2));
                 found = 1;
                 break;
             }
