@@ -59,28 +59,25 @@ h3 {
     padding: 10px;
 }
 
-button {
-    pointer-events: all;
-}
-
 #detailbox {
     position: fixed;
-    width: 90%;
-    height: 90%;
-    margin-bottom: 70px;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    width: 70%;
+    height: 70%;
     font-size: 30px;
     font-style: italic;
     color: black;
     border: 2px solid #000;
     border-radius: 30px;
     background-color: #e3e1dc;
-    outline: none;
-    resize: none;
     padding: 10px;
     display: none;
     z-index: 2;
-    overflow: auto;
+    box-sizing: border-box;
 }
+
 
 #runbutton {
     background-color: #d09b08;
@@ -99,9 +96,6 @@ button {
 }
 
 #detailclosebutton {
-    position: fixed;
-    top: 4%;
-    right: 8%;
     font-size: 20px;
     margin: 5px;
     cursor: pointer;
@@ -110,6 +104,7 @@ button {
     border-radius: 30px;
     display: none;
     z-index: 3;
+    float: right;
 }
 
 .info-table {

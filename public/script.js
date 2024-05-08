@@ -65,7 +65,6 @@ runbutton.addEventListener('click', function() {
         textarea.appendChild(newText);
         
         // Add titles to sentences with similarity percent + add color matching percentage + add mark function
-        output.innerHTML += `<p>Hover over a sentence to see matching sentence in input and similarity percentage </p>`;
         for (let i = 0; i < data.articles.length; i++) {
             let newElement = document.createElement("div");
             let cur = data.articles[i];
@@ -85,9 +84,8 @@ runbutton.addEventListener('click', function() {
                     document.getElementById('jaccardSimilarity').innerHTML = `Final Jaccard Similarity: ${cur.jaccard}%`;
                     document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: ${cur.cosine}%`;
                     document.getElementById('averageSimilarity').innerHTML = `Average Similarity: ${cur.average}`;
-                    // skal være link i stedet for title
                     document.getElementById('articlelink').innerHTML = `<a href="${cur.link}">Link to article</a>`;
-                    document.getElementById('fullarticle').innerHTML = `Full Article: ${cur.fullContent}`;
+                    document.getElementById('plagtype').innerHTML = `Plagiarism Type: <br> Men hvis amtet repræsenterer heterogeniteten i partiets koalition, viser det også de skel, der river den fra hinanden. `;
                     // open detailbox
                     document.getElementById('detailbox').style.display = "block";
                     document.getElementById('detailclosebutton').style.display = "block";
@@ -100,6 +98,7 @@ runbutton.addEventListener('click', function() {
                 if (data.articles[i].sentences[j].percentage > 50.0){
                     let newP = document.createElement("p");
                     newP.innerText = data.articles[i].sentences[j].content;
+                    newP.title = data.articles[i].sentences[j].percentage+"%";
                     newP.addEventListener("mouseover", () => mark(data.articles[i].sentences[j].inputIndex));
                     newP.addEventListener("mouseout", () => unmark(data.articles[i].sentences[j].inputIndex));
                     if (data.articles[i].sentences[j].percentage > 90) {
