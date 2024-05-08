@@ -5,10 +5,8 @@ body, html {
     background-color: #3d3d3d;
 }
 
-
 .content-wrapper {
     display: flex;
-    
     padding: 30px;
     gap: 20px;
 }
@@ -43,6 +41,10 @@ h1 {
     margin-bottom: 50px;
 }
 
+h3 {
+    cursor: pointer;
+}
+
 .textarea {
     width: 910px;
     height: 500px;
@@ -60,8 +62,6 @@ h1 {
 button {
     pointer-events: all;
 }
-
-
 
 #detailbox {
     position: fixed;
@@ -98,7 +98,6 @@ button {
     justify-content: flex-end;
 }
 
-
 #detailclosebutton {
     position: fixed;
     top: 4%;
@@ -112,8 +111,6 @@ button {
     display: none;
     z-index: 3;
 }
-
-
 
 .info-table {
     width: 100%;
@@ -174,5 +171,4 @@ button {
 
 .mouseover {
     background-color: #b6ac56;
-    
 }
