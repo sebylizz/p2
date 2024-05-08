@@ -1,7 +1,15 @@
 const textarea = document.getElementById('inputContent');
 const runbutton = document.getElementById('runbutton');
 const animationDiv = document.querySelector('.animation')
-const resultcontainer = document.querySelector('.result-container');
+const output = document.getElementById("articleContent");
+
+
+function plagtype(percent){
+    if (percent> 80){
+        return "global"
+    }
+
+}
 
 function mark(i){
     let markSentence = document.getElementById(`inpsent${i}`);
@@ -21,7 +29,7 @@ document.getElementById("detailclosebutton").addEventListener("click", function(
 
 runbutton.addEventListener('click', function() {
     // clear the output area
-    document.getElementById('articleContent').innerHTML = "";
+    //output.innerHTML = "";
     if (textarea.textContent.trim().length < 1){
         alert("The input can not be empty.");
         return;
@@ -34,7 +42,7 @@ runbutton.addEventListener('click', function() {
     
     animationDiv.style.display = 'block';
     animationDiv.classList.add('active');
-    resultcontainer.style.display = 'block';
+    output.style.display = 'block';
 
     fetch('/', {
         method: 'POST',
@@ -47,7 +55,6 @@ runbutton.addEventListener('click', function() {
     })
     .then(response => response.json())
     .then(data => {
-        
         animationDiv.style.display = 'none';
         animationDiv.classList.remove('active');
 
@@ -66,58 +73,62 @@ runbutton.addEventListener('click', function() {
         textarea.appendChild(newText);
         
         // Add titles to sentences with similarity percent + add color matching percentage + add mark function
-        const output = document.getElementById('testhmm');
-        output.innerHTML += `<p>Hover over a sentence to see matching sentence in input and similarity percentage </p>`;
-            for (let i = 0; i < data.articles.length; i++) {
-                let cur = data.articles[i];
-                let temp = 0;
-                data.articles[i].sentences.forEach(element => {
-                    if (element.percentage > 50){
-                        temp = 1;
-                    }
+        for (let i = 0; i < data.articles.length; i++) {
+            let newElement = document.createElement("div");
+            let cur = data.articles[i];
+            let temp = 0;
+            data.articles[i].sentences.forEach(element => {
+                if (element.percentage > 50){
+                    temp = 1;
+                }
+            });
+
+            if (temp == 1){
+                let newh3 = document.createElement("h3");
+                newh3.innerText = data.articles[i].title;
+
+                newh3.addEventListener("click", () => {
+                    //results:
+                    document.getElementById('jaccardSimilarity').innerHTML = `Final Jaccard Similarity: ${cur.jaccard}%`;
+                    document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: ${cur.cosine}%`;
+                    document.getElementById('averageSimilarity').innerHTML = `Average Similarity: ${cur.average}%`;
+                    document.getElementById('articlelink').innerHTML = `<a href="${cur.link}">Link to article</a>`;
+                    document.getElementById('plagtype').innerHTML = `Plagiarism Type: <br> ${plagtype(data.articles[i].average)} `;
+                    // open detailbox
+                    document.getElementById('detailbox').style.display = "block";
+                    document.getElementById('detailclosebutton').style.display = "block";
                 });
-                if (temp == 1){
-                        let newbut = document.createElement("button");
-                        newbut.innerText = "but"+i;
-                        newbut.addEventListener("click", () => {
-                            console.log("ccc");
-                            //results:
-                            document.getElementById('jaccardSimilarity').innerHTML = `Final Jaccard Similarity: mangler%`;
-                            document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: ${cur.cosine}%`;
-                            document.getElementById('averageSimilarity').innerHTML = `Average Similarity: test`;
-                            // skal være link i stedet for title
-                            document.getElementById('articlelink').innerHTML = `<a href="${cur.link}">Link to article</a>`;
-                            document.getElementById('fullarticle').innerHTML = `Full Article: ${cur.fullContent}`;
-                            // open detailbox
-                            document.getElementById('detailbox').style.display = "block";
-                            document.getElementById('detailclosebutton').style.display = "block";
-                        });
 
-                        let newh3 = document.createElement("h3");
-                        newh3.innerText = data.articles[i].title;
+                newElement.appendChild(newh3);
+            }
 
-                        document.body.appendChild(newbut);
-                        output.appendChild(newh3);
-                }
-                for(let j = 0; j < data.articles[i].sentences.length; j++) {
+            for(let j = 0; j < data.articles[i].sentences.length; j++) {
                 if (data.articles[i].sentences[j].percentage > 50.0){
-                        if (data.articles[i].sentences[j].percentage > 90) {
-                            output.innerHTML += `<p class = "sentence90" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
-                        }
-                        else if (data.articles[i].sentences[j].percentage > 80){
-                            output.innerHTML += `<p class = "sentence80" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
-                        }
-                        else if (data.articles[i].sentences[j].percentage > 70){
-                            output.innerHTML += `<p class = "sentence70" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
-                        }
-                        else if (data.articles[i].sentences[j].percentage > 60){
-                            output.innerHTML += `<p class = "sentence60" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
-                        }
-                        else if (data.articles[i].sentences[j].percentage > 50){
-                            output.innerHTML += `<p class = "sentence50" title="${data.articles[i].sentences[j].percentage}%" onmouseover="mark(${data.articles[i].sentences[j].inputIndex})" onmouseout="unmark(${data.articles[i].sentences[j].inputIndex})"">${data.articles[i].sentences[j].content}</p>`
-                        }
+                    document.getElementById(`inpsent${data.articles[i].sentences[j].inputIndex}`).classList.add("markedSent");
+                    let newP = document.createElement("p");
+                    newP.innerText = data.articles[i].sentences[j].content;
+                    newP.title = data.articles[i].sentences[j].percentage+"%";
+                    newP.addEventListener("mouseover", () => mark(data.articles[i].sentences[j].inputIndex));
+                    newP.addEventListener("mouseout", () => unmark(data.articles[i].sentences[j].inputIndex));
+                    if (data.articles[i].sentences[j].percentage > 90) {
+                        newP.className = "sentence90";
                     }
+                    else if (data.articles[i].sentences[j].percentage > 80){
+                        newP.className = "sentence80";
+                    }
+                    else if (data.articles[i].sentences[j].percentage > 70){
+                        newP.className = "sentence70";
+                    }
+                    else if (data.articles[i].sentences[j].percentage > 60){
+                        newP.className = "sentence60";
+                    }
+                    else if (data.articles[i].sentences[j].percentage > 50){
+                        newP.className = "sentence50";
+                    }
+                    newElement.appendChild(newP);
                 }
+            }
+            output.appendChild(newElement);
         }
         match = output.innerHTML.search(/class/gmi);
         console.log(match)

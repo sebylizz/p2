@@ -17,7 +17,8 @@ const sentenceConverter = require('./src/sentenize').sentenize;
 const sentenceConverterArr = require('./src/sentenize').sentenizeArr;
 const synonymeConverter = require('./src/synonyme').exportSyn;
 const translator = require('./src/translate');
-const arrayMerge = require('./src/arraymerge');
+const mergeDocArrays = require('./src/arraymerge').mergeDocArrays;
+const mergeSentArrays = require('./src/arraymerge').mergeSentArrays;
 const lightSentenize = require('./src/sentenize').lightSentenize;
 
 
@@ -48,18 +49,19 @@ app.post('/', async(request, response) => {
     // Document based similarity
     let cosineDocSimilarity = cosineSimilarity(inputTranslated, articles, idfTable);
     let jaccardDocSimilarity = jaccardSimilarity(inputTranslated, articles);
+    const docArray = mergeDocArrays(cosineDocSimilarity, jaccardDocSimilarity);
 
     // Backend console logging for debugging purposes
     console.log(`Input received!\n\nPreliminary Cosine similarity:\n`,cosineDocSimilarity,
-                `Jaccard identified articles:\n`, jaccardDocSimilarity,`Running sentences...`);
+                `Jaccard identified articles:\n`, jaccardDocSimilarity, docArray, `Running sentences...`);
 
     // Sentenize user input
     let inputTranslatedSentenized = sentenceConverter(inputTranslated);
 
     // Sentence based similarity
     const allArtsSentenized = sentenceConverterArr(articles);
-    let cosineSentences = cosineSentSimilairty(inputTranslatedSentenized, allArtsSentenized, cosineDocSimilarity, idfTable);
-    let jaccardSentences = jaccardSentSimilarity(inputTranslatedSentenized, allArtsSentenized, jaccardDocSimilarity)
+    let cosineSentences = cosineSentSimilairty(inputTranslatedSentenized, allArtsSentenized, docArray, idfTable);
+    let jaccardSentences = jaccardSentSimilarity(inputTranslatedSentenized, allArtsSentenized, docArray)
 
     // Backend console logging for debugging purposes
     console.log("\n\nCosine similarity on sentences:\n", cosineSentences,
@@ -70,8 +72,8 @@ app.post('/', async(request, response) => {
     let cosineFinalInput = synonymeConverter(inputTranslatedSentenized, allArtsSentenized, cosineSentences);
     let jaccardFinalInput = synonymeConverter(inputTranslatedSentenized, allArtsSentenized, jaccardSentences);
 
-    let cosineFinalResult = cosineSentSimilairty(cosineFinalInput, allArtsSentenized, cosineDocSimilarity, idfTable);
-    let jaccardFinalResult = jaccardSentSimilarity(jaccardFinalInput, allArtsSentenized, jaccardDocSimilarity);
+    let cosineFinalResult = cosineSentSimilairty(cosineFinalInput, allArtsSentenized, docArray, idfTable);
+    let jaccardFinalResult = jaccardSentSimilarity(jaccardFinalInput, allArtsSentenized, docArray);
 
     // Backend console logging for debugging purposes
     console.log("\n\nCosine similarity after synonyms and levenshtein:\n", cosineFinalResult,
@@ -82,7 +84,7 @@ app.post('/', async(request, response) => {
 
     // Final data passing
 
-    const finalArr = arrayMerge(cosineFinalResult, jaccardFinalResult);
+    const finalArr = mergeSentArrays(cosineFinalResult, jaccardFinalResult);
 
     finalArr.sort((a, b) => a[3] - b[3]);
 
@@ -98,7 +100,10 @@ app.post('/', async(request, response) => {
             obj.title = articles[finalArr[i][3]].title;
             obj.fullContent = articles[finalArr[i][3]].content;
             obj.sentences = [];
-            obj.cosine = cosineDocSimilarity[cosineDocSimilarity.findIndex(e => e[1] == finalArr[i][3])][0];
+            const idx = docArray.findIndex(e => e[0] == finalArr[i][3]);
+            obj.cosine = docArray[idx][1];
+            obj.jaccard = docArray[idx][2];
+            obj.average = docArray[idx][3];
             obj.link = articles[finalArr[i][3]].URL;
             a.push(obj);
         }
