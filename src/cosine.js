@@ -35,7 +35,7 @@ function proc(doc, idf){
 
 function paragraphs (input, articles, idf){
 
-    const threshold = 0.25;
+    const threshold = 0.1;
     let arts = [];
 
     let idx = 0, max = 0, winner = 0;
@@ -74,7 +74,7 @@ function paragraphs (input, articles, idf){
     
         let temp = dot/(e1*e2);
         if(temp > threshold){
-            arts.push([(temp*100).toFixed(2), idx]);
+            arts.push([parseFloat((temp*100).toFixed(2)), idx]);
         }
         idx++;
     }
@@ -89,9 +89,9 @@ function sentences (input, articles, deets, idf){
     for(let d = 0; d < deets.length; d++){
         for(let id = 0; id < input.length; id++){
             let max = 0, winner = 0;
-            for(let j = 0; j < articles[deets[d][1]].length; j++){
+            for(let j = 0; j < articles[deets[d][0]].length; j++){
                 let doc1 = proc(input[id], idf);
-                let doc2 = proc(articles[deets[d][1]][j], idf);
+                let doc2 = proc(articles[deets[d][0]][j], idf);
                 let bigger = doc1, smaller = doc2;
                 if(doc2.length > doc1.length){
                     bigger = doc2;
@@ -135,7 +135,7 @@ function sentences (input, articles, deets, idf){
                 if(results[ii][0] == id && max > results[ii][2]){
                     results[ii][1] = winner;
                     results[ii][2] = max;
-                    results[ii][3] = deets[d][1];
+                    results[ii][3] = deets[d][0];
                     found = 1;
                     break;
                 } else if(results[ii][0] == id){
@@ -144,7 +144,7 @@ function sentences (input, articles, deets, idf){
                 }
             }
             if(found == 0){
-                results.push([id, winner, max, deets[d][1]]);
+                results.push([id, winner, max, deets[d][0]]);
             }
         }
     }
