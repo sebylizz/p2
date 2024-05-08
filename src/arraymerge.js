@@ -9,7 +9,7 @@ function mergeDocArrays(cos, jac){
         for(let j = 0; j < arr.length; j++){
             if(jac[i][1] == arr[j][0]){
                 arr[j][2] = jac[i][0];
-                arr[j][3] = (arr[j][1]+jac[i][0])/2;
+                arr[j][3] = parseFloat(((arr[j][1]+jac[i][0])/2).toFixed(2));
                 found = 1;
                 break;
             }
