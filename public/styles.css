@@ -45,6 +45,10 @@ h3 {
     cursor: pointer;
 }
 
+.markedSent {
+    background-color: #c69999;
+}
+
 .textarea {
     width: 910px;
     height: 500px;
