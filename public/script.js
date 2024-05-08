@@ -3,6 +3,14 @@ const runbutton = document.getElementById('runbutton');
 const animationDiv = document.querySelector('.animation')
 const output = document.getElementById("articleContent");
 
+
+function plagtype(percent){
+    if (percent> 80){
+        return "global"
+    }
+
+}
+
 function mark(i){
     let markSentence = document.getElementById(`inpsent${i}`);
     markSentence.classList.add('mouseover');
@@ -83,9 +91,9 @@ runbutton.addEventListener('click', function() {
                     //results:
                     document.getElementById('jaccardSimilarity').innerHTML = `Final Jaccard Similarity: ${cur.jaccard}%`;
                     document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: ${cur.cosine}%`;
-                    document.getElementById('averageSimilarity').innerHTML = `Average Similarity: ${cur.average}`;
+                    document.getElementById('averageSimilarity').innerHTML = `Average Similarity: ${cur.average}%`;
                     document.getElementById('articlelink').innerHTML = `<a href="${cur.link}">Link to article</a>`;
-                    document.getElementById('plagtype').innerHTML = `Plagiarism Type: <br> Men hvis amtet repræsenterer heterogeniteten i partiets koalition, viser det også de skel, der river den fra hinanden. `;
+                    document.getElementById('plagtype').innerHTML = `Plagiarism Type: <br> ${plagtype(data.articles[i].average)} `;
                     // open detailbox
                     document.getElementById('detailbox').style.display = "block";
                     document.getElementById('detailclosebutton').style.display = "block";
