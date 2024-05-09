@@ -3,11 +3,19 @@ const runbutton = document.getElementById('runbutton');
 const animationDiv = document.querySelector('.animation')
 const output = document.getElementById("articleContent");
 
-
+let callcounter = 0;
+// Determin plagiarism type and returns most likely
 function plagtype(percent){
+    callcounter += 1;
+    console.log(callcounter);
+    if (callcounter = 2){
+        return "Patchwork"
+    }
     if (percent> 80){
         return "global"
     }
+    else return "verbatim"
+    
 
 }
 
@@ -29,7 +37,7 @@ document.getElementById("detailclosebutton").addEventListener("click", function(
 
 runbutton.addEventListener('click', function() {
     // clear the output area
-    //output.innerHTML = "";
+    output.innerHTML = ""
     if (textarea.textContent.trim().length < 1){
         alert("The input can not be empty.");
         return;
@@ -131,7 +139,7 @@ runbutton.addEventListener('click', function() {
             output.appendChild(newElement);
         }
         match = output.innerHTML.search(/class/gmi);
-        console.log(match)
+        console.log(match);
         if (match==-1) { // Ensure proper output for when no matching sentences
             output.innerHTML = '<h3>No Matches found</h3>';
         }
