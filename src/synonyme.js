@@ -48,7 +48,7 @@ function wordreplacer(input, databasesentence){
                 let word = input[i];
                 let idx = originalinput.indexOf(word);
                 originalinput[idx] = databasesentence[j];
-            } else if (levenshtein(input[i], databasesentence[j]) > 0.50){
+            } else if (levenshtein(input[i], databasesentence[j]) > 0.90){
                 let word = input[i];
                 let idx = originalinput.indexOf(word);
                 originalinput[idx] = databasesentence[j];
