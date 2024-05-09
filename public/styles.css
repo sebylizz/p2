@@ -43,6 +43,7 @@ h1 {
 
 h3 {
     cursor: pointer;
+    border-style: outset;
 }
 
 .markedSent {

@@ -6,9 +6,8 @@ const output = document.getElementById("articleContent");
 let callcounter = 0;
 // Determin plagiarism type and returns most likely
 function plagtype(percent){
-    callcounter += 1;
-    console.log(callcounter);
-    if (callcounter = 2){
+    callcounter =+ 1;
+    if (callcounter == 2){
         return "Patchwork"
     }
     if (percent> 80){
@@ -94,7 +93,7 @@ runbutton.addEventListener('click', function() {
             if (temp == 1){
                 let newh3 = document.createElement("h3");
                 newh3.innerText = data.articles[i].title;
-
+                
                 newh3.addEventListener("click", () => {
                     //results:
                     document.getElementById('jaccardSimilarity').innerHTML = `Final Jaccard Similarity: ${cur.jaccard}%`;
