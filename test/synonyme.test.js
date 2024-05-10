@@ -16,6 +16,6 @@ describe("testing synonyme file", () => {
     });
 
     test('testing exportSyn function', () => {
-        expect(exportSyn(["hi, you are stunning", "this ball is large"], ["hi, you are pretty", "this ball is big"], [[1, 0, 76]])).toEqual(["this ball is large"]);
+        expect(exportSyn(["hi, you are stunning", "this ball is large"], ["hi, you are pretty", "this ball is big"], [[1, 0, 76, 0]])).toEqual(["this ball is large"]);
     });
 });
