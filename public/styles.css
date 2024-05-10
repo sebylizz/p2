@@ -33,14 +33,6 @@ body, html {
     flex-direction: row;
 }
 
-h1 {
-    color: #0c0c0c;
-    -webkit-text-stroke: 1px white;
-    font-size: 40px;
-    margin-top: 20px;
-    margin-bottom: 50px;
-}
-
 h3 {
     cursor: pointer;
     border-style: outset;
@@ -130,18 +122,17 @@ h3 {
 }
 
 .animation {
-    position: fixed;
-    top: 50%;
-    left: 50%;
+    position:fixed;
+    top: 50%; /* Position the top edge at 50% of the viewport height */
+    left: 50%; /* Position the left edge at 50% of the viewport width */
     display: none;
     border: 10px solid #f3f3f3;
     z-index: 9999;
     border-top: 10px solid rgba(15, 4, 4, 0.6);
-    border-radius: 50%;
-    width: 70px;
-    height: 70px;
+    border-radius: 60%;
+    width: 150px;
+    height: 150px;
     margin: auto;
-    position: center;
 }
 
 .animation.active {
