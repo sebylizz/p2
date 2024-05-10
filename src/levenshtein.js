@@ -18,7 +18,8 @@ function levenshtein(a, b) {
     } 
     // Calculate Levenshtein distance percentage
     const maxLength = Math.max(a.length, b.length);
-    return 1 - matrix[b.length][a.length] / maxLength;
+    let percentage = 1 - matrix[b.length][a.length] / maxLength;
+    return parseFloat(percentage).toFixed(2);
 }
 
 module.exports = levenshtein;

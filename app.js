@@ -118,10 +118,10 @@ app.post('/', async(request, response) => {
     // Post response
     response.send(answers);
     let time2 = Date.now();
-    console.log("tid: "+(time2-time1));
+    console.log("tid: " + (time2 - time1));
 })
  
 app.listen(PORT, function(err){
     if (err) console.log("Error in server setup");
-    console.log("Server listening on http://localhost:" + PORT+"\n");
+    console.log("Server listening on http://localhost:" + PORT + "\n");
 })
