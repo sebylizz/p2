@@ -3,13 +3,19 @@ const runbutton = document.getElementById('runbutton');
 const animationDiv = document.querySelector('.animation')
 const output = document.getElementById("articleContent");
 
-
+/*
+Determin plagiarism type and returns most likely
 function plagtype(percent){
+    callcounter =+ 1;
+    if (callcounter == 2){
+        return "Patchwork"
+    }
     if (percent> 80){
         return "global"
     }
-
+    else return "verbatim"
 }
+*/
 
 function mark(i){
     let markSentence = document.getElementById(`inpsent${i}`);
@@ -132,7 +138,7 @@ runbutton.addEventListener('click', function() {
         }
         match = output.innerHTML.search(/class/gmi);
         console.log(match)
-        if (match==-1) { // Ensure proper output for when no matching sentences
+        if (match==-1) { 
             output.innerHTML = '<h3>No Matches found</h3>';
         }
         

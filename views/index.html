@@ -14,14 +14,10 @@
     
     <div class="content-wrapper">
         <!--Input box + animation-->
-        <div class="container">
+        <div id="leftside" class="container">
             <div id="inputContent" contentEditable="plaintext-only" class="textarea"></div>
-            <div class="button-container">
-                <button id="runbutton">check plagiarism</button>
-                <button id="newScanButton" style="display: none;">new scan</button>
-            </div>
+            <button id="runbutton">Check plagiarism</button>
             <div class="animation"></div>
-            
         </div>
 
         <!-- Detailbox with extra info-->
@@ -38,13 +34,15 @@
                     <td id="articlelink">Link to article:</td>
                 </tr>
             </table>
-            
             <p id="plagtype">Plagiarism Type:</p>
         </div> 
 
         <!-- output box-->
-        <div id="articleContent" class="result-container">
+        <div id="rightside" class="container">
+            <div id="articleContent" class="textarea">
+            </div>
         </div>
+
     
     </div>
     <script src="script.js"></script>
