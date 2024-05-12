@@ -10,6 +10,10 @@ function plagtype(percent){
     if (callcounter == 2){
         return "Patchwork"
     }
+    callcounter =+ 1;
+    if (callcounter == 2){
+        return "Patchwork"
+    }
     if (percent> 80){
         return "global"
     }
@@ -17,11 +21,13 @@ function plagtype(percent){
 }
 */
 
+}*/
+// add mouseover mark to output sentence on input sentence
 function mark(i){
     let markSentence = document.getElementById(`inpsent${i}`);
     markSentence.classList.add('mouseover');
 }
-
+// remove mark from above
 function unmark(i){
     let markSentence = document.getElementById(`inpsent${i}`);
     markSentence.classList.remove('mouseover');
@@ -32,10 +38,31 @@ document.getElementById("detailclosebutton").addEventListener("click", function(
     document.getElementById("detailbox").style.display = "none";
     document.getElementById("detailclosebutton").style.display = "none";
 })
+// clear old input on new input
+async function inputClear(i) {
+    console.log(i);
+    let cut;
+    if(i.data == null && i.inputType != "insertLineBreak"){
+        cut = await navigator.clipboard.readText();
+    } else{
+        cut = i.data;
+    }
+    textarea.textContent = cut;
+    textarea.removeEventListener('input', inputClear);
+}
+// run on Enter
+textarea.addEventListener('keypress', (e) => {
+    if (e.key == "Enter") {
+        run();
+    }
+});
 
-runbutton.addEventListener('click', function() {
+runbutton.addEventListener('click', run);
+// run program/algorithm
+function run() {
     // clear the output area
-    //output.innerHTML = "";
+    output.innerHTML = "";
+    console.log(textarea.textContent);
     if (textarea.textContent.trim().length < 1){
         alert("The input can not be empty.");
         return;
@@ -70,76 +97,78 @@ runbutton.addEventListener('click', function() {
         let newText = document.createElement('div');
 
         for (let i = 0; i < data.inputSentenized.length; i++){
-            const temp = document.createElement('span');
-            temp.id = `inpsent${i}`;
-            temp.textContent = data.inputSentenized[i].trim()+' ';
-            newText.appendChild(temp);
+            const articleUse = document.createElement('span');
+            articleUse.id = `inpsent${i}`;
+            articleUse.textContent = data.inputSentenized[i].trim()+' ';
+            newText.appendChild(articleUse);
         }
 
         textarea.appendChild(newText);
+
+        textarea.addEventListener('input', inputClear);
         
         // Add titles to sentences with similarity percent + add color matching percentage + add mark function
         for (let i = 0; i < data.articles.length; i++) {
-            let newElement = document.createElement("div");
-            let cur = data.articles[i];
-            let temp = 0;
+            let articleDiv = document.createElement("div");
+            let curArticle = data.articles[i];
+            let articleUse = false;
             data.articles[i].sentences.forEach(element => {
                 if (element.percentage > 50){
-                    temp = 1;
+                    articleUse = true;
+                    matchcheck = true
                 }
             });
 
-            if (temp == 1){
-                let newh3 = document.createElement("h3");
-                newh3.innerText = data.articles[i].title;
-
-                newh3.addEventListener("click", () => {
+            if (articleUse == 1){
+                let articleTitle = document.createElement("h3");
+                articleTitle.innerText = data.articles[i].title;
+                // Make article title clickable that opens detailbox
+                articleTitle.addEventListener("click", () => {
                     //results:
-                    document.getElementById('jaccardSimilarity').innerHTML = `Final Jaccard Similarity: ${cur.jaccard}%`;
-                    document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: ${cur.cosine}%`;
-                    document.getElementById('averageSimilarity').innerHTML = `Average Similarity: ${cur.average}%`;
-                    document.getElementById('articlelink').innerHTML = `<a href="${cur.link}">Link to article</a>`;
-                    document.getElementById('plagtype').innerHTML = `Plagiarism Type: <br> ${plagtype(data.articles[i].average)} `;
+                    document.getElementById('jaccardSimilarity').innerHTML = `Final Jaccard Similarity: ${curArticle.jaccard}%`;
+                    document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: ${curArticle.cosine}%`;
+                    document.getElementById('averageSimilarity').innerHTML = `Average Similarity: ${curArticle.average}%`;
+                    document.getElementById('articlelink').innerHTML = `<a href="${curArticle.link}">Link to article</a>`;
+                    // document.getElementById('plagtype').innerHTML = `Plagiarism Type: <br> ${plagtype(data.articles[i].average)} `;
                     // open detailbox
                     document.getElementById('detailbox').style.display = "block";
                     document.getElementById('detailclosebutton').style.display = "block";
                 });
 
-                newElement.appendChild(newh3);
+                articleDiv.appendChild(articleTitle);
             }
-
+            // add color and mark/unmark functions to output sentences
             for(let j = 0; j < data.articles[i].sentences.length; j++) {
                 if (data.articles[i].sentences[j].percentage > 50.0){
                     document.getElementById(`inpsent${data.articles[i].sentences[j].inputIndex}`).classList.add("markedSent");
-                    let newP = document.createElement("p");
-                    newP.innerText = data.articles[i].sentences[j].content;
-                    newP.title = data.articles[i].sentences[j].percentage+"%";
-                    newP.addEventListener("mouseover", () => mark(data.articles[i].sentences[j].inputIndex));
-                    newP.addEventListener("mouseout", () => unmark(data.articles[i].sentences[j].inputIndex));
+                    let outputSent = document.createElement("p");
+                    outputSent.innerText = data.articles[i].sentences[j].content;
+                    outputSent.title = data.articles[i].sentences[j].percentage+"%";
+                    outputSent.addEventListener("mouseover", () => mark(data.articles[i].sentences[j].inputIndex));
+                    outputSent.addEventListener("mouseout", () => unmark(data.articles[i].sentences[j].inputIndex));
                     if (data.articles[i].sentences[j].percentage > 90) {
-                        newP.className = "sentence90";
+                        outputSent.className = "sentence90";
                     }
                     else if (data.articles[i].sentences[j].percentage > 80){
-                        newP.className = "sentence80";
+                        outputSent.className = "sentence80";
                     }
                     else if (data.articles[i].sentences[j].percentage > 70){
-                        newP.className = "sentence70";
+                        outputSent.className = "sentence70";
                     }
                     else if (data.articles[i].sentences[j].percentage > 60){
-                        newP.className = "sentence60";
+                        outputSent.className = "sentence60";
                     }
                     else if (data.articles[i].sentences[j].percentage > 50){
-                        newP.className = "sentence50";
+                        outputSent.className = "sentence50";
                     }
-                    newElement.appendChild(newP);
+                    articleDiv.appendChild(outputSent);
                 }
             }
-            output.appendChild(newElement);
+            output.appendChild(articleDiv);
         }
-        match = output.innerHTML.search(/class/gmi);
-        console.log(match)
-        if (match==-1) { 
-            output.innerHTML = '<h3>No Matches found</h3>';
+        // Ensure proper output for when no matching sentences
+        if (matchcheck == 0) { 
+            output.innerHTML = '<h2>No Matches found</h2>';
         }
         
         document.getElementById('newScanButton').style.display = 'block'
