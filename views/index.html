@@ -3,16 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Copy Buster</title>
+    <title>PlaqDoc</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="icon.png">
 </head>
 <body>
+    <div class="logo">
+        <img src="/logo.png" alt="Logo" style="width: 500px; height: auto;">
+    </div>
     
     <div class="content-wrapper">
         <!--Input box + animation-->
         <div class="container">
             <div id="inputContent" contentEditable="plaintext-only" class="textarea"></div>
-            <button id="runbutton">check plagiarism</button>
+            <div class="button-container">
+                <button id="runbutton">check plagiarism</button>
+                <button id="newScanButton" style="display: none;">new scan</button>
+            </div>
             <div class="animation"></div>
             
         </div>
