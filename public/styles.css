@@ -59,23 +59,6 @@ h3 {
     display: none;
 }
 
-/*.result-container {
-    width: 90%;
-    margin: 0 auto;
-    display: none;
-    float: right;
-    pointer-events: all;
-    height: 500px;
-    font-size: 16px;
-    background-color: #e3e1dc;
-    border: 2px solid #000;
-    border-radius: 30px;
-    margin-bottom: 20px;
-    padding: 10px;
-    overflow-y: auto;
-    text-align: justify;
-}*/
-
 #detailbox {
     position: fixed;
     top: 50%; 
@@ -100,10 +83,10 @@ h3 {
 }
 
 #runbutton {
-    background-color: #d09b08;
+    background-color: #c1c1c1;
     color: #000000;
-    font-style: italic;
-    font-size: 18px;
+    font-size: 20px;
+    font-family: "Bahnschrift";
     border: 2px solid #000;
     border-radius: 30px;
     cursor: pointer;
@@ -114,29 +97,11 @@ h3 {
     margin: 0 auto;
 }
 
-#newScanButton {
-    background-color: #d09b08;
-    color: #000000;
-    font-style: italic;
-    font-size: 18px;
-    border: 2px solid #000;
-    border-radius: 30px;
-    cursor: pointer;
-    width: 240px;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    display: block;
-    justify-content: flex-end;
-    margin-right: 10px;
-    margin-left: 30px;
-}
-
 #detailclosebutton {
     font-size: 20px;
     margin: 5px;
     cursor: pointer;
-    background-color: #d09b08;
+    background-color: #c1c1c1;
     border: solid#000;
     border-radius: 30px;
     display: none;

@@ -21,7 +21,6 @@ function plagtype(percent){
 }
 */
 
-}*/
 // add mouseover mark to output sentence on input sentence
 function mark(i){
     let markSentence = document.getElementById(`inpsent${i}`);
@@ -38,31 +37,11 @@ document.getElementById("detailclosebutton").addEventListener("click", function(
     document.getElementById("detailbox").style.display = "none";
     document.getElementById("detailclosebutton").style.display = "none";
 })
-// clear old input on new input
-async function inputClear(i) {
-    console.log(i);
-    let cut;
-    if(i.data == null && i.inputType != "insertLineBreak"){
-        cut = await navigator.clipboard.readText();
-    } else{
-        cut = i.data;
-    }
-    textarea.textContent = cut;
-    textarea.removeEventListener('input', inputClear);
-}
-// run on Enter
-textarea.addEventListener('keypress', (e) => {
-    if (e.key == "Enter") {
-        run();
-    }
-});
 
-runbutton.addEventListener('click', run);
-// run program/algorithm
+// run function
 function run() {
     // clear the output area
     output.innerHTML = "";
-    console.log(textarea.textContent);
     if (textarea.textContent.trim().length < 1){
         alert("The input can not be empty.");
         return;
@@ -103,9 +82,12 @@ function run() {
             newText.appendChild(articleUse);
         }
 
-        textarea.appendChild(newText);
+        //Fix red marking on appended text
+        let extraSpace = document.createElement('span');
+        extraSpace.textContent = " ";
+        newText.appendChild(extraSpace);
 
-        textarea.addEventListener('input', inputClear);
+        textarea.appendChild(newText);
         
         // Add titles to sentences with similarity percent + add color matching percentage + add mark function
         for (let i = 0; i < data.articles.length; i++) {
@@ -166,13 +148,12 @@ function run() {
             }
             output.appendChild(articleDiv);
         }
+
         // Ensure proper output for when no matching sentences
         if (matchcheck == 0) { 
             output.innerHTML = '<h2>No Matches found</h2>';
         }
         
-        document.getElementById('newScanButton').style.display = 'block'
-
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -180,8 +161,14 @@ function run() {
         animationDiv.style.display = 'none';
         animationDiv.classList.remove('active');
     });
+};
+
+// run on Enter
+textarea.addEventListener('keypress', (e) => {
+    if (e.key == "Enter") {
+        run();
+    }
 });
 
-document.getElementById('newScanButton').addEventListener('click', function() {
-    location.reload();
-});
+// run on button
+runbutton.addEventListener('click', run);
