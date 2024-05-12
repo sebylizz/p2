@@ -165,7 +165,7 @@ function run() {
 
 // run on Enter
 textarea.addEventListener('keypress', (e) => {
-    if (e.key == "Enter") {
+    if (e.key == "Enter" && !e.getModifierState("Shift")) {
         run();
     }
 });

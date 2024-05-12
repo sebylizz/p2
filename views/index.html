@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PlaqDoc</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="icon" type="image/png" href="/icon.png">
 </head>
 <body>
     <div class="logo">
@@ -13,38 +13,41 @@
     </div>
     
     <div class="content-wrapper">
-        <!--Input box + animation-->
-        <div id="leftside" class="container">
-            <div id="inputContent" contentEditable="plaintext-only" class="textarea"></div>
-            <button id="runbutton">Check plagiarism</button>
-        </div>
-
-        <!-- Detailbox with extra info-->
-        <div id="detailbox">
-            <button id="detailclosebutton">&times;</button>
-            <p>Details:</p>
-            <table class="info-table">
-                <tr>
-                    <td id="jaccardSimilarity">Jaccard Similarity:</td>
-                    <td id="averageSimilarity">Average/overall Similiary:</td>
-                </tr>
-                <tr>
-                    <td id="cosineSimilarity">Cosine Similarity:</td>
-                    <td id="articlelink">Link to article:</td>
-                </tr>
-            </table>
-            <p id="plagtype">Plagiarism Type:</p>
-        </div> 
-
-        <!-- output box-->
-        <div id="rightside" class="container">
-            <div id="articleContent" class="textarea">
+        <div class="box">
+            <!--Input box-->
+            <div id="leftside" class="container">
+                <div id="inputContent" contentEditable="plaintext-only" class="textarea"></div>
+                <button id="runbutton">Check plagiarism</button>
             </div>
+
+            <!-- output box-->
+            <div id="rightside" class="container">
+                <div id="articleContent" class="textarea">
+                </div>
+            </div>   
         </div>
 
         <div class="animation"></div>
-    
+
     </div>
+
+    <!-- Detailbox with extra info-->
+    <div id="detailbox">
+        <button id="detailclosebutton">&times;</button>
+        <p>Details:</p>
+        <table class="info-table">
+            <tr>
+                <td id="jaccardSimilarity">Jaccard Similarity:</td>
+                <td id="averageSimilarity">Average/overall Similiary:</td>
+            </tr>
+            <tr>
+                <td id="cosineSimilarity">Cosine Similarity:</td>
+                <td id="articlelink">Link to article:</td>
+            </tr>
+        </table>
+        <p id="plagtype">Plagiarism Type:</p>
+    </div> 
+
     <script src="script.js"></script>
     
 </body>
