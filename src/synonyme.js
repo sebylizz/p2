@@ -5,7 +5,7 @@ const levenshtein = require('./levenshtein');
 function wordreplacer(input, databasesentence){
 
     // fjerner mellemrum og andre tegn + den laver alle ord til lowercase
-    input = input.replace(/[^"'\w ]/g, '').toLowerCase().split(" ");
+    input = input.replace(/[^"'%-\w ]/g, '').toLowerCase().split(" ");
     databasesentence = databasesentence.replace(/[^\w ]/g, '').toLowerCase().split(" ");
 
     // kopierer input over i et array
@@ -48,7 +48,7 @@ function wordreplacer(input, databasesentence){
                 let word = input[i];
                 let idx = originalinput.indexOf(word);
                 originalinput[idx] = databasesentence[j];
-            } else if (levenshtein(input[i], databasesentence[j]) > 0.50){
+            } else if (levenshtein(input[i], databasesentence[j]) > 0.90){
                 let word = input[i];
                 let idx = originalinput.indexOf(word);
                 originalinput[idx] = databasesentence[j];

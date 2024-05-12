@@ -166,12 +166,17 @@ function run() {
             output.innerHTML = '<h2>No Matches found</h2>';
         }
         
+        document.getElementById('newScanButton').style.display = 'block'
+
     })
-    // error for when algorithm fails
     .catch((error) => {
         console.error('Error:', error);
         resultDisplay.textContent = 'Error calculating similarity. Please try again.';
         animationDiv.style.display = 'none';
         animationDiv.classList.remove('active');
     });
-};
+});
+
+document.getElementById('newScanButton').addEventListener('click', function() {
+    location.reload();
+});
