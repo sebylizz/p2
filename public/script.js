@@ -136,6 +136,8 @@ runbutton.addEventListener('click', function() {
             output.innerHTML = '<h3>No Matches found</h3>';
         }
         
+        document.getElementById('newScanButton').style.display = 'block'
+
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -143,4 +145,8 @@ runbutton.addEventListener('click', function() {
         animationDiv.style.display = 'none';
         animationDiv.classList.remove('active');
     });
+});
+
+document.getElementById('newScanButton').addEventListener('click', function() {
+    location.reload();
 });
