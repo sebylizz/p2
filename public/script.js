@@ -133,7 +133,7 @@ function run() {
         textarea.contentEditable = false;
 
         // Ensure proper output for when no matching sentences
-        if (matchcheck == 0) { 
+        if (matchcheck =! true) { 
             output.innerHTML = '<h2>No Matches found</h2>';
         }
         
