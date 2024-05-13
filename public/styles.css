@@ -70,9 +70,7 @@ h3 {
     left: 50%; 
     transform: translate(-50%, -50%); 
     width: 70%;
-    height: 70%;
     font-size: 30px;
-    font-style: italic;
     color: black;
     border: 2px solid #000;
     border-radius: 30px;
