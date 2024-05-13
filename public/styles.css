@@ -83,7 +83,7 @@ h3 {
     box-sizing: border-box;
 }
 
-#runbutton {
+.button {
     background-color: #c1c1c1;
     color: #000000;
     font-size: 20px;
@@ -91,11 +91,19 @@ h3 {
     border: 2px solid #000;
     border-radius: 30px;
     cursor: pointer;
-    width: 240px;
-    height: 50px;
-    text-align: center;
+    width: 220px;
+    height: 60px;
     display: block;
+}
+
+#runButton {
     margin: 0 auto;
+}
+
+#clearButton {
+    display: none;
+    float: right;
+    margin-right: 90px;
 }
 
 #detailclosebutton {

@@ -1,25 +1,8 @@
 const textarea = document.getElementById('inputContent');
-const runbutton = document.getElementById('runbutton');
+const runButton = document.getElementById('runButton');
+const clearButton = document.getElementById('clearButton');
 const animationDiv = document.querySelector('.animation')
 const output = document.getElementById("articleContent");
-
-/*
-Determin plagiarism type and returns most likely
-function plagtype(percent){
-    callcounter =+ 1;
-    if (callcounter == 2){
-        return "Patchwork"
-    }
-    callcounter =+ 1;
-    if (callcounter == 2){
-        return "Patchwork"
-    }
-    if (percent> 80){
-        return "global"
-    }
-    else return "verbatim"
-}
-*/
 
 // add mouseover mark to output sentence on input sentence
 function mark(i){
@@ -82,11 +65,6 @@ function run() {
             newText.appendChild(articleUse);
         }
 
-        //Fix red marking on appended text
-        let extraSpace = document.createElement('span');
-        extraSpace.textContent = " ";
-        newText.appendChild(extraSpace);
-
         textarea.appendChild(newText);
         
         // Add titles to sentences with similarity percent + add color matching percentage + add mark function
@@ -97,7 +75,7 @@ function run() {
             data.articles[i].sentences.forEach(element => {
                 if (element.percentage > 50){
                     articleUse = true;
-                    matchcheck = true
+                    matchcheck = true;
                 }
             });
 
@@ -149,6 +127,11 @@ function run() {
             output.appendChild(articleDiv);
         }
 
+        clearButton.style.display = 'block';
+        runButton.style.marginLeft = "90px";
+        runButton.style.float = "left";
+        textarea.contentEditable = false;
+
         // Ensure proper output for when no matching sentences
         if (matchcheck == 0) { 
             output.innerHTML = '<h2>No Matches found</h2>';
@@ -171,4 +154,4 @@ textarea.addEventListener('keypress', (e) => {
 });
 
 // run on button
-runbutton.addEventListener('click', run);
+runButton.addEventListener('click', run);
