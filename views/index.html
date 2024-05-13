@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PlaqDoc</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="icon" type="image/png" href="/icon.png">
 </head>
 <body>
     <div class="logo">
@@ -13,21 +13,27 @@
     </div>
     
     <div class="content-wrapper">
-        <!--Input box + animation-->
-        <div class="container">
-            <div id="inputContent" contentEditable="plaintext-only" class="textarea"></div>
-            <div class="button-container">
-                <button id="runbutton">check plagiarism</button>
-                <button id="newScanButton" style="display: none;">new scan</button>
+        <div class="box">
+            <!--Input box-->
+            <div id="leftside" class="container">
+                <div id="inputContent" contentEditable="plaintext-only" class="textarea"></div>
+                <button id="runButton" class="button">Check plagiarism</button>
+                <button id="clearButton" class="button" onclick="location.reload()">Clear</button>
             </div>
-            <div class="animation"></div>
-            
+
+            <!-- output box-->
+            <div id="rightside" class="container">
+                <div id="articleContent" class="textarea">
+                </div>
+            </div>   
         </div>
 
-        <!-- Detailbox with extra info-->
+        <div class="animation"></div>
+
+            <!-- Detailbox with extra info-->
         <div id="detailbox">
             <button id="detailclosebutton">&times;</button>
-            <p>Details:</p>
+            <p><b>Details</b></p>
             <table class="info-table">
                 <tr>
                     <td id="jaccardSimilarity">Jaccard Similarity:</td>
@@ -38,15 +44,10 @@
                     <td id="articlelink">Link to article:</td>
                 </tr>
             </table>
-            
-            <p id="plagtype">Plagiarism Type:</p>
+            <!-- <p id="plagtype">Plagiarism Type:</p> -->
         </div> 
-
-        <!-- output box-->
-        <div id="articleContent" class="result-container">
-        </div>
-    
     </div>
+
     <script src="script.js"></script>
     
 </body>
