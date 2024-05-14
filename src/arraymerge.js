@@ -23,6 +23,7 @@ function mergeDocArrays(cos, jac){
     return arr;
 }
 
+// merge final sentence jaccard + cosine
 function mergeSentArrays(cos, jac){
     for(let i = 0; i < jac.length; i++){
         let found = 0;

@@ -8,7 +8,7 @@ function wordreplacer(input, databasesentence){
     input = input.replace(/[^"'%-\w ]/g, '').toLowerCase().split(" ");
     databasesentence = databasesentence.replace(/[^\w ]/g, '').toLowerCase().split(" ");
 
-    // kopierer input over i et array
+    // kopierer inputarray over i originalarray
     let originalinput = [...input];
 
     // replacer alle ord i begge sætninger som er ens med en tom string

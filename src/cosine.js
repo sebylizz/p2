@@ -38,7 +38,7 @@ function paragraphs (input, articles, idf){
     const threshold = 0.1;
     let arts = [];
 
-    let idx = 0, max = 0, winner = 0;
+    let idx = 0;
     while(idx < articles.length){
         const doc1 = proc(input, idf);
         let doc2 = proc(articles[idx].content, idf);
