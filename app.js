@@ -98,7 +98,6 @@ app.post('/', async(request, response) => {
             curCheck = finalArr[i][3];
             let obj = {};
             obj.title = articles[finalArr[i][3]].title;
-            obj.fullContent = articles[finalArr[i][3]].content;
             obj.sentences = [];
             const idx = docArray.findIndex(e => e[0] == finalArr[i][3]);
             obj.cosine = docArray[idx][1];
