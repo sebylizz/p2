@@ -3,6 +3,7 @@ const runButton = document.getElementById('runButton');
 const clearButton = document.getElementById('clearButton');
 const animationDiv = document.querySelector('.animation')
 const output = document.getElementById("articleContent");
+let matchCheck = false;
 
 // add mouseover mark to output sentence on input sentence
 function mark(i){
@@ -53,16 +54,16 @@ function run() {
         animationDiv.style.display = 'none';
         animationDiv.classList.remove('active');
 
-        // WIP: Replacer input med sentenized input
+        // Replacer input med sentenized input
         textarea.textContent = "";
 
         let newText = document.createElement('div');
 
         for (let i = 0; i < data.inputSentenized.length; i++){
-            const articleUse = document.createElement('span');
-            articleUse.id = `inpsent${i}`;
-            articleUse.textContent = data.inputSentenized[i].trim()+' ';
-            newText.appendChild(articleUse);
+            const newSent = document.createElement('span');
+            newSent.id = `inpsent${i}`;
+            newSent.textContent = data.inputSentenized[i].trim()+' ';
+            newText.appendChild(newSent);
         }
 
         textarea.appendChild(newText);
@@ -72,16 +73,16 @@ function run() {
             let articleDiv = document.createElement("div");
             let curArticle = data.articles[i];
             let articleUse = false;
-            data.articles[i].sentences.forEach(element => {
+            curArticle.sentences.forEach(element => {
                 if (element.percentage > 50){
                     articleUse = true;
-                    matchcheck = true;
+                    matchCheck = true;
                 }
             });
 
-            if (articleUse == 1){
+            if (articleUse == true){
                 let articleTitle = document.createElement("h3");
-                articleTitle.innerText = data.articles[i].title;
+                articleTitle.innerText = curArticle.title;
                 // Make article title clickable that opens detailbox
                 articleTitle.addEventListener("click", () => {
                     //results:
@@ -89,7 +90,7 @@ function run() {
                     document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: ${curArticle.cosine}%`;
                     document.getElementById('averageSimilarity').innerHTML = `Average Similarity: ${curArticle.average}%`;
                     document.getElementById('articlelink').innerHTML = `<a href="${curArticle.link}">Link to article</a>`;
-                    // document.getElementById('plagtype').innerHTML = `Plagiarism Type: <br> ${plagtype(data.articles[i].average)} `;
+                    // document.getElementById('plagtype').innerHTML = `Plagiarism Type: <br> ${plagtype(curArticle.average)} `;
                     // open detailbox
                     document.getElementById('detailbox').style.display = "block";
                     document.getElementById('detailclosebutton').style.display = "block";
@@ -98,27 +99,27 @@ function run() {
                 articleDiv.appendChild(articleTitle);
             }
             // add color and mark/unmark functions to output sentences
-            for(let j = 0; j < data.articles[i].sentences.length; j++) {
-                if (data.articles[i].sentences[j].percentage > 50.0){
-                    document.getElementById(`inpsent${data.articles[i].sentences[j].inputIndex}`).classList.add("markedSent");
+            for(let j = 0; j < curArticle.sentences.length; j++) {
+                if (curArticle.sentences[j].percentage > 50.0){
+                    document.getElementById(`inpsent${curArticle.sentences[j].inputIndex}`).classList.add("markedSent");
                     let outputSent = document.createElement("p");
-                    outputSent.innerText = data.articles[i].sentences[j].content;
-                    outputSent.title = data.articles[i].sentences[j].percentage+"%";
-                    outputSent.addEventListener("mouseover", () => mark(data.articles[i].sentences[j].inputIndex));
-                    outputSent.addEventListener("mouseout", () => unmark(data.articles[i].sentences[j].inputIndex));
-                    if (data.articles[i].sentences[j].percentage > 90) {
+                    outputSent.innerText = curArticle.sentences[j].content;
+                    outputSent.title = curArticle.sentences[j].percentage+"%";
+                    outputSent.addEventListener("mouseover", () => mark(curArticle.sentences[j].inputIndex));
+                    outputSent.addEventListener("mouseout", () => unmark(curArticle.sentences[j].inputIndex));
+                    if (curArticle.sentences[j].percentage > 90) {
                         outputSent.className = "sentence90";
                     }
-                    else if (data.articles[i].sentences[j].percentage > 80){
+                    else if (curArticle.sentences[j].percentage > 80){
                         outputSent.className = "sentence80";
                     }
-                    else if (data.articles[i].sentences[j].percentage > 70){
+                    else if (curArticle.sentences[j].percentage > 70){
                         outputSent.className = "sentence70";
                     }
-                    else if (data.articles[i].sentences[j].percentage > 60){
+                    else if (curArticle.sentences[j].percentage > 60){
                         outputSent.className = "sentence60";
                     }
-                    else if (data.articles[i].sentences[j].percentage > 50){
+                    else if (curArticle.sentences[j].percentage > 50){
                         outputSent.className = "sentence50";
                     }
                     articleDiv.appendChild(outputSent);
@@ -133,7 +134,7 @@ function run() {
         textarea.contentEditable = false;
 
         // Ensure proper output for when no matching sentences
-        if (matchcheck =! true) { 
+        if (matchCheck != true) { 
             output.innerHTML = '<h2>No Matches found</h2>';
         }
         
