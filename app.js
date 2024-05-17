@@ -47,8 +47,8 @@ app.post('/', async(request, response) => {
     let inputTranslated = await translator(inputSanitizer(request.body.text));
 
     // Document based similarity
-    let cosineDocSimilarity = cosineSimilarity(inputTranslated, articles, idfTable);
-    let jaccardDocSimilarity = jaccardSimilarity(inputTranslated, articles);
+    let cosineDocSimilarity = cosineSimilarity(inputTranslated[0], articles, idfTable);
+    let jaccardDocSimilarity = jaccardSimilarity(inputTranslated[0], articles);
     const docArray = mergeDocArrays(cosineDocSimilarity, jaccardDocSimilarity);
 
     // Backend console logging for debugging purposes
@@ -56,7 +56,7 @@ app.post('/', async(request, response) => {
                 `Jaccard identified articles:\n`, jaccardDocSimilarity, docArray, `Running sentences...`);
 
     // Sentenize user input
-    let inputTranslatedSentenized = sentenceConverter(inputTranslated);
+    let inputTranslatedSentenized = sentenceConverter(inputTranslated[0]);
 
     // Sentence based similarity
     const allArtsSentenized = sentenceConverterArr(articles);
@@ -68,9 +68,8 @@ app.post('/', async(request, response) => {
                 "\n\nJaccard similarity on sentences:\n", jaccardSentences);
 
     // Synonyme replacer and sentence based similarity on final input
-
-    let cosineFinalInput = synonymeConverter(inputTranslatedSentenized, allArtsSentenized, cosineSentences);
-    let jaccardFinalInput = synonymeConverter(inputTranslatedSentenized, allArtsSentenized, jaccardSentences);
+    let cosineFinalInput = (inputTranslated[1] != "en") ? synonymeConverter(inputTranslatedSentenized, allArtsSentenized, cosineSentences) : inputTranslatedSentenized;
+    let jaccardFinalInput = (inputTranslated[1] != "en") ? synonymeConverter(inputTranslatedSentenized, allArtsSentenized, jaccardSentences) : inputTranslatedSentenized;
 
     let cosineFinalResult = cosineSentSimilairty(cosineFinalInput, allArtsSentenized, docArray, idfTable);
     let jaccardFinalResult = jaccardSentSimilarity(jaccardFinalInput, allArtsSentenized, docArray);
