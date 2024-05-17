@@ -3,6 +3,8 @@
 function sanitizeinput(input) {
     let sanitize = input.replace(/\r?\n|\r/g, ' ');
 
+    sanitize = input.replace(/’/g, `'`);
+
     sanitize = sanitize.replace(/<[^>]+>/g, '');
 
     sanitize = sanitize.replace(/[\u00A0]/g, ' ').trim();
