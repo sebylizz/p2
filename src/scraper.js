@@ -69,5 +69,5 @@ if(process.argv.length == 3){
     });
 }
 else{
-    console.log("Usage: node sanitizearticle.js articlelink");
+    console.log("Usage: node scraper.js articlelink");
 }
