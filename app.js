@@ -17,6 +17,7 @@ const sentenceConverter = require('./src/sentenize').sentenize;
 const sentenceConverterArr = require('./src/sentenize').sentenizeArr;
 const synonymeConverter = require('./src/synonyme').exportSyn;
 const translator = require('./src/translate');
+const sanitizeinput = require('./src/sanitizeinput');
 const mergeDocArrays = require('./src/arraymerge').mergeDocArrays;
 const mergeSentArrays = require('./src/arraymerge').mergeSentArrays;
 const lightSentenize = require('./src/sentenize').lightSentenize;
@@ -45,6 +46,7 @@ app.post('/', async(request, response) => {
     let answers = {};
     
     let inputTranslated = await translator(inputSanitizer(request.body.text));
+    inputTranslated = sanitizeinput(inputTranslated);
 
     // Document based similarity
     let cosineDocSimilarity = cosineSimilarity(inputTranslated, articles, idfTable);
@@ -68,7 +70,6 @@ app.post('/', async(request, response) => {
                 "\n\nJaccard similarity on sentences:\n", jaccardSentences);
 
     // Synonyme replacer and sentence based similarity on final input
-
     let cosineFinalInput = synonymeConverter(inputTranslatedSentenized, allArtsSentenized, cosineSentences);
     let jaccardFinalInput = synonymeConverter(inputTranslatedSentenized, allArtsSentenized, jaccardSentences);
 
@@ -98,7 +99,6 @@ app.post('/', async(request, response) => {
             curCheck = finalArr[i][3];
             let obj = {};
             obj.title = articles[finalArr[i][3]].title;
-            obj.fullContent = articles[finalArr[i][3]].content;
             obj.sentences = [];
             const idx = docArray.findIndex(e => e[0] == finalArr[i][3]);
             obj.cosine = docArray[idx][1];

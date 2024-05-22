@@ -3,6 +3,7 @@ const runButton = document.getElementById('runButton');
 const clearButton = document.getElementById('clearButton');
 const animationDiv = document.querySelector('.animation')
 const output = document.getElementById("articleContent");
+let matchcheck = false;
 
 // add mouseover mark to output sentence on input sentence
 function mark(i){
@@ -89,7 +90,6 @@ function run() {
                     document.getElementById('cosineSimilarity').innerHTML = `Final Cosine Similarity: ${curArticle.cosine}%`;
                     document.getElementById('averageSimilarity').innerHTML = `Average Similarity: ${curArticle.average}%`;
                     document.getElementById('articlelink').innerHTML = `<a href="${curArticle.link}">Link to article</a>`;
-                    // document.getElementById('plagtype').innerHTML = `Plagiarism Type: <br> ${plagtype(data.articles[i].average)} `;
                     // open detailbox
                     document.getElementById('detailbox').style.display = "block";
                     document.getElementById('detailclosebutton').style.display = "block";
@@ -133,7 +133,7 @@ function run() {
         textarea.contentEditable = false;
 
         // Ensure proper output for when no matching sentences
-        if (matchcheck =! true) { 
+        if (matchcheck == false) { 
             output.innerHTML = '<h2>No Matches found</h2>';
         }
         

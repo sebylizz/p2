@@ -3,6 +3,14 @@
 function sanitizeinput(input) {
     let sanitize = input.replace(/\r?\n|\r/g, ' ');
 
+    sanitize = sanitize.replace(/[\x00-\x1F\x7F]/g, '');
+
+    sanitize = sanitize.replace(/‘|’|‚|‛/g, "'");
+
+    sanitize = sanitize.replace(/“|”|„|«|»|"/g, '"');
+
+    sanitize = sanitize.replace(/\.{3}/g, '…');
+
     sanitize = sanitize.replace(/<[^>]+>/g, '');
 
     sanitize = sanitize.replace(/[\u00A0]/g, ' ').trim();
