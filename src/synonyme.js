@@ -5,8 +5,8 @@ const levenshtein = require('./levenshtein');
 function wordreplacer(input, databasesentence){
 
     // removes spaces and other characters
-    input = input.replace(/[^"'%-\w ]/g, '').toLowerCase().split(" ");
-    databasesentence = databasesentence.replace(/[^\w ]/g, '').toLowerCase().split(" ");
+    input = input.replace(/[^"…'%-\w ]/g, '').toLowerCase().split(" ");
+    databasesentence = databasesentence.replace(/[^"…'%-\w ]/g, '').toLowerCase().split(" ");
 
     // copies input sentence into another array
     let originalinput = [...input];
