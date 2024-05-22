@@ -2,6 +2,7 @@ function idftable(db){
     const total = db.length;
     let arr = {};
 
+    // matches every word, puts them to lower case and puts them into array if the word is unique
     for(let i = 0; i < db.length; i++){
         if(!db[i].content){continue;}
         let ws = db[i].content.replace(/[^a-zA-Z0-9 ]/g, '').split(" ");
@@ -18,6 +19,7 @@ function idftable(db){
         }
     }
 
+    // weighs every word in the array
     let results = [];
     for(let w in arr){
         results.push([w, parseFloat(Math.log2(total / arr[w]).toFixed(7))]);

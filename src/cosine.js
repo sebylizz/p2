@@ -1,9 +1,11 @@
+// Subroutine for creating a word-vector from a single document
 function proc(doc, idf){
     if(!doc){return []}
     let words = doc.split(" ");
     let wordArr = [];
     let lnth = words.length;
 
+    // Counting the occurence of each word
     for(let i = 0; i < words.length; i++){
         let w = words[i].replace(/[^\w]/g, '').toLowerCase();
         if(!w){lnth--; continue;}
@@ -19,6 +21,7 @@ function proc(doc, idf){
         if(found === 0){wordArr.push([w, 1])}
     }
 
+    // Calculating the value of the word (IDF * occurence). Defaults 1 if not in IDF table
     for(let i = 0; i < wordArr.length; i++){
         wordArr[i][1] /= lnth;
         let weight;
@@ -35,10 +38,12 @@ function proc(doc, idf){
 
 function paragraphs (input, articles, idf){
 
+    // Document threshold: Higher is better runtime, but fewer matches
     const threshold = 0.1;
     let arts = [];
+    let idx = 0;
 
-    let idx = 0, max = 0, winner = 0;
+    // Implementation of the cosine similarity algorithm, first by merging the arrays
     while(idx < articles.length){
         const doc1 = proc(input, idf);
         let doc2 = proc(articles[idx].content, idf);
@@ -63,6 +68,7 @@ function paragraphs (input, articles, idf){
             }
         }
 
+        // Calculating the dot product and length of the vectors
         let dot = 0, e1 = 0, e2 = 0;
         for(let i = 0; i < bigger.length; i++){
             dot += bigger[i][1]*bigger[i][2];
@@ -71,8 +77,9 @@ function paragraphs (input, articles, idf){
         }
         e1 = Math.sqrt(e1);
         e2 = Math.sqrt(e2);
-    
         let temp = dot/(e1*e2);
+
+        // Adding to result array if above threshold
         if(temp > threshold){
             arts.push([parseFloat((temp*100).toFixed(2)), idx]);
         }
@@ -82,6 +89,8 @@ function paragraphs (input, articles, idf){
     return arts;
 }
 
+// Variation of the algorithm, this time running on arrays of sentences
+// Third parameter is the result of the document-based algorithm
 function sentences (input, articles, deets, idf){
 
     let results = [];
@@ -128,8 +137,9 @@ function sentences (input, articles, deets, idf){
                     max = temp;
                 }
             }
-
             max = parseFloat((max*100).toFixed(2));
+
+            // Making sure to only pass the most similar sentence across all articles
             let found = 0;
             for(let ii = 0; ii < results.length; ii++){
                 if(results[ii][0] == id && max > results[ii][2]){

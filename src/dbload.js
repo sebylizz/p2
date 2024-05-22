@@ -15,6 +15,7 @@ function load(){
             arr.push(row);
         }, () => {
             resolve(arr);
+            db.close();
         });
     });
 }

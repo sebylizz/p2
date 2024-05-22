@@ -1,17 +1,17 @@
 const synonymedict = require('word-thesaurus');
 const levenshtein = require('./levenshtein');
 
-// function som kopierer en input sætning og tjekker om nogen ord kan udskiftes med en databasesentence hvis det er synonymer og derefter udskifter
+// copies input sentence and checks if some words can we replaced from databasesentence words and then replaces them if they're synonyms or levenshtein
 function wordreplacer(input, databasesentence){
 
-    // fjerner mellemrum og andre tegn + den laver alle ord til lowercase
-    input = input.replace(/[^"'%-\w ]/g, '').toLowerCase().split(" ");
-    databasesentence = databasesentence.replace(/[^\w ]/g, '').toLowerCase().split(" ");
+    // removes spaces and other characters
+    input = input.replace(/[^"…'%-\w ]/g, '').toLowerCase().split(" ");
+    databasesentence = databasesentence.replace(/[^"…'%-\w ]/g, '').toLowerCase().split(" ");
 
-    // kopierer input over i et array
+    // copies input sentence into another array
     let originalinput = [...input];
 
-    // replacer alle ord i begge sætninger som er ens med en tom string
+    // replaces all words in both sentences, which are the same, with an empty string
     for (let i = 0; i < input.length; i++){
         for (let j = 0; j < databasesentence.length; j++){
             if (input[i] === databasesentence[j]){
@@ -21,7 +21,7 @@ function wordreplacer(input, databasesentence){
         }
     }
     
-    // fjerner alle tomme strings i begge sætninger
+    // removes all empty strings from input sentence
     let i = 0;
     while (i < input.length){
         if (input[i] === ""){
@@ -31,7 +31,7 @@ function wordreplacer(input, databasesentence){
         }
     }
 
-    // fjerner tomme strings
+    // removes all empty strings from database sentence
     i = 0;
     while (i < databasesentence.length){
         if (databasesentence[i] === ""){
@@ -41,7 +41,7 @@ function wordreplacer(input, databasesentence){
         }
     }
     
-    // tjekker om de to ord i arrayesne er synonymer med hinanden og eller har en levenshtein distance % på over 40 og udskifter ordet som er et synonym med index pladsen i originalinput
+    // checks if both words from sentences are synonyms or has a levenshtein distance > 90%, and if so, copies database sentence word into the copied input sentence array on the index of which the word was found
     for (let i = 0; i < input.length; i++){
         for (let j = 0; j < databasesentence.length; j++){
             if (synonyme(input[i], databasesentence[j])){
@@ -56,12 +56,12 @@ function wordreplacer(input, databasesentence){
         }
     }
 
-    // returner originalinput men i string form med mellemrum og ikke arrayform
+    // returns the new array in string form
     return originalinput.join(" ");
 
 }
 
-// funktion som tager 2 word som input og returner false hvis den ikke kan finde word 1 eller at det er tomt men returner true hvis den finder synonymer
+// takes two words as input and returns false if word1 doesnt have any synonyms and true if word2 is a synonyme with word1
 function synonyme(word1, word2){
 
     let tempord = synonymedict.search(word1);
@@ -75,6 +75,7 @@ function synonyme(word1, word2){
     return false;
 }
 
+// function which determines which sentences from input should be compared with which sentence from database sentence
 function exportSyn(inp, art, deets){
     let arr = [];
     for(let i = 0; i < deets.length; i++){
