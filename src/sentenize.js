@@ -66,6 +66,7 @@ function lightSentenize(article){
     }
     article = article.replaceAll(/(?<= [A-Z])\.(?= )/gm, 'Ж');
     article = article.replaceAll(/(?<=[0-9])\.(?=[0-9])/gm, 'Ж');
+    article = article.replaceAll(/(?<=[0-9])\.(?= )/gm, 'Ж');
     article = article.replaceAll(/(?<=[1-9]|[12][0-9]|3[01])\.(?= (?=januar|februar|marts|april|maj|juni|juli|august|september|oktober|november|december|jan|feb|mar|apr|jun|jul|sep|okt|nov|dec))/gmi, 'Ж');
     const regex = new RegExp(`(?<=[.?!:])`, 'g');
     let arr = article.split(regex);
