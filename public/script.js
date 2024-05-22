@@ -74,7 +74,7 @@ function run() {
             let curArticle = data.articles[i];
             let articleUse = false;
             data.articles[i].sentences.forEach(element => {
-                if (element.percentage > 50){
+                if (element.percentage > 25){
                     articleUse = true;
                     matchcheck = true;
                 }
@@ -99,7 +99,7 @@ function run() {
             }
             // add color and mark/unmark functions to output sentences
             for(let j = 0; j < data.articles[i].sentences.length; j++) {
-                if (data.articles[i].sentences[j].percentage > 50.0){
+                if (data.articles[i].sentences[j].percentage > 25.0){
                     document.getElementById(`inpsent${data.articles[i].sentences[j].inputIndex}`).classList.add("markedSent");
                     let outputSent = document.createElement("p");
                     outputSent.innerText = data.articles[i].sentences[j].content;
@@ -120,6 +120,12 @@ function run() {
                     }
                     else if (data.articles[i].sentences[j].percentage > 50){
                         outputSent.className = "sentence50";
+                    }
+                    else if (data.articles[i].sentences[j].percentage > 40){
+                        outputSent.className = "sentence40";
+                    }
+                    else if (data.articles[i].sentences[j].percentage > 25){
+                        outputSent.className = "sentence25";
                     }
                     articleDiv.appendChild(outputSent);
                 }

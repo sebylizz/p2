@@ -152,18 +152,23 @@ h3 {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
+.sentence25 {
+    background-color: #918941;
+}
+.sentence40 {
+    background-color: yellow;
+}
 .sentence50 {
-    background-color: hsl(60, 100%, 48%);
+    background-color: hsl(0, 81%, 76%);
 }
 .sentence60 {
-    background-color: hsl(0, 81%, 75%);
+    background-color: hsl(0, 78%, 69%);
 }
 .sentence70 {
-    background-color: hsl(0, 87%, 69%);
+    background-color: hsl(0, 76%, 60%);
 }
 .sentence80{
-    background-color: hsl(0, 96%, 67%);
+    background-color: hsl(0, 81%, 59%);
 }
 .sentence90{
     background-color: hsl(0, 100%, 50%);
