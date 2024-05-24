@@ -2,7 +2,7 @@ body, html {
     font-family: Arial, sans-serif;
     background: linear-gradient(to bottom, #262626, #5d5d5d);
     height: 100%;
-    min-height: 100%;
+    background-attachment: fixed;
 }
 
 .logo {
@@ -153,17 +153,23 @@ h3 {
     100% { transform: rotate(360deg); }
 }
 
+.sentence25 {
+    background-color: #918941;
+}
+.sentence40 {
+    background-color: yellow;
+}
 .sentence50 {
-    background-color: hsl(60, 100%, 48%);
+    background-color: hsl(0, 81%, 76%);
 }
 .sentence60 {
-    background-color: hsl(0, 81%, 75%);
+    background-color: hsl(0, 78%, 69%);
 }
 .sentence70 {
-    background-color: hsl(0, 87%, 69%);
+    background-color: hsl(0, 76%, 60%);
 }
 .sentence80{
-    background-color: hsl(0, 96%, 67%);
+    background-color: hsl(0, 81%, 59%);
 }
 .sentence90{
     background-color: hsl(0, 100%, 50%);

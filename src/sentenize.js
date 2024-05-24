@@ -1,5 +1,7 @@
 const abbreviations = [
     " e.g.",
+    " v.",
+    " vs.",
     " i.e.",
     " etc.",
     " Mr.",
@@ -62,11 +64,11 @@ const abbreviations = [
 
 function lightSentenize(article){
     for(x of abbreviations){
-        article = article.replaceAll(x, x.replaceAll('.', ''));
+        article = article.replaceAll(x, x.replaceAll('.', 'Ж'));
     }
     article = article.replaceAll(/(?<= [A-Z])\.(?= )/gm, 'Ж');
-    article = article.replaceAll(/(?<=[0-9])\.(?=[0-9])/gm, 'Ж');
-    article = article.replaceAll(/(?<=[0-9])\.(?= )/gm, 'Ж');
+    article = article.replaceAll(/(?<=\d)\.(?=\d)/gm, 'Ж');
+    article = article.replaceAll(/(?<=\b\d|\b\d\d|\b\d\d\d)\.(?= )/gm, 'Ж');
     article = article.replaceAll(/(?<=[1-9]|[12][0-9]|3[01])\.(?= (?=januar|februar|marts|april|maj|juni|juli|august|september|oktober|november|december|jan|feb|mar|apr|jun|jul|sep|okt|nov|dec))/gmi, 'Ж');
     const regex = new RegExp(`(?<=[.?!:])`, 'g');
     let arr = article.split(regex);
@@ -83,10 +85,11 @@ function lightSentenize(article){
 
 function sentenize(article){
     for(x of abbreviations){
-        article = article.replaceAll(x, x.replaceAll('.', ''));
+        article = article.replaceAll(x, x.replaceAll('.', 'Ж'));
     }
     article = article.replaceAll(/(?<= [A-Z])\.(?= )/gm, 'Ж');
     article = article.replaceAll(/(?<=\d)\.(?=\d)/gm, 'Ж');
+    article = article.replaceAll(/(?<=\b\d|\b\d\d|\b\d\d\d)\.(?= )/gm, 'Ж');
     article = article.replaceAll(/(?<=[1-9]|[12][0-9]|3[01])\.(?= (?=januar|februar|marts|april|maj|juni|juli|august|september|oktober|november|december|jan|feb|mar|apr|jun|jul|sep|okt|nov|dec))/gmi, 'Ж');
     const regex = new RegExp(`[.?!:]`, 'gm');
     let arr = article.split(regex);

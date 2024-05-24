@@ -26,14 +26,14 @@ async function scrape(articleUrl) {
             "method": "GET"
         });
 
-        const rawHtml = await response.text();
-        const title = getTitle(rawHtml);
-        const content = getParagraphs(rawHtml);
-        const result = {
-            "title": title, 
-            "content": content, 
-            "url": articleUrl
-        };
+                const rawHtml = await response.text();
+                const title = getTitle(rawHtml);
+                const content = getParagraphs(rawHtml);
+                const result = {
+                    "title": title, 
+                    "content": content, 
+                    "url": articleUrl
+                };
 
         return result;
     } catch (error) {
