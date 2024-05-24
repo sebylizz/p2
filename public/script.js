@@ -61,6 +61,7 @@ function run() {
 
         for (let i = 0; i < data.inputSentenized.length; i++){
             const articleUse = document.createElement('span');
+            console.log("created "+i);
             articleUse.id = `inpsent${i}`;
             articleUse.textContent = data.inputSentenized[i].trim()+' ';
             newText.appendChild(articleUse);
@@ -100,6 +101,7 @@ function run() {
             // add color and mark/unmark functions to output sentences
             for(let j = 0; j < data.articles[i].sentences.length; j++) {
                 if (data.articles[i].sentences[j].percentage > 25.0){
+                    console.log(data.articles[i].sentences[j].inputIndex+"\n"+data.articles[i].sentences[j].content);
                     document.getElementById(`inpsent${data.articles[i].sentences[j].inputIndex}`).classList.add("markedSent");
                     let outputSent = document.createElement("p");
                     outputSent.innerText = data.articles[i].sentences[j].content;
@@ -146,7 +148,7 @@ function run() {
     })
     .catch((error) => {
         console.error('Error:', error);
-        resultDisplay.textContent = 'Error calculating similarity. Please try again.';
+        output.textContent = 'Error calculating similarity. Please try again.';
         animationDiv.style.display = 'none';
         animationDiv.classList.remove('active');
     });
