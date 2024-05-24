@@ -6,10 +6,10 @@ describe("Testing sanitizeinput file", () => {
     });
 
     test('checking emojis etc.', () => {
-      expect(sanitizeinput('Einstein proved something in 1912 ❤️')).toBe("Einstein proved something in 1912 ");
+        expect(sanitizeinput('Einstein proved something in 1912 ❤️')).toBe("Einstein proved something in 1912 ");
     });
 
     test('should not remove quotation marks', () => {
-      expect(sanitizeinput('Christopher yelled: "Everybody up!"')).not.toBe("Christopher yelled: ");
+        expect(sanitizeinput('Christopher yelled: "Everybody up!"')).not.toBe("Christopher yelled: ");
     });
 });

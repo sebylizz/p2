@@ -17,11 +17,9 @@ const sentenceConverter = require('./src/sentenize').sentenize;
 const sentenceConverterArr = require('./src/sentenize').sentenizeArr;
 const synonymeConverter = require('./src/synonyme').exportSyn;
 const translator = require('./src/translate');
-const sanitizeinput = require('./src/sanitizeinput');
 const mergeDocArrays = require('./src/arraymerge').mergeDocArrays;
 const mergeSentArrays = require('./src/arraymerge').mergeSentArrays;
 const lightSentenize = require('./src/sentenize').lightSentenize;
-
 
 // Database loading and IDF table generation
 let articles = [];
@@ -44,9 +42,9 @@ app.get('/', (request, response) => {
 app.post('/', async(request, response) => {
     let time1 = Date.now();
     let answers = {};
-    
+
     let inputTranslated = await translator(inputSanitizer(request.body.text));
-    inputTranslated = sanitizeinput(inputTranslated);
+    inputTranslated = inputSanitizer(inputTranslated);
 
     // Document based similarity
     let cosineDocSimilarity = cosineSimilarity(inputTranslated, articles, idfTable);
@@ -55,7 +53,7 @@ app.post('/', async(request, response) => {
 
     // Backend console logging for debugging purposes
     console.log(`Input received!\n\nPreliminary Cosine similarity:\n`,cosineDocSimilarity,
-                `Jaccard identified articles:\n`, jaccardDocSimilarity, docArray, `Running sentences...`);
+        `Jaccard identified articles:\n`, jaccardDocSimilarity, docArray, `Running sentences...`);
 
     // Sentenize user input
     let inputTranslatedSentenized = sentenceConverter(inputTranslated);
@@ -67,7 +65,7 @@ app.post('/', async(request, response) => {
 
     // Backend console logging for debugging purposes
     console.log("\n\nCosine similarity on sentences:\n", cosineSentences,
-                "\n\nJaccard similarity on sentences:\n", jaccardSentences);
+        "\n\nJaccard similarity on sentences:\n", jaccardSentences);
 
     // Synonyme replacer and sentence based similarity on final input
     let cosineFinalInput = synonymeConverter(inputTranslatedSentenized, allArtsSentenized, cosineSentences);
@@ -78,7 +76,7 @@ app.post('/', async(request, response) => {
 
     // Backend console logging for debugging purposes
     console.log("\n\nCosine similarity after synonyms and levenshtein:\n", cosineFinalResult,
-                "\n\nJaccard similarity after synonyms and levenshtein:\n", jaccardFinalResult);
+        "\n\nJaccard similarity after synonyms and levenshtein:\n", jaccardFinalResult);
 
     // Original artikel i sætningsform
     answers.inputSentenized = lightSentenize(inputSanitizer(request.body.text));
@@ -120,7 +118,7 @@ app.post('/', async(request, response) => {
     let time2 = Date.now();
     console.log("tid: " + (time2 - time1));
 })
- 
+
 app.listen(PORT, function(err){
     if (err) console.log("Error in server setup");
     console.log("Server listening on http://localhost:" + PORT + "\n");

@@ -37,7 +37,6 @@ function proc(doc, idf){
 }
 
 function paragraphs (input, articles, idf){
-
     // Document threshold: Higher is better runtime, but fewer matches
     const threshold = 0.1;
     let arts = [];
@@ -92,7 +91,6 @@ function paragraphs (input, articles, idf){
 // Variation of the algorithm, this time running on arrays of sentences
 // Third parameter is the result of the document-based algorithm
 function sentences (input, articles, deets, idf){
-
     let results = [];
 
     for(let d = 0; d < deets.length; d++){
@@ -121,7 +119,7 @@ function sentences (input, articles, deets, idf){
                         bigger.push([smaller[i][0], 0, smaller[i][1]]);
                     }
                 }
-    
+
                 let dot = 0, e1 = 0, e2 = 0;
                 for(let i = 0; i < bigger.length; i++){
                     dot += bigger[i][1]*bigger[i][2];
@@ -130,7 +128,7 @@ function sentences (input, articles, deets, idf){
                 }
                 e1 = Math.sqrt(e1);
                 e2 = Math.sqrt(e2);
-    
+
                 let temp = dot/(e1*e2);
                 if(temp > max){
                     winner = j;
