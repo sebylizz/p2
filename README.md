@@ -2,6 +2,8 @@ Cross-Language Plagiarism Detection.
 
 Devoloped by Group 15 SW2 May 2024.
 
+Application is online and can be found at: https://cs-24-sw-2-15.p2datsw.cs.aau.dk/
+
 Requirements:
 - Node.js with NPM
 - Git (optional)
